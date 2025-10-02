@@ -1,8 +1,8 @@
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open('nellycoin-v1').then(c => c.addAll([
+  e.waitUntil(caches.open('nellycoin-v4').then(c => c.addAll([
     '/', '/index.html',
     '/assets/nelly/logo.png',
-    '/assets/nelly/banniere.jpg'
+    '/assets/nelly/banniere.png'
   ])));
 });
 self.addEventListener('fetch', e => {
