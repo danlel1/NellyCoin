@@ -82,21 +82,8 @@
       object-position:center center !important; border-radius:12px; margin-bottom:12px; box-shadow:var(--shadow); background:#0b1020}
     .banner-top{display:none}
 
-    /* Bloc STATUT petit à gauche */
-    #buy{
-      display:flex;
-      gap:14px;
-      align-items:flex-start;
-      scroll-margin-top:80px;
-    }
-    #buy .panel{
-      flex:0 0 320px;         /* largeur fixe du panneau */
-      max-width:320px;
-      margin:0;
-    }
-    #buy::after{
-      content:''; flex:1;     /* espace souple à droite */
-    }
+    /* Carte statut compacte à gauche */
+    .compact-status{margin-top:14px; max-width:420px}
 
     /* Mobile */
     @media (max-width:980px){
@@ -112,15 +99,10 @@
       .banner-top{display:block; margin:10px 0 12px;}
       .banner-top img{width:100%; height:auto; object-fit:contain; border-radius:12px; box-shadow:var(--shadow);}
       .banner-block{display:none;}
-      #buy{display:block}
-      #buy .panel{max-width:none; width:100%}
+      .compact-status{max-width:none}
     }
 
     footer{border-top:1px solid var(--border); margin-top:34px; padding:18px 0; color:var(--muted)}
-    .chip{display:inline-flex; gap:8px; align-items:center; padding:6px 12px; border-radius:999px; background:linear-gradient(180deg, rgba(255,211,106,.95), rgba(246,180,73,.95)); border:1px solid rgba(255,211,106,.85); color:#1a1303; font-weight:900; box-shadow:0 4px 14px rgba(246,180,73,.25);}
-    .row{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-    .addr{display:inline-block; max-width:62vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; letter-spacing:.2px; color:#0d1116; background:rgba(255,255,255,.95); padding:6px 8px; border-radius:8px; user-select:text;}
-    .addr.hidden{display:none}
   </style>
 </head>
 
@@ -142,7 +124,7 @@
       </nav>
       <div class="spacer"></div>
       <select id="lang" class="lang-select" title="Langue"><option value="fr">FR</option><option value="en">EN</option></select>
-      <a class="btn accent" href="#buy">Acheter</a>
+      <a class="btn accent" href="#about">Acheter</a>
     </div>
   </header>
 
@@ -163,7 +145,7 @@
           <h3>Adresses officielles</h3>
           <div class="row">
             <small class="muted" style="min-width:88px">Contrat:</small>
-            <code class="addr hidden" id="contractAddrMasked">0xb02b…37f8</code>
+            <code class="addr hidden" id="contractAddrMasked">0x0000…0000</code>
             <div class="btn-group" style="display:flex; gap:8px; flex-wrap:wrap">
               <button class="btn sm" id="revealAddr">👁️ Voir</button>
               <button class="btn sm" id="copyBtn">📋 Copier</button>
@@ -172,7 +154,7 @@
           </div>
           <div class="row">
             <small class="muted" style="min-width:88px">Marketing:</small>
-            <code class="addr hidden" id="marketingAddrMasked">0x9a95…4C61</code>
+            <code class="addr hidden" id="marketingAddrMasked">0x0000…0000</code>
             <div class="btn-group" style="display:flex; gap:8px; flex-wrap:wrap">
               <button class="btn sm" id="revealMkt">👁️ Voir</button>
               <button class="btn sm" id="copyMkt">📋 Copier</button>
@@ -192,9 +174,19 @@
             </div>
           </div>
         </div>
+
+        <!-- Statut compact à gauche pour combler le trou -->
+        <div class="card compact-status">
+          <h3 style="margin:0 0 6px">Statut</h3>
+          <p class="muted" style="margin:0 0 8px">Pré-vente & listing à venir.</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap">
+            <a class="btn accent" href="#">Acheter</a>
+            <a class="btn ghost"  href="#">Pré-vente</a>
+          </div>
+        </div>
       </div>
 
-      <!-- Colonne droite -->
+      <!-- Colonne droite : Statut + live -->
       <div>
         <div class="banner-block">
           <img class="hero-banner" src="assets/nelly/banniere.jpg" alt="Bannière NellyCoin"/>
@@ -204,8 +196,8 @@
           <h3>Statut</h3>
           <p class="muted">Préparation au lancement.</p>
           <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px">
-            <a class="btn accent" href="#buy">Acheter (bientôt)</a>
-            <a class="btn ghost" aria-disabled="true">Pré-vente (bientôt)</a>
+            <a class="btn accent" href="#">Acheter (bientôt)</a>
+            <a class="btn ghost" href="#" aria-disabled="true">Pré-vente (bientôt)</a>
           </div>
 
           <hr style="border:none; border-top:1px solid var(--border); margin:12px 0">
@@ -240,18 +232,6 @@
             <small class="muted">Source: Dexscreener (auto-refresh 30s).</small>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BUY (bloc petit à gauche en bas) -->
-  <section class="container" id="buy">
-    <div class="panel">
-      <h3>Statut</h3>
-      <p class="muted">Pré-vente & listing à venir.</p>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px">
-        <a class="btn accent" href="#">🚀 Acheter</a>
-        <a class="btn ghost" href="#">Pré-vente</a>
       </div>
     </div>
   </section>
@@ -338,7 +318,7 @@
 
   <footer>
     <div class="container" style="display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap">
-      <div>© <span id="year"></span> NellyCoin. Tous droits réservés.</div>
+      <div>© <span id="year"></span> NellyCoin — <b>Tous droits réservés</b>.</div>
       <div style="opacity:.85">Made with 🧡 • BSC</div>
     </div>
   </footer>
