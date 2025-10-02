@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NellyCoin (NLY) — La mascotte de la communauté</title>
-  <meta name="description" content="NellyCoin (NLY) — Meme coin communautaire inspiré par Nelly le chat. Identité forte, fun, et utilité progressive." />
+  <meta name="description" content="NellyCoin (NLY) — Meme coin communautaire inspiré par Nelly le chat. Identité forte, fun et utilité progressive." />
   <meta name="theme-color" content="#0b1020" />
 
   <!-- Icônes -->
@@ -34,8 +34,9 @@
     }
     a{color:var(--accent); text-decoration:none}
     img{max-width:100%; height:auto; display:block}
-
     .container{width:min(1200px,94%); margin-inline:auto}
+
+    /* Header */
     header{position:sticky; top:0; z-index:60;
       backdrop-filter:saturate(140%) blur(10px);
       background:linear-gradient(180deg,rgba(11,16,32,.92),rgba(11,16,32,.55));
@@ -45,7 +46,6 @@
     .brand{display:flex; align-items:center; gap:10px}
     .brand img{width:44px; height:44px; border-radius:10px}
     .brand span{font-weight:900; letter-spacing:.6px}
-
     nav.main{display:flex; gap:12px; align-items:center}
     .spacer{flex:1}
     .btn{cursor:pointer; display:inline-flex; align-items:center; gap:8px;
@@ -69,6 +69,7 @@
       border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:var(--shadow)}
     .card{border:1px solid var(--border); background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
       border-radius:14px; padding:14px; box-shadow:var(--shadow)}
+
     .grid-hero{display:grid; grid-template-columns:1.1fr .9fr; gap:20px}
     .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
     .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
@@ -76,10 +77,26 @@
     .muted{color:var(--muted)}
     .list{margin:0; padding-left:18px}
 
-    /* --- BANNIÈRE : ne pas rogner, garder le texte visible --- */
+    /* BANNIÈRE : pas de rognage */
     .hero-banner{width:100%; height:auto !important; object-fit:contain !important;
       object-position:center center !important; border-radius:12px; margin-bottom:12px; box-shadow:var(--shadow); background:#0b1020}
     .banner-top{display:none}
+
+    /* Bloc STATUT petit à gauche */
+    #buy{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      scroll-margin-top:80px;
+    }
+    #buy .panel{
+      flex:0 0 320px;         /* largeur fixe du panneau */
+      max-width:320px;
+      margin:0;
+    }
+    #buy::after{
+      content:''; flex:1;     /* espace souple à droite */
+    }
 
     /* Mobile */
     @media (max-width:980px){
@@ -95,6 +112,8 @@
       .banner-top{display:block; margin:10px 0 12px;}
       .banner-top img{width:100%; height:auto; object-fit:contain; border-radius:12px; box-shadow:var(--shadow);}
       .banner-block{display:none;}
+      #buy{display:block}
+      #buy .panel{max-width:none; width:100%}
     }
 
     footer{border-top:1px solid var(--border); margin-top:34px; padding:18px 0; color:var(--muted)}
@@ -225,27 +244,17 @@
     </div>
   </section>
 
-  <!-- BUY SHORTCUT -->
-<section class="container" id="buy" style="scroll-margin-top:80px">
-  <div style="display:flex; gap:14px; flex-wrap:wrap">
-    
-    <!-- Bloc Statut (petit à gauche) -->
-    <div class="card" style="flex:1; min-width:220px; max-width:280px">
+  <!-- BUY (bloc petit à gauche en bas) -->
+  <section class="container" id="buy">
+    <div class="panel">
       <h3>Statut</h3>
       <p class="muted">Pré-vente & listing à venir.</p>
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px">
-        <a class="btn accent" href="#">Acheter</a>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px">
+        <a class="btn accent" href="#">🚀 Acheter</a>
         <a class="btn ghost" href="#">Pré-vente</a>
       </div>
     </div>
-    
-    <!-- Bloc vide pour équilibre visuel -->
-    <div style="flex:2; min-width:300px"></div>
-    
-  </div>
-</section>
-
-  
+  </section>
 
   <!-- ABOUT -->
   <section class="container" id="about" style="padding:18px 0 0">
@@ -336,14 +345,14 @@
 
   <!-- JS -->
   <script>
-    // PWA (optionnel) — enregistre le service worker si présent
+    // PWA optionnelle
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(console.error);
+        navigator.serviceWorker.register('/sw.js').catch(()=>{});
       });
     }
 
-    // Paramètres (remplis plus tard)
+    // Placeholders à compléter plus tard
     const SETTINGS = {
       CONTRACT_ADDRESS:'',        // à remplir
       MARKETING_ADDRESS:'',       // à remplir
@@ -351,12 +360,14 @@
       PANCAKE_TRADE:'#'           // à remplir
     };
 
-    // Refs
     const isMobile = window.matchMedia('(max-width:980px)');
+    const mask = a => a ? a.slice(0,6)+'…'+a.slice(-4) : '0x000…0000';
+
+    // Refs
     const contractAddrMasked=document.getElementById('contractAddrMasked');
+    const marketingAddrMasked=document.getElementById('marketingAddrMasked');
     const revealBtn=document.getElementById('revealAddr');
     const copyBtn=document.getElementById('copyBtn');
-    const marketingAddrMasked=document.getElementById('marketingAddrMasked');
     const revealMkt=document.getElementById('revealMkt');
     const copyMkt=document.getElementById('copyMkt');
     const bscscanBtn=document.getElementById('bscscanBtn');
@@ -364,44 +375,39 @@
     const menuToggle=document.getElementById('menuToggle');
     const mainNav=document.getElementById('mainNav');
 
-    function mask(a){ return a ? a.slice(0,6) + '…' + a.slice(-4) : '0x000…0000'; }
-
     function refresh(){
       contractAddrMasked.textContent  = mask(SETTINGS.CONTRACT_ADDRESS);
       marketingAddrMasked.textContent = mask(SETTINGS.MARKETING_ADDRESS);
-      if (!isMobile.matches){
-        contractAddrMasked.classList.remove('hidden');
-        marketingAddrMasked.classList.remove('hidden');
-      } else {
-        contractAddrMasked.classList.add('hidden');
-        marketingAddrMasked.classList.add('hidden');
-      }
-      bscscanBtn.href = SETTINGS.CONTRACT_ADDRESS ? ('https://bscscan.com/token/' + SETTINGS.CONTRACT_ADDRESS) : '#';
-      dexScreener.href = SETTINGS.DEXSCREENER || '#';
+      contractAddrMasked.classList.toggle('hidden', isMobile.matches);
+      marketingAddrMasked.classList.toggle('hidden', isMobile.matches);
+      bscscanBtn.href = SETTINGS.CONTRACT_ADDRESS ? ('https://bscscan.com/token/'+SETTINGS.CONTRACT_ADDRESS) : '#';
       document.getElementById('bscscanLink').href = bscscanBtn.href;
+      dexScreener.href = SETTINGS.DEXSCREENER || '#';
     }
 
     // Toggle + copy
     let revealed=false, revealedMkt=false;
     revealBtn.addEventListener('click', () => {
-      if (!revealed) { contractAddrMasked.textContent = SETTINGS.CONTRACT_ADDRESS || '—'; contractAddrMasked.classList.remove('hidden'); revealBtn.textContent = '🙈 Cacher'; revealed = true; }
-      else { contractAddrMasked.textContent = mask(SETTINGS.CONTRACT_ADDRESS); if (isMobile.matches) contractAddrMasked.classList.add('hidden'); revealBtn.textContent = '👁️ Voir'; revealed = false; }
+      if (!revealed) { contractAddrMasked.textContent = SETTINGS.CONTRACT_ADDRESS || '—'; contractAddrMasked.classList.remove('hidden'); revealBtn.textContent = '🙈 Cacher'; }
+      else { contractAddrMasked.textContent = mask(SETTINGS.CONTRACT_ADDRESS); contractAddrMasked.classList.toggle('hidden', isMobile.matches); revealBtn.textContent = '👁️ Voir'; }
+      revealed = !revealed;
     });
     copyBtn.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(SETTINGS.CONTRACT_ADDRESS || ''); copyBtn.textContent = '✅ Copié'; setTimeout(() => (copyBtn.textContent = '📋 Copier'), 1200); } catch {}
+      try { await navigator.clipboard.writeText(SETTINGS.CONTRACT_ADDRESS || ''); copyBtn.textContent = '✅ Copié'; setTimeout(()=>copyBtn.textContent='📋 Copier',1200);} catch {}
     });
     revealMkt.addEventListener('click', () => {
-      if (!revealedMkt) { marketingAddrMasked.textContent = SETTINGS.MARKETING_ADDRESS || '—'; marketingAddrMasked.classList.remove('hidden'); revealMkt.textContent = '🙈 Cacher'; revealedMkt = true; }
-      else { marketingAddrMasked.textContent = mask(SETTINGS.MARKETING_ADDRESS); if (isMobile.matches) marketingAddrMasked.classList.add('hidden'); revealMkt.textContent = '👁️ Voir'; revealedMkt = false; }
+      if (!revealedMkt) { marketingAddrMasked.textContent = SETTINGS.MARKETING_ADDRESS || '—'; marketingAddrMasked.classList.remove('hidden'); revealMkt.textContent = '🙈 Cacher'; }
+      else { marketingAddrMasked.textContent = mask(SETTINGS.MARKETING_ADDRESS); marketingAddrMasked.classList.toggle('hidden', isMobile.matches); revealMkt.textContent = '👁️ Voir'; }
+      revealedMkt = !revealedMkt;
     });
     copyMkt.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(SETTINGS.MARKETING_ADDRESS || ''); copyMkt.textContent = '✅ Copié'; setTimeout(() => (copyMkt.textContent = '📋 Copier'), 1200); } catch {}
+      try { await navigator.clipboard.writeText(SETTINGS.MARKETING_ADDRESS || ''); copyMkt.textContent = '✅ Copié'; setTimeout(()=>copyMkt.textContent='📋 Copier',1200);} catch {}
     });
 
     // Menu mobile
     menuToggle?.addEventListener('click',()=>{mainNav.classList.toggle('open')});
 
-    // Live stats (facultatif, rempli quand contrat dispo)
+    // Live (optionnel, quand contrat dispo)
     const priceUsdEl = document.getElementById('priceUsd');
     const priceBnbEl = document.getElementById('priceBnb');
     const change24El = document.getElementById('change24');
@@ -412,34 +418,27 @@
     const refreshBtn = document.getElementById('refreshBtn');
 
     async function fetchDex(){
-      if(!SETTINGS.CONTRACT_ADDRESS){ updatedEl.textContent='—'; return; }
+      if(!SETTINGS.CONTRACT_ADDRESS){ if(updatedEl) updatedEl.textContent='—'; return; }
       const url = `https://api.dexscreener.com/latest/dex/tokens/${SETTINGS.CONTRACT_ADDRESS}`;
-      updatedEl.textContent='…';
+      if(updatedEl) updatedEl.textContent='…';
       try{
-        const res = await fetch(url, {cache:'no-store'}); if(!res.ok) throw new Error('HTTP '+res.status);
+        const res = await fetch(url, {cache:'no-store'}); if(!res.ok) throw new Error();
         const data = await res.json();
-        const pairs = (data && data.pairs) || [];
-        const best = pairs.filter(p=> (p.chainId||'').toLowerCase()==='bsc').sort((a,b)=> (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0] || pairs[0];
-        const nf0 = new Intl.NumberFormat(undefined, {maximumFractionDigits:0});
-        const nf2 = new Intl.NumberFormat(undefined, {maximumFractionDigits:6});
-        const money = v => (v==null? '—' : '$'+nf0.format(v));
-        if(!best){ updatedEl.textContent='N/A'; return; }
-        const pxUsd = Number(best.priceUsd)||0;
-        const pxBnb = Number(best.priceNative)||0;
-        const ch24  = Number(best.priceChange?.h24);
-        const vol24 = Number(best.volume?.h24);
-        const liq   = Number(best.liquidity?.usd);
-        const fdv   = Number(best.fdv);
-
-        priceUsdEl.textContent = pxUsd ? '$'+nf2.format(pxUsd) : '—';
-        priceBnbEl.textContent = pxBnb ? nf2.format(pxBnb)+' BNB' : '—';
-        change24El.textContent = isFinite(ch24) ? (ch24>=0? '+' : '')+ch24.toFixed(2)+'%' : '—';
-        change24El.style.color = isFinite(ch24) ? (ch24>=0? 'var(--ok)' : 'var(--down)') : 'inherit';
-        vol24El.textContent    = isFinite(vol24) ? money(vol24) : '—';
-        liqEl.textContent      = isFinite(liq)   ? money(liq)   : '—';
-        fdvEl.textContent      = isFinite(fdv)   ? money(fdv)   : '—';
-        updatedEl.textContent  = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      }catch{ updatedEl.textContent='⚠︎'; }
+        const pairs = data?.pairs || [];
+        const best = pairs.filter(p=> (p.chainId||'').toLowerCase()==='bsc').sort((a,b)=> (b.liquidity?.usd||0)-(a.liquidity?.usd||0)).pop();
+        if(!best){ if(updatedEl) updatedEl.textContent='N/A'; return; }
+        const nf0=new Intl.NumberFormat(undefined,{maximumFractionDigits:0});
+        const nf2=new Intl.NumberFormat(undefined,{maximumFractionDigits:6});
+        const money=v=>v==null?'—':'$'+nf0.format(v);
+        const pxUsd=+best.priceUsd||0, pxBnb=+best.priceNative||0, ch24=+best.priceChange?.h24, vol24=+best.volume?.h24, liq=+best.liquidity?.usd, fdv=+best.fdv;
+        if(priceUsdEl) priceUsdEl.textContent = pxUsd ? '$'+nf2.format(pxUsd) : '—';
+        if(priceBnbEl) priceBnbEl.textContent = pxBnb ? nf2.format(pxBnb)+' BNB' : '—';
+        if(change24El){ change24El.textContent = isFinite(ch24)? (ch24>=0?'+':'')+ch24.toFixed(2)+'%':'—'; change24El.style.color = isFinite(ch24)? (ch24>=0?'var(--ok)':'var(--down)') : 'inherit'; }
+        if(vol24El) vol24El.textContent = isFinite(vol24)? money(vol24):'—';
+        if(liqEl)   liqEl.textContent   = isFinite(liq)?   money(liq)  :'—';
+        if(fdvEl)   fdvEl.textContent   = isFinite(fdv)?   money(fdv)  :'—';
+        if(updatedEl) updatedEl.textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      }catch{ if(updatedEl) updatedEl.textContent='⚠︎'; }
     }
     refreshBtn?.addEventListener('click', fetchDex);
     setInterval(fetchDex, 30000);
