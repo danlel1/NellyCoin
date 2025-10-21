@@ -360,7 +360,7 @@
       if (window.WalletConnectEthereumProvider){ // v2
         try{
           const provider = await window.WalletConnectEthereumProvider.init({
-            projectId: SETTINGS.WC_PROJECT_ID,
+            projectId:'33f6d419019950e0a613c24f9357bc12',
             chains: [56],
             showQrModal: true,
             methods:['eth_sendTransaction','eth_signTransaction','eth_sign','personal_sign','eth_signTypedData','eth_requestAccounts'],
