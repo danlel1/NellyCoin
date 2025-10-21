@@ -8,6 +8,12 @@
   <meta name="theme-color" content="#0b1020" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/assets/nelly/logo.png" />
+
+  <!-- WalletConnect v2 (prioritaire) -->
+  <script src="https://unpkg.com/@walletconnect/ethereum-provider@2/dist/index.umd.min.js"></script>
+  <!-- Fallback WalletConnect v1 (si v2 indisponible) -->
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+
   <style>
     :root{--bg:#0b1020;--panel:#0f1631;--card:#121a38;--muted:#c7d2ea;--txt:#fff;--accent:#f6b449;--accent-2:#ffd36a;--ok:#22c55e;--down:#ef4444;--border:rgba(255,255,255,.22);--shadow:0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08)}
     *{box-sizing:border-box}
@@ -15,6 +21,8 @@
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;height:auto;display:block}
     .container{width:min(1200px,94%);margin-inline:auto}
+
+    /* Header + nav */
     header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(140%) blur(10px);background:linear-gradient(180deg,rgba(11,16,32,.92),rgba(11,16,32,.55));border-bottom:1px solid var(--border)}
     .nav{display:flex;align-items:center;gap:10px;padding:10px 0}
     .brand{display:flex;align-items:center;gap:10px}
@@ -41,26 +49,43 @@
     .status.warn{border-color:#f59e0b;color:#f59e0b;background:rgba(245,158,11,.1)}
     .status.ok{border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.12)}
     input[type="number"],input[type="text"]{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--txt)}
-    @media (max-width:980px){.grid-2{grid-template-columns:1fr}.plans{grid-template-columns:1fr}.nav{flex-wrap:wrap}}
     .hidden{display:none!important}
-    /* Modal */
+
+    /* Hamburger mobile */
+    #menuToggle{display:none}
+    @media (max-width:980px){
+      nav.main{display:none;position:fixed;inset:64px 10px auto 10px;flex-direction:column;gap:6px;padding:14px;border:1px solid var(--border);border-radius:12px;background:rgba(11,16,32,.98)}
+      nav.main.open{display:flex}
+      #menuToggle{display:inline-flex}
+      .grid-2{grid-template-columns:1fr}
+      .plans{grid-template-columns:1fr}
+      .nav{flex-wrap:wrap}
+    }
+
+    /* Modal wallets */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px}
     .modal.open{display:flex}
     .modal .box{width:min(480px,96%);background:#0f1631;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:14px}
     .wallet-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .wallet-btn{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));color:var(--txt);cursor:pointer}
     .wallet-btn:hover{border-color:var(--accent)}
+
+    /* Encadré jaune SamDoge-like */
+    .notice{border:1px solid #f59e0b;background:rgba(245,158,11,.1);border-radius:14px;padding:12px}
   </style>
 </head>
 <body>
-  <!-- HEADER (bannière conservée) -->
+  <!-- HEADER -->
   <header>
     <div class="container nav">
       <a class="brand" href="/index.html" aria-label="NellyCoin Home">
         <img src="/assets/nelly/logo.png" alt="NellyCoin logo"/>
         <span>NellyCoin (NLY)</span>
       </a>
-      <nav class="main" aria-label="Main navigation">
+
+      <button id="menuToggle" class="btn ghost" aria-label="Menu">☰</button>
+
+      <nav class="main" id="mainNav" aria-label="Main navigation">
         <a href="/index.html#about" data-i18n="nav.about">À propos</a>
         <a href="/index.html#tokenomics" data-i18n="nav.tokenomics">Tokenomics</a>
         <a href="/index.html#howto" data-i18n="nav.howto">Comment acheter</a>
@@ -69,6 +94,7 @@
         <a class="active" href="/staking.html" data-i18n="nav.staking">Staking</a>
         <a href="/faq.html" data-i18n="nav.faq">FAQ</a>
       </nav>
+
       <div class="spacer"></div>
       <a class="btn accent" id="buyBtn" target="_blank" rel="noopener">💱 <span data-i18n="nav.buy">Acheter NLY</span></a>
       <select id="lang" class="lang-select" title="Langue"><option value="fr">FR</option><option value="en">EN</option></select>
@@ -76,7 +102,7 @@
   </header>
 
   <main class="container" style="padding:20px 0 30px">
-    <!-- Bandeau statut + actions (admin toggle masqué par défaut) -->
+    <!-- Bandeau statut + actions -->
     <div class="panel" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <span id="stakingStatus" class="pill status warn" data-i18n="prep.msg">🛠️ Staking en cours de préparation — disponible prochainement.</span>
@@ -101,22 +127,39 @@
       <small class="muted" data-i18n="addr.note">Ceci est l’adresse du jeton NLY. L’adresse du contrat de staking sera ajoutée après déploiement.</small>
     </div>
 
-    <!-- Comment démarrer -->
+    <!-- Comment démarrer / Comment staker -->
     <section class="panel" style="margin-top:12px">
-      <h2 style="margin:0 0 6px" data-i18n="how.title">Comment démarrer ?</h2>
-      <ol class="muted" style="margin:6px 0 10px 18px">
-        <li data-i18n="how.l1">Connectez votre wallet (MetaMask / Binance Wallet / WalletConnect) sur BSC.</li>
-        <li data-i18n="how.l2">Vérifiez le réseau (BSC Mainnet) et autorisez NLY pour le contrat de staking.</li>
-        <li data-i18n="how.l3">Choisissez un plan (3/6/9/12 mois) et entrez le montant.</li>
-        <li data-i18n="how.l4">Cliquez sur “Approuver”, puis “Staker”.</li>
-        <li data-i18n="how.l5">À la fin de la période, utilisez “Réclamer” ou “Exit”.</li>
-      </ol>
-      <div id="needConnect" class="pill status warn" data-i18n="how.warn">⚠️ Connectez votre wallet pour accéder aux plans de staking.</div>
+      <h2 style="margin:0 0 6px" id="howTitle" data-i18n="how.title">Comment démarrer ?</h2>
+
+      <!-- Avant connexion -->
+      <div id="howBefore">
+        <ol class="muted" style="margin:6px 0 10px 18px">
+          <li data-i18n="how.l1">Connectez votre wallet (MetaMask / Binance Wallet / WalletConnect) sur BSC.</li>
+          <li data-i18n="how.l2">Vérifiez le réseau (BSC Mainnet) et autorisez NLY pour le contrat de staking.</li>
+          <li data-i18n="how.l3">Choisissez un plan (3/6/9/12 mois) et entrez le montant.</li>
+          <li data-i18n="how.l4">Cliquez sur “Approuver”, puis “Staker”.</li>
+          <li data-i18n="how.l5">À la fin de la période, utilisez “Réclamer” ou “Exit”.</li>
+        </ol>
+        <div id="needConnect" class="pill status warn" data-i18n="how.warn">⚠️ Connectez votre wallet pour accéder aux plans de staking.</div>
+      </div>
+
+      <!-- Après connexion -->
+      <div id="howAfter" class="hidden">
+        <div class="notice">
+          <b>🪙 <span data-i18n="after.title">Comment staker vos NLY ?</span></b>
+          <ol style="margin:8px 0 0 18px">
+            <li data-i18n="after.l1">Choisissez un plan (3 / 6 / 9 / 12 mois).</li>
+            <li data-i18n="after.l2">Cliquez sur “Approuver”, puis sur “Staker”.</li>
+            <li data-i18n="after.l3">Validez la transaction dans votre wallet.</li>
+            <li data-i18n="after.l4">En fin de période, utilisez “Réclamer” ou “Exit”.</li>
+          </ol>
+        </div>
+      </div>
     </section>
 
     <!-- Deux colonnes -->
     <div class="grid-2" style="margin-top:16px">
-      <!-- Colonne gauche : PLANS (cachés tant que non connecté) -->
+      <!-- Colonne gauche : PLANS (2x2) -->
       <section>
         <div class="card" style="margin-bottom:12px">
           <h2 style="margin:0 0 6px" data-i18n="stake.title">Plans de staking</h2>
@@ -168,10 +211,18 @@
             </div>
           </div>
         </div>
+
+        <!-- Encadré d'avertissement SamDoge-like -->
+        <div id="stakeNotice" class="notice hidden" style="margin-top:14px">
+          <b data-i18n="warn.title">Avertissement</b><br>
+          <span class="muted" data-i18n="warn.samdoge">
+            Pendant la période choisie, vos NLY sont verrouillés. Si vous laissez votre dépôt plus longtemps que la durée sélectionnée, les récompenses n’augmentent pas au-delà de cette durée : vous gagnez uniquement pour le plan choisi (3/6/9/12 mois). Les crypto-actifs sont volatils — n’investissez que ce que vous pouvez vous permettre de perdre (DYOR).
+          </span>
+        </div>
       </section>
 
-      <!-- Colonne droite -->
-      <aside>
+      <!-- Colonne droite : visible seulement connecté -->
+      <aside id="rightCol" class="hidden">
         <div class="card" style="margin-bottom:12px">
           <h3 style="margin:0 0 6px" data-i18n="wallet.title">Ton wallet</h3>
           <div class="muted" id="walletAddr">—</div>
@@ -217,8 +268,6 @@
     </div>
   </footer>
 
-  <!-- WalletConnect v2 -->
-  <script src="https://unpkg.com/@walletconnect/ethereum-provider@2/dist/index.umd.min.js"></script>
   <script>
     // ===== PWA
     if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(()=>{}); }); }
@@ -227,14 +276,44 @@
     const SETTINGS = {
       TOKEN_ADDRESS:'0x4bFfd4359a06583713df160da5817737654804b5', // contrat TOKEN NLY (pas staking)
       STAKING_ADDRESS:'', // sera ajouté après déploiement
-      WC_PROJECT_ID:'REPLACE_WITH_YOUR_WALLETCONNECT_PROJECT_ID',
+      WC_PROJECT_ID:'REPLACE_WITH_YOUR_WALLETCONNECT_PROJECT_ID', // v2
       DEFAULT_LANG:(localStorage.getItem('nly_lang')||'fr'),
-      OWNER:'0x7560Fdb9c6efd2bC58d0565173917Fd539064723', // admin qui voit le bouton Activer/Désactiver
+      OWNER:'0x7560Fdb9c6efd2bC58d0565173917Fd539064723',
       PANCAKE_URL:'https://pancakeswap.finance/swap?outputCurrency=0x4bFfd4359a06583713df160da5817737654804b5'
     };
 
     // ===== i18n
-    const I18N={fr:{'nav.about':'À propos','nav.tokenomics':'Tokenomics','nav.howto':'Comment acheter','nav.roadmap':'Feuille de route','nav.faq':'FAQ','nav.staking':'Staking','nav.links':'Liens','nav.buy':'Acheter NLY','prep.msg':'🛠️ Staking en cours de préparation — disponible prochainement.','stake.enable':'Activer le staking','stake.disable':'Désactiver le staking','stake.title':'Plans de staking','stake.subtitle':'Choisissez une durée. APY indicatif. Les récompenses se calculent sur la période.','stake.lock3':'Verrouillage 3 mois. Idéal pour démarrer.','stake.lock6':'Verrouillage 6 mois. Rendement équilibré.','stake.lock9':'Verrouillage 9 mois. Pour holders engagés.','stake.lock12':'Verrouillage 12 mois. Rendement maximum.','mo':'mois','amount':'Montant (NLY)','btn.approve':'Approuver','btn.stake':'Staker','btn.connect':'Connecter','btn.disconnect':'Déconnecter','btn.claim':'Réclamer','btn.exit':'Exit','btn.copy':'Copier','how.title':'Comment démarrer ?','how.l1':'Connectez votre wallet (MetaMask / Binance Wallet / WalletConnect) sur BSC.','how.l2':'Vérifiez le réseau (BSC Mainnet) et autorisez NLY pour le contrat de staking.','how.l3':'Choisissez un plan (3/6/9/12 mois) et entrez le montant.','how.l4':'Cliquez sur “Approuver”, puis “Staker”.','how.l5':'À la fin de la période, utilisez “Réclamer” ou “Exit”.','how.warn':'⚠️ Connectez votre wallet pour accéder aux plans de staking.','wallet.title':'Ton wallet','wallet.balance':'Solde NLY','pos.title':'Vos positions','pos.empty':'Aucune position pour le moment.','claim.title':'Réclamer & Retirer','claim.id':'ID de position','addr.title':'Adresse du contrat NellyCoin (token, pas staking)','addr.note':'Ceci est l’adresse du jeton NLY. L’adresse du contrat de staking sera ajoutée après déploiement.','disc.title':'Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).','foot.all':'Tous droits réservés'},en:{'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.faq':'FAQ','nav.staking':'Staking','nav.links':'Links','nav.buy':'Buy NLY','prep.msg':'🛠️ Staking is being prepared — coming soon.','stake.enable':'Enable staking','stake.disable':'Disable staking','stake.title':'Staking plans','stake.subtitle':'Pick a duration. Indicative APY. Rewards accrue over the period.','stake.lock3':'3-month lock. Great to start.','stake.lock6':'6-month lock. Balanced yield.','stake.lock9':'9-month lock. For committed holders.','stake.lock12':'12-month lock. Maximum yield.','mo':'months','amount':'Amount (NLY)','btn.approve':'Approve','btn.stake':'Stake','btn.connect':'Connect','btn.disconnect':'Disconnect','btn.claim':'Claim','btn.exit':'Exit','btn.copy':'Copy','how.title':'How to start?','how.l1':'Connect your wallet (MetaMask / Binance Wallet / WalletConnect) on BSC.','how.l2':'Check the network (BSC Mainnet) and approve NLY for the staking contract.','how.l3':'Pick a plan (3/6/9/12 months) and enter the amount.','how.l4':'Click “Approve”, then “Stake”.','how.l5':'At term, use “Claim” or “Exit”.','how.warn':'⚠️ Connect your wallet to access staking plans.','wallet.title':'Your wallet','wallet.balance':'NLY balance','pos.title':'Your positions','pos.empty':'No positions yet.','claim.title':'Claim & Withdraw','claim.id':'Position ID','addr.title':'NellyCoin contract address (token, not staking)','addr.note':'This is the NLY token address. The staking contract address will be added after deployment.','disc.title':'Disclaimer','disc.text':'NellyCoin (NLY) is a community meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).','foot.all':'All rights reserved'}};
+    const I18N={fr:{
+      'nav.about':'À propos','nav.tokenomics':'Tokenomics','nav.howto':'Comment acheter','nav.roadmap':'Feuille de route','nav.faq':'FAQ','nav.staking':'Staking','nav.links':'Liens','nav.buy':'Acheter NLY',
+      'prep.msg':'🛠️ Staking en cours de préparation — disponible prochainement.',
+      'stake.enable':'Activer le staking','stake.disable':'Désactiver le staking','stake.title':'Plans de staking','stake.subtitle':'Choisissez une durée. APY indicatif. Les récompenses se calculent sur la période.',
+      'stake.lock3':'Verrouillage 3 mois. Idéal pour démarrer.','stake.lock6':'Verrouillage 6 mois. Rendement équilibré.','stake.lock9':'Verrouillage 9 mois. Pour holders engagés.','stake.lock12':'Verrouillage 12 mois. Rendement maximum.',
+      'mo':'mois','amount':'Montant (NLY)','btn.approve':'Approuver','btn.stake':'Staker','btn.connect':'Connecter','btn.disconnect':'Déconnecter','btn.claim':'Réclamer','btn.exit':'Exit','btn.copy':'Copier',
+      'how.title':'Comment démarrer ?','how.l1':'Connectez votre wallet (MetaMask / Binance Wallet / WalletConnect) sur BSC.','how.l2':'Vérifiez le réseau (BSC Mainnet) et autorisez NLY pour le contrat de staking.','how.l3':'Choisissez un plan (3/6/9/12 mois) et entrez le montant.','how.l4':'Cliquez sur “Approuver”, puis “Staker”.','how.l5':'À la fin de la période, utilisez “Réclamer” ou “Exit”.','how.warn':'⚠️ Connectez votre wallet pour accéder aux plans de staking.',
+      'after.title':'Comment staker vos NLY ?','after.l1':'Choisissez un plan (3 / 6 / 9 / 12 mois).','after.l2':'Cliquez sur “Approuver”, puis sur “Staker”.','after.l3':'Validez la transaction dans votre wallet.','after.l4':'En fin de période, utilisez “Réclamer” ou “Exit”.',
+      'wallet.title':'Ton wallet','wallet.balance':'Solde NLY',
+      'pos.title':'Vos positions','pos.empty':'Aucune position pour le moment.',
+      'claim.title':'Réclamer & Retirer','claim.id':'ID de position',
+      'addr.title':'Adresse du contrat NellyCoin (token, pas staking)','addr.note':'Ceci est l’adresse du jeton NLY. L’adresse du contrat de staking sera ajoutée après déploiement.',
+      'warn.title':'Avertissement','warn.samdoge':'Pendant la période choisie, vos NLY sont verrouillés. Si vous laissez votre dépôt plus longtemps que la durée sélectionnée, les récompenses n’augmentent pas au-delà de cette durée : vous gagnez uniquement pour le plan choisi (3/6/9/12 mois). Les crypto-actifs sont volatils — n’investissez que ce que vous pouvez vous permettre de perdre (DYOR).',
+      'disc.title':'Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
+      'foot.all':'Tous droits réservés'
+    },en:{
+      'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.faq':'FAQ','nav.staking':'Staking','nav.links':'Links','nav.buy':'Buy NLY',
+      'prep.msg':'🛠️ Staking is being prepared — coming soon.',
+      'stake.enable':'Enable staking','stake.disable':'Disable staking','stake.title':'Staking plans','stake.subtitle':'Pick a duration. Indicative APY. Rewards accrue over the period.',
+      'stake.lock3':'3-month lock. Great to start.','stake.lock6':'6-month lock. Balanced yield.','stake.lock9':'9-month lock. For committed holders.','stake.lock12':'12-month lock. Maximum yield.',
+      'mo':'months','amount':'Amount (NLY)','btn.approve':'Approve','btn.stake':'Stake','btn.connect':'Connect','btn.disconnect':'Disconnect','btn.claim':'Claim','btn.exit':'Exit','btn.copy':'Copy',
+      'how.title':'How to start?','how.l1':'Connect your wallet (MetaMask / Binance Wallet / WalletConnect) on BSC.','how.l2':'Check the network (BSC Mainnet) and approve NLY for the staking contract.','how.l3':'Pick a plan (3/6/9/12 months) and enter the amount.','how.l4':'Click “Approve”, then “Stake”.','how.l5':'At term, use “Claim” or “Exit”.','how.warn':'⚠️ Connect your wallet to access staking plans.',
+      'after.title':'How to stake your NLY?','after.l1':'Choose a plan (3 / 6 / 9 / 12 months).','after.l2':'Click “Approve”, then “Stake”.','after.l3':'Confirm the transaction in your wallet.','after.l4':'At maturity, use “Claim” or “Exit”.',
+      'wallet.title':'Your wallet','wallet.balance':'NLY balance',
+      'pos.title':'Your positions','pos.empty':'No positions yet.',
+      'claim.title':'Claim & Withdraw','claim.id':'Position ID',
+      'addr.title':'NellyCoin contract address (token, not staking)','addr.note':'This is the NLY token address. The staking contract address will be added after deployment.',
+      'warn.title':'Disclaimer','warn.samdoge':'During the chosen period, your NLY are locked. If you keep the deposit longer than the selected duration, rewards do not increase beyond that: you only earn for the chosen plan (3/6/9/12 months). Crypto assets are volatile — invest only what you can afford to lose (DYOR).',
+      'disc.title':'Disclaimer','disc.text':'NellyCoin (NLY) is a community meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).',
+      'foot.all':'All rights reserved'
+    }};
     const i18n={lang:SETTINGS.DEFAULT_LANG,t:(k)=> (I18N[i18n.lang]&&I18N[i18n.lang][k])||I18N.fr[k]||k,apply(){document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');const v=i18n.t(k);if(v)el.innerHTML=v;});},set(l){i18n.lang=l;localStorage.setItem('nly_lang',l);i18n.apply();}};
 
     // ===== Helpers
@@ -245,42 +324,114 @@
     const wallet={provider:null,type:null,addr:null,chainId:null,connected:false};
     function renderWallet(){ $('#walletAddr').textContent=wallet.addr?short(wallet.addr):'—'; $('#walletNet').textContent=wallet.chainId===56?'BSC Mainnet':(wallet.chainId===97?'BSC Testnet':'—'); }
     function updateAdminUI(){ const t=$('#toggleStake'); if(!wallet.addr){t.classList.add('hidden');return;} (wallet.addr.toLowerCase()===SETTINGS.OWNER.toLowerCase())?t.classList.remove('hidden'):t.classList.add('hidden'); }
-    function updatePlansVisibility(){ if(wallet.connected){ $('#plansWrap').classList.remove('hidden'); $('#needConnect').classList.add('hidden'); } else { $('#plansWrap').classList.add('hidden'); $('#needConnect').classList.remove('hidden'); } }
+    function onConnectUI(){
+      wallet.connected=true;
+      $('#plansWrap').classList.remove('hidden');
+      $('#stakeNotice').classList.remove('hidden');
+      $('#rightCol').classList.remove('hidden');
+      $('#howBefore').classList.add('hidden');
+      $('#howAfter').classList.remove('hidden');
+    }
+    function onDisconnectUI(){
+      wallet.connected=false;
+      $('#plansWrap').classList.add('hidden');
+      $('#stakeNotice').classList.add('hidden');
+      $('#rightCol').classList.add('hidden');
+      $('#howBefore').classList.remove('hidden');
+      $('#howAfter').classList.add('hidden');
+      $('#nlyBalance').innerHTML='—';
+      renderWallet(); updateAdminUI();
+    }
 
-    // ===== Balances (ERC-20)
+    // ===== Balance (ERC-20)
     async function getTokenBalance(){ if(!wallet.provider||!wallet.addr) return; const data='0x70a08231000000000000000000000000'+wallet.addr.replace('0x',''); const res=await wallet.provider.request({method:'eth_call',params:[{to:SETTINGS.TOKEN_ADDRESS,data},'latest']}); const bal=parseInt(res,16); return isNaN(bal)?'0.0000':(bal/1e18).toFixed(4); }
     async function refreshBalances(){ const n=await getTokenBalance(); $('#nlyBalance').innerHTML=n?('<b>'+n+' NLY</b>'):'—'; }
 
-    // ===== Modal Multi-wallet
-    const modal=document.createElement('div'); modal.className='modal'; modal.innerHTML=`<div class="box"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px"><h3 style="margin:0" data-i18n="how.title">Comment démarrer ?</h3><button class="btn sm ghost" id="closeModal">✕</button></div><div class="wallet-list"><button class="wallet-btn" id="chooseMM">🦊 MetaMask</button><button class="wallet-btn" id="chooseBW">💼 Binance Wallet</button><button class="wallet-btn" id="chooseWC">📱 WalletConnect</button></div></div>`; document.body.appendChild(modal);
+    // ===== Modal wallets
+    const modal=document.createElement('div'); modal.className='modal'; modal.innerHTML=`<div class="box"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px"><h3 style="margin:0">Choisir un portefeuille</h3><button class="btn sm ghost" id="closeModal">✕</button></div><div class="wallet-list"><button class="wallet-btn" id="chooseMM">🦊 MetaMask</button><button class="wallet-btn" id="chooseBW">💼 Binance Wallet</button><button class="wallet-btn" id="chooseWC">📱 WalletConnect</button></div></div>`; document.body.appendChild(modal);
     function openModal(){ modal.classList.add('open'); } function closeModal(){ modal.classList.remove('open'); }
 
     // ===== Connectors
-    async function connectMetaMask(){ const eth=window.ethereum; if(!eth){alert('MetaMask non détecté.');return;} const accounts=await eth.request({method:'eth_requestAccounts'}); const chainId=await eth.request({method:'eth_chainId'}); wallet.provider=eth; wallet.type='metamask'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16); wallet.connected=true; renderWallet(); updateAdminUI(); updatePlansVisibility(); refreshBalances(); eth.on?.('accountsChanged',(a)=>{wallet.addr=a?.[0]||null;renderWallet();updateAdminUI();updatePlansVisibility();refreshBalances();}); eth.on?.('chainChanged',(cid)=>{wallet.chainId=parseInt(cid,16);renderWallet();}); }
-    async function connectBinanceWallet(){ const bw=window.BinanceChain; if(!bw){alert('Binance Wallet non détecté.');return;} const accounts=await bw.request({method:'eth_requestAccounts'}); const chainId=await bw.request({method:'eth_chainId'}); wallet.provider=bw; wallet.type='binance'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16); wallet.connected=true; renderWallet(); updateAdminUI(); updatePlansVisibility(); refreshBalances(); bw.on?.('accountsChanged',(a)=>{wallet.addr=a?.[0]||null;renderWallet();updateAdminUI();updatePlansVisibility();refreshBalances();}); bw.on?.('chainChanged',(cid)=>{wallet.chainId=parseInt(cid,16);renderWallet();}); }
-    async function connectWalletConnect(){ if(!window.WalletConnectEthereumProvider){alert('SDK WalletConnect indisponible.');return;} const provider=await window.WalletConnectEthereumProvider.init({projectId:SETTINGS.WC_PROJECT_ID,chains:[56],showQrModal:true,methods:['eth_sendTransaction','eth_signTransaction','eth_sign','personal_sign','eth_signTypedData','eth_requestAccounts']}); await provider.enable(); const accounts=await provider.request({method:'eth_accounts'}); const chainId=await provider.request({method:'eth_chainId'}); wallet.provider=provider; wallet.type='walletconnect'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16); wallet.connected=true; renderWallet(); updateAdminUI(); updatePlansVisibility(); refreshBalances(); provider.on('accountsChanged',(a)=>{wallet.addr=a?.[0]||null;renderWallet();updateAdminUI();updatePlansVisibility();refreshBalances();}); provider.on('chainChanged',(cid)=>{wallet.chainId=parseInt(cid,16);renderWallet();}); provider.on('disconnect',()=>{disconnect();}); }
+    async function connectMetaMask(){ const eth=window.ethereum; if(!eth){alert('MetaMask non détecté.');return;} const accounts=await eth.request({method:'eth_requestAccounts'}); const chainId=await eth.request({method:'eth_chainId'}); wallet.provider=eth; wallet.type='metamask'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16); renderWallet(); updateAdminUI(); onConnectUI(); refreshBalances(); eth.on?.('accountsChanged',(a)=>{wallet.addr=a?.[0]||null; if(wallet.addr){onConnectUI();} else {onDisconnectUI();} renderWallet(); refreshBalances(); updateAdminUI();}); eth.on?.('chainChanged',(cid)=>{wallet.chainId=parseInt(cid,16);renderWallet();}); }
+    async function connectBinanceWallet(){ const bw=window.BinanceChain; if(!bw){alert('Binance Wallet non détecté.');return;} const accounts=await bw.request({method:'eth_requestAccounts'}); const chainId=await bw.request({method:'eth_chainId'}); wallet.provider=bw; wallet.type='binance'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16); renderWallet(); updateAdminUI(); onConnectUI(); refreshBalances(); bw.on?.('accountsChanged',(a)=>{wallet.addr=a?.[0]||null; if(wallet.addr){onConnectUI();} else {onDisconnectUI();} renderWallet(); refreshBalances(); updateAdminUI();}); bw.on?.('chainChanged',(cid)=>{wallet.chainId=parseInt(cid,16);renderWallet();}); }
+
+    // WalletConnect v2 preferred, v1 fallback
+    async function connectWalletConnect(){
+      if (window.WalletConnectEthereumProvider){ // v2
+        try{
+          const provider = await window.WalletConnectEthereumProvider.init({
+            projectId: SETTINGS.WC_PROJECT_ID,
+            chains: [56],
+            showQrModal: true,
+            methods:['eth_sendTransaction','eth_signTransaction','eth_sign','personal_sign','eth_signTypedData','eth_requestAccounts'],
+          });
+          await provider.enable();
+          const accounts=await provider.request({method:'eth_accounts'}); const chainId=await provider.request({method:'eth_chainId'});
+          wallet.provider=provider; wallet.type='walletconnect'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16);
+          renderWallet(); updateAdminUI(); onConnectUI(); refreshBalances();
+          provider.on('accountsChanged',(a)=>{wallet.addr=a?.[0]||null; if(wallet.addr){onConnectUI();} else {onDisconnectUI();} renderWallet(); refreshBalances(); updateAdminUI();});
+          provider.on('chainChanged',(cid)=>{wallet.chainId=parseInt(cid,16);renderWallet();});
+          provider.on('disconnect',()=>{disconnect();});
+          return;
+        }catch(e){ console.warn('WC v2 error, trying v1', e); }
+      }
+      if (window.WalletConnectProvider){ // v1 fallback
+        try{
+          const WC1 = window.WalletConnectProvider.default || window.WalletConnectProvider;
+          const provider = new WC1({ rpc:{56:"https://bsc-dataseed.binance.org/"}, chainId:56, qrcode:true });
+          await provider.enable();
+          const accounts=provider.accounts; const chainId=provider.chainId;
+          wallet.provider=provider; wallet.type='walletconnect-v1'; wallet.addr=accounts[0]; wallet.chainId=chainId;
+          renderWallet(); updateAdminUI(); onConnectUI(); refreshBalances();
+          provider.on('accountsChanged',(a)=>{wallet.addr=a?.[0]||null; if(wallet.addr){onConnectUI();} else {onDisconnectUI();} renderWallet(); refreshBalances(); updateAdminUI();});
+          provider.on('chainChanged',(cid)=>{wallet.chainId=Number(cid);renderWallet();});
+          provider.on('disconnect',()=>{disconnect();});
+          return;
+        }catch(e){ alert('WalletConnect indisponible.'); return; }
+      }
+      alert('SDK WalletConnect indisponible.');
+    }
+
+    function disconnect(){
+      try{
+        if(wallet.type==='walletconnect' && wallet.provider?.disconnect){ wallet.provider.disconnect(); }
+        if(wallet.type==='walletconnect-v1' && wallet.provider?.disconnect){ wallet.provider.disconnect(); }
+      }catch(_){}
+      wallet.provider=null; wallet.type=null; wallet.addr=null; wallet.chainId=null;
+      onDisconnectUI();
+    }
 
     // ===== Staking UI toggle (admin only)
     let stakingEnabled=false;
-    function applyStakingState(){ const st=$('#stakingStatus'); const btn=$('#toggleStake'); if(stakingEnabled){ st.classList.remove('warn'); st.classList.add('ok'); st.textContent=i18n.t('stake.disable'); btn.innerHTML='🔒 '+i18n.t('stake.disable'); }else{ st.classList.remove('ok'); st.classList.add('warn'); st.textContent=i18n.t('prep.msg'); btn.innerHTML='🔓 '+i18n.t('stake.enable'); } }
-    function disconnect(){ if(wallet.type==='walletconnect'&&wallet.provider?.disconnect){try{wallet.provider.disconnect();}catch(_){}} wallet.provider=null;wallet.type=null;wallet.addr=null;wallet.chainId=null;wallet.connected=false; renderWallet(); updateAdminUI(); updatePlansVisibility(); $('#nlyBalance').innerHTML='—'; }
+    function applyStakingState(){
+      const st=$('#stakingStatus'); const btn=$('#toggleStake');
+      if(stakingEnabled){ st.classList.remove('warn'); st.classList.add('ok'); st.textContent=i18n.t('stake.disable'); btn.innerHTML='🔒 '+i18n.t('stake.disable'); }
+      else{ st.classList.remove('ok'); st.classList.add('warn'); st.textContent=i18n.t('prep.msg'); btn.innerHTML='🔓 '+i18n.t('stake.enable'); }
+    }
 
     // ===== Events
     $('#year').textContent=(new Date()).getFullYear();
     $('#buyBtn').href=SETTINGS.PANCAKE_URL;
+
     const langSel=$('#lang'); langSel.value=i18n.lang; langSel.addEventListener('change',e=>i18n.set(e.target.value));
-    $('#connectBtn').addEventListener('click',openModal); $('#disconnectBtn').addEventListener('click',disconnect);
-    modal.querySelector('#closeModal').addEventListener('click',closeModal);
-    modal.querySelector('#chooseMM').addEventListener('click',async()=>{closeModal();await connectMetaMask();});
-    modal.querySelector('#chooseBW').addEventListener('click',async()=>{closeModal();await connectBinanceWallet();});
-    modal.querySelector('#chooseWC').addEventListener('click',async()=>{closeModal();await connectWalletConnect();});
+    i18n.apply();
+
+    $('#menuToggle').addEventListener('click',()=> $('#mainNav').classList.toggle('open'));
+    $('#connectBtn').addEventListener('click',()=> modal.classList.add('open'));
+    $('#disconnectBtn').addEventListener('click',disconnect);
+    modal.querySelector('#closeModal').addEventListener('click',()=> modal.classList.remove('open'));
+    modal.querySelector('#chooseMM').addEventListener('click',async()=>{modal.classList.remove('open'); await connectMetaMask();});
+    modal.querySelector('#chooseBW').addEventListener('click',async()=>{modal.classList.remove('open'); await connectBinanceWallet();});
+    modal.querySelector('#chooseWC').addEventListener('click',async()=>{modal.classList.remove('open'); await connectWalletConnect();});
+
     $('#toggleStake').addEventListener('click',()=>{ if(wallet.addr?.toLowerCase()!==SETTINGS.OWNER.toLowerCase()) return; stakingEnabled=!stakingEnabled; applyStakingState(); });
 
     // Copy token
     $('#copyToken').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(SETTINGS.TOKEN_ADDRESS);const b=$('#copyToken');const old=b.innerHTML;b.innerHTML='✅ '+i18n.t('btn.copy');setTimeout(()=>b.innerHTML=old,1100);}catch(_){};});
 
-    // ===== Boot
-    i18n.apply(); renderWallet(); updateAdminUI(); updatePlansVisibility(); applyStakingState();
+    // Boot
+    renderWallet(); updateAdminUI(); applyStakingState(); onDisconnectUI(); // ensure correct initial visibility
   </script>
 </body>
 </html>
+
