@@ -1,3 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NellyCoin (NLY) – Meme Coin Communautaire</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0b0c10;
+      color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #10141a;
+      padding: 15px 25px;
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .navbar .logo img { height: 40px; margin-right: 10px; vertical-align: middle; }
+    .navbar .nav-links a {
+      color: #f5f5f5;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 500;
+    }
+    .navbar .nav-links a:hover { color: #ffcc33; }
+    .buy-btn {
+      background: #ffcc33;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .hamburger { display: none; background: none; border: none; color: #fff; font-size: 24px; }
+    .hero {
+      text-align: center;
+      padding: 60px 15px;
+      background: linear-gradient(135deg, #151a22, #1b2838);
+      color: #fff;
+    }
+    section { padding: 40px 20px; max-width: 900px; margin: auto; }
+    h2 { color: #ffcc33; text-align: center; }
+    ul li { margin: 8px 0; }
+    .contracts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .contract-box {
+      background: #151a22;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #333;
+    }
+    footer {
+      background: #10141a;
+      padding: 40px 20px;
+      color: #ccc;
+    }
+    footer h2 { color: #ffcc33; }
+    footer a { color: #ffcc33; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+    .warning {
+      margin-top: 30px;
+      background: #1a1f27;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid #ffcc33;
+    }
+    .copyright { text-align: center; margin-top: 15px; font-size: 0.9em; color: #888; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; background: #0f141c; position: absolute; top: 70px; right: 10px; padding: 15px; border-radius: 8px; }
+      .nav-links.show { display: flex; }
+      .hamburger { display: block; }
+      .footer-links { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="assets/logo.png" alt="NellyCoin Logo">
+      <span>NellyCoin (NLY)</span>
+    </div>
+    <nav class="nav-links">
+      <a data-lang="home" href="index.html">Accueil</a>
+      <a data-lang="tokenomics" href="tokenomics.html">Tokenomics</a>
+      <a data-lang="buy" href="howtobuy.html">Comment acheter</a>
+      <a data-lang="roadmap" href="roadmap.html">Feuille de route</a>
+      <a data-lang="staking" href="staking.html">Staking</a>
+      <a data-lang="faq" href="faq.html">FAQ</a>
+    </nav>
+    <div class="lang-and-buy">
+      <button class="buy-btn" data-lang="buyNLY">💸 Acheter NLY</button>
+      <select id="langSelect">
+        <option value="fr">FR</option>
+        <option value="en">EN</option>
+      </select>
+    </div>
+    <button class="hamburger" id="hamburger">☰</button>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <h1 data-lang="heroTitle">Bienvenue sur NellyCoin (NLY)</h1>
+    <p data-lang="heroSubtitle">Le meme coin communautaire sur la BNB Smart Chain 🐾</p>
+  </section>
+
+  <!-- ===== POURQUOI NELLY ===== -->
+  <section class="why-nelly">
+    <h2 data-lang="whyTitle">Pourquoi NellyCoin ?</h2>
+    <ul>
+      <li data-lang="why1">Projet communautaire sur BSC : fun, transparence et vision long terme.</li>
+      <li data-lang="why2">Contrat public et LP lock publiés.</li>
+      <li data-lang="why3">Utilités progressives : staking, concours, intégrations.</li>
+      <li data-lang="why4">Communication régulière et communautaire.</li>
+      <li data-lang="why5">Présence active sur les réseaux sociaux et collaborations NFT.</li>
+      <li data-lang="why6">Inspiré par Nelly, notre mascotte, symbole de loyauté et d’amusement.</li>
+    </ul>
+  </section>
+
+  <!-- ===== TOKENOMICS ===== -->
+  <section class="tokenomics">
+    <h2 data-lang="tokenomicsTitle">Tokenomics</h2>
+    <p><strong>Supply total :</strong> 1,000,000,000 NLY</p>
+  </section>
+
+  <!-- ===== ADRESSES ===== -->
+  <section id="official-addresses" class="mt-10">
+    <h2 data-lang="addressesTitle">🔗 Adresses Officielles / Official Addresses</h2>
+    <div class="contracts-grid">
+
+      <div class="contract-box">
+        <h3>🧾 Contrat NellyCoin / Token Contract</h3>
+        <p>Adresse : <code>0x4bFf...804b5</code><br>
+        <a href="https://bscscan.com/address/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">🔍 Voir sur BscScan</a></p>
+      </div>
+
+      <div class="contract-box">
+        <h3>💰 Portefeuille Marketing / Marketing Wallet</h3>
+        <p>Allocation : <strong>100 000 000 NLY</strong><br>
+        Adresse : <code>0xdb53...d494</code><br>
+        <a href="https://bscscan.com/address/0xdb53d652d88e3eb7adda48a69b7f83610d76d494" target="_blank">🔍 Voir sur BscScan</a></p>
+      </div>
+
+      <div class="contract-box">
+        <h3>🪙 Portefeuille Staking / Staking Wallet</h3>
+        <p>Allocation : <strong>250 000 000 NLY</strong><br>
+        Adresse : <code>0xa90c...62e51</code><br>
+        <a href="https://bscscan.com/address/0xa90c2b54d230859386e9640073a47aca56962e51" target="_blank">🔍 Voir sur BscScan</a></p>
+      </div>
+
+      <div class="contract-box">
+        <h3>🔒 Jetons verrouillés / Locked Tokens</h3>
+        <p><strong>350 000 000 NLY</strong> verrouillés jusqu’au <strong>26 octobre 2026</strong><br>
+        <a href="https://www.pinksale.finance/pinklock/bsc/record/1369793" target="_blank">🔗 Voir sur PinkLock</a></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <h2 data-lang="footerTitle">Liens officiels</h2>
+    <div class="footer-links">
+      <div>
+        <h3>Communauté</h3>
+        <ul>
+          <li>Twitter/X : <a href="https://twitter.com/NellyCoin" target="_blank">@NellyCoin</a></li>
+          <li>Telegram : <a href="https://t.me/NellyCoinOfficial" target="_blank">t.me/NellyCoinOfficial</a></li>
+          <li>Reddit : <a href="https://reddit.com/r/NellyCoin" target="_blank">r/NellyCoin</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Suivi</h3>
+        <ul>
+          <li><a href="https://www.dexscreener.com/bsc/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">DexScreener</a></li>
+          <li><a href="https://bscscan.com/token/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">BscScan</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning">
+      <h3>Avertissement / Disclaimer</h3>
+      <p>NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance. Faites vos propres recherches (DYOR).</p>
+    </div>
+    <p class="copyright">© 2025 NellyCoin — Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+
+    const translations = {
+      en: {
+        heroTitle: "Welcome to NellyCoin (NLY)",
+        heroSubtitle: "The community meme coin on BNB Smart Chain 🐾",
+        whyTitle: "Why NellyCoin?",
+        why1: "Community-driven project on BSC: fun, transparency and long-term vision.",
+        why2: "Public contract and locked LP published.",
+        why3: "Progressive utilities: staking, contests, integrations.",
+        why4: "Regular and community-driven communication.",
+        why5: "Active presence on social media and NFT collaborations.",
+        why6: "Inspired by Nelly, our mascot symbolizing loyalty and fun.",
+        tokenomicsTitle: "Tokenomics",
+        addressesTitle: "Official Addresses",
+        footerTitle: "Official Links",
+        buyNLY: "💸 Buy NLY"
+      },
+      fr: {
+        heroTitle: "Bienvenue sur NellyCoin (NLY)",
+        heroSubtitle: "Le meme coin communautaire sur la BNB Smart Chain 🐾",
+        whyTitle: "Pourquoi NellyCoin ?",
+        tokenomicsTitle: "Tokenomics",
+        addressesTitle: "Adresses Officielles",
+        footerTitle: "Liens officiels",
+        buyNLY: "💸 Acheter NLY"
+      }
+    };
+
+    document.getElementById('langSelect').addEventListener('change', e => {
+      const lang = e.target.value;
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (translations[lang][key]) el.textContent = translations[lang][key];
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html><html lang="fr">
 <head>
   <meta charset="utf-8" />
