@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NellyCoin — FAQ</title>
+  <meta name="description" content="FAQ NellyCoin (NLY) — Questions fréquentes sur le projet, la technique, le staking, la sécurité et la communauté. FR/EN, réponses cachées." />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/assets/nelly/logo.png" />
+  <style>
+    :root{--bg:#0b1020;--panel:#0f1631;--card:#121a38;--muted:#c7d2ea;--txt:#fff;--accent:#f6b449;--accent-2:#ffd36a;--ok:#22c55e;--down:#ef4444;--border:rgba(255,255,255,.22);--shadow:0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08)}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:radial-gradient(900px 520px at 15% -10%, #1a2454 0%, transparent 60%),radial-gradient(900px 520px at 120% 10%, #401c48 0%, transparent 55%),linear-gradient(180deg,#0b1020 0%,#090e1a 100%);color:var(--txt);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;line-height:1.6;overflow-x:hidden}
+    a{color:var(--accent);text-decoration:none}
+    .container{width:min(1200px,94%);margin-inline:auto}
+    .muted{color:var(--muted)}
+    /* Header */
+    header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(140%) blur(10px);background:linear-gradient(180deg,rgba(11,16,32,.92),rgba(11,16,32,.55));border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;gap:10px;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:44px;height:44px;border-radius:10px;box-shadow:0 0 24px rgba(246,180,73,.25)}
+    .brand span{font-weight:900;letter-spacing:.6px}
+    nav.main{display:flex;gap:12px;align-items:center}
+    nav.main a{position:relative;color:var(--txt);padding:8px}
+    nav.main a:after{content:'';position:absolute;left:12px;right:12px;bottom:6px;height:2px;background:transparent;border-radius:4px;transition:background .18s}
+    nav.main a:hover:after,nav.main a.active:after{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    .spacer{flex:1}
+    .btn{cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:11px 14px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.08));color:#0e1116;font-weight:800;box-shadow:var(--shadow);transition:transform .15s, box-shadow .2s}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(246,180,73,.18), inset 0 1px 0 rgba(255,255,255,.12)}
+    .btn.accent{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#1a1303;border-color:rgba(255,211,106,.85)}
+    .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));color:var(--txt)}
+    .lang-select{border:1px solid var(--border);padding:8px 10px;border-radius:10px;background:#fff;color:#0e1116;font-weight:800}
+    #menuToggle{display:none}
+    @media (max-width:980px){
+      nav.main{display:none;position:fixed;inset:64px 10px auto 10px;flex-direction:column;gap:6px;padding:14px;border:1px solid var(--border);border-radius:12px;background:rgba(11,16,32,.98)}
+      nav.main.open{display:flex}
+      #menuToggle{display:inline-flex}
+      .nav{flex-wrap:wrap}
+    }
+    /* Page */
+    .page-title{margin:18px 0 8px;font-size:clamp(26px,4vw,40px);line-height:1.1}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
+    /* Accordion */
+    details.faq{border:1px solid var(--border);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));padding:10px 12px}
+    details.faq+details.faq{margin-top:8px}
+    details.faq summary{cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:10px}
+    details.faq summary::-webkit-details-marker{display:none}
+    .q{font-weight:700}
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;padding:4px 8px;background:rgba(255,255,255,.06);font-size:12px;margin-left:auto}
+    .a{margin:8px 0 4px}
+    /* Footer */
+    footer{border-top:1px solid var(--border);padding:18px 0;color:var(--muted);margin-top:28px}
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/index.html" aria-label="NellyCoin Home">
+        <img src="/assets/nelly/logo.png" alt="NellyCoin logo"/>
+        <span>NellyCoin (NLY)</span>
+      </a>
+      <button id="menuToggle" class="btn ghost" aria-label="Menu">☰</button>
+      <nav class="main" id="mainNav" aria-label="Main navigation">
+        <a href="/index.html#about" data-i18n="nav.about">À propos</a>
+        <a href="/index.html#tokenomics" data-i18n="nav.tokenomics">Tokenomics</a>
+        <a href="/index.html#howto" data-i18n="nav.howto">Comment acheter</a>
+        <a href="/index.html#roadmap" data-i18n="nav.roadmap">Feuille de route</a>
+        <a href="/index.html#links" data-i18n="nav.links">Liens</a>
+        <a href="/staking.html" data-i18n="nav.staking">Staking</a>
+        <a class="active" href="/faq.html" data-i18n="nav.faq">FAQ</a>
+      </nav>
+      <div class="spacer"></div>
+      <a class="btn accent" id="buyBtn" target="_blank" rel="noopener">💱 <span data-i18n="nav.buy">Acheter NLY</span></a>
+      <select id="lang" class="lang-select" title="Langue"><option value="fr">FR</option><option value="en">EN</option></select>
+    </div>
+  </header>
+
+  <main class="container" style="padding:20px 0 30px">
+    <h1 class="page-title" data-i18n="title">FAQ — Questions fréquentes</h1>
+    <p class="muted" data-i18n="subtitle">Tout savoir sur NellyCoin (NLY) : projet, technique, staking, sécurité et communauté.</p>
+
+    <!-- CATEGORIES (ordre alphabétique FR) -->
+    <section class="panel" style="margin-top:14px">
+      <h2 data-i18n="cat.cf">Communauté & Futur</h2>
+      <div class="grid">
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="cf.q1">Comment rejoindre la communauté ?</span><span class="badge">CF-01</span></summary>
+            <div class="a muted" data-i18n="cf.a1">Rejoins-nous sur X/Twitter, Telegram et Reddit via la section “Liens” du site. Annonces, concours et votes sont publiés là-bas.</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="cf.q2">Quels partenariats visez-vous ?</span><span class="badge">CF-02</span></summary>
+            <div class="a muted" data-i18n="cf.a2">Intégrations DeFi (trackers, dApps), créateurs de contenu et influenceurs Web3, puis listings d’agrégateurs. Les annonces se font après validation.</div>
+          </details>
+        </div>
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="cf.q3">Le staking arrive quand ?</span><span class="badge">CF-03</span></summary>
+            <div class="a muted" data-i18n="cf.a3">Après la prévente et le listing PancakeSwap. L’interface est prête, l’activation se fera via un contrat dédié annoncé publiquement.</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="cf.q4">Comment proposer une idée ?</span><span class="badge">CF-04</span></summary>
+            <div class="a muted" data-i18n="cf.a4">Poste ta proposition sur Telegram/Reddit. Les idées retenues passent en sondage communautaire avant d’être planifiées sur la feuille de route.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:14px">
+      <h2 data-i18n="cat.gen">Général</h2>
+      <div class="grid">
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="gen.q1">Qu’est-ce que NellyCoin (NLY) ?</span><span class="badge">GEN-01</span></summary>
+            <div class="a muted" data-i18n="gen.a1">Un meme coin communautaire sur BNB Smart Chain, inspiré par Nelly le chat. Vision : fun, transparence et utilité progressive.</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="gen.q2">Sur quelle blockchain ?</span><span class="badge">GEN-02</span></summary>
+            <div class="a muted" data-i18n="gen.a2">Sur BNB Smart Chain (BSC). Le contrat du token est public et consultable sur BscScan.</div>
+          </details>
+        </div>
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="gen.q3">Où acheter NLY ?</span><span class="badge">GEN-03</span></summary>
+            <div class="a muted" data-i18n="gen.a3">Sur PancakeSwap après la prévente : ajoute l’adresse officielle du token NLY, vérifie le slippage selon les taxes actives.</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="gen.q4">Y a-t-il une application mobile ?</span><span class="badge">GEN-04</span></summary>
+            <div class="a muted" data-i18n="gen.a4">Le site est une PWA : installe-le sur ton téléphone depuis le navigateur (Ajouter à l’écran d’accueil) pour un accès rapide.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:14px">
+      <h2 data-i18n="cat.sec">Sécurité</h2>
+      <div class="grid">
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="sec.q1">Le contrat est-il audité ?</span><span class="badge">SEC-01</span></summary>
+            <div class="a muted" data-i18n="sec.a1">Les audits et vérifications seront communiqués publiquement. Le code du token et, plus tard, du staking sera publié/verify sur BscScan.</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="sec.q2">Comment éviter les faux contrats ?</span><span class="badge">SEC-02</span></summary>
+            <div class="a muted" data-i18n="sec.a2">Toujours copier l’adresse depuis le site officiel. Méfie-toi des DM et annonces non vérifiées. Vérifie sur BscScan et Dexscreener.</div>
+          </details>
+        </div>
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="sec.q3">Mes fonds sont-ils verrouillés en staking ?</span><span class="badge">SEC-03</span></summary>
+            <div class="a muted" data-i18n="sec.a3">Oui, pendant la durée choisie. Les actifs crypto sont volatils et risqués : n’investis que ce que tu peux te permettre de perdre (DYOR).</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="sec.q4">Quelles bonnes pratiques wallet ?</span><span class="badge">SEC-04</span></summary>
+            <div class="a muted" data-i18n="sec.a4">Sauvegarde ta seed, active le verrouillage biométrique, refuse les signatures inconnues, et utilise un hardware wallet pour de gros montants.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:14px">
+      <h2 data-i18n="cat.tech">Technique</h2>
+      <div class="grid">
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="tech.q1">Comment connecter MetaMask / WalletConnect ?</span><span class="badge">TECH-01</span></summary>
+            <div class="a muted" data-i18n="tech.a1">Clique “Connecter”, choisis MetaMask, Binance Wallet ou WalletConnect (QR). Assure-toi d’être sur BSC Mainnet.</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="tech.q2">Pourquoi “WalletConnect indisponible” ?</span><span class="badge">TECH-02</span></summary>
+            <div class="a muted" data-i18n="tech.a2">Ajoute le Project ID WalletConnect v2. Sinon, un fallback v1 est prévu. Vérifie aussi HTTPS et bloqueur de pop-ups.</div>
+          </details>
+        </div>
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="tech.q3">Les plans sont gris tant que je ne suis pas connecté ?</span><span class="badge">TECH-03</span></summary>
+            <div class="a muted" data-i18n="tech.a3">Oui. Les cartes 3/6/9/12 mois s’affichent et s’activent après connexion au wallet pour éviter les erreurs et faux clics.</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="tech.q4">Le bouton “Activer le staking” n’apparaît pas.</span><span class="badge">TECH-04</span></summary>
+            <div class="a muted" data-i18n="tech.a4">Il est visible uniquement pour l’adresse owner. Si tu n’es pas l’admin, c’est normal qu’il soit caché.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:14px">
+      <h2 data-i18n="cat.tok">Tokenomics</h2>
+      <div class="grid">
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="tok.q1">Quelle est l’offre totale ?</span><span class="badge">TOK-01</span></summary>
+            <div class="a muted" data-i18n="tok.a1">1 000 000 000 NLY. Répartition indicative : LP, marketing, réserve, staking/rewards (détails sur la page Tokenomics).</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="tok.q2">Quelles taxes au lancement ?</span><span class="badge">TOK-02</span></summary>
+            <div class="a muted" data-i18n="tok.a2">Objectif 0% au lancement. Ensuite ≤5% (3% marketing + 2% LP). Les paramètres seront annoncés publiquement.</div>
+          </details>
+        </div>
+        <div>
+          <details class="faq">
+            <summary><span class="q" data-i18n="tok.q3">Quel APY pour le staking ?</span><span class="badge">TOK-03</span></summary>
+            <div class="a muted" data-i18n="tok.a3">Plans indicatifs : 8% (3m), 12% (6m), 16% (9m), 20% (12m). Les taux finaux sont confirmés au déploiement du contrat.</div>
+          </details>
+          <details class="faq">
+            <summary><span class="q" data-i18n="tok.q4">Les récompenses se composent-elles ?</span><span class="badge">TOK-04</span></summary>
+            <div class="a muted" data-i18n="tok.a4">Non. Chaque dépôt suit la durée choisie. Laisser au-delà n’augmente pas le rendement au-delà du plan sélectionné.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISCLAIMER -->
+    <section class="container" id="disclaimer" style="padding:20px 0">
+      <div class="panel">
+        <h3 data-i18n="disc.title">Avertissement</h3>
+        <p class="muted" data-i18n="disc.text">
+          NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future.
+          Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+      <div>© <span id="year"></span> NellyCoin — <b data-i18n="foot.all">Tous droits réservés</b>.</div>
+      <div style="opacity:.85">Made with 🧡 • BSC • <a href="mailto:contact@nellycoin.io">contact@nellycoin.io</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // PWA
+    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(()=>{}); }); }
+    // Links
+    const PANCAKE_URL='https://pancakeswap.finance/swap?outputCurrency=0x4bFfd4359a06583713df160da5817737654804b5';
+
+    // i18n
+    const I18N = {
+      fr:{
+        'title':'FAQ — Questions fréquentes',
+        'subtitle':'Tout savoir sur NellyCoin (NLY) : projet, technique, staking, sécurité et communauté.',
+        'nav.about':'À propos','nav.tokenomics':'Tokenomics','nav.howto':'Comment acheter','nav.roadmap':'Feuille de route','nav.links':'Liens','nav.staking':'Staking','nav.faq':'FAQ','nav.buy':'Acheter NLY',
+        'cat.cf':'Communauté & Futur',
+        'cf.q1':'Comment rejoindre la communauté ?','cf.a1':'Rejoins-nous sur X/Twitter, Telegram et Reddit via la section “Liens” du site. Annonces, concours et votes sont publiés là-bas.',
+        'cf.q2':'Quels partenariats visez-vous ?','cf.a2':'Intégrations DeFi (trackers, dApps), créateurs de contenu et influenceurs Web3, puis listings d’agrégateurs. Les annonces se font après validation.',
+        'cf.q3':'Le staking arrive quand ?','cf.a3':'Après la prévente et le listing PancakeSwap. L’interface est prête, l’activation se fera via un contrat dédié annoncé publiquement.',
+        'cf.q4':'Comment proposer une idée ?','cf.a4':'Poste ta proposition sur Telegram/Reddit. Les idées retenues passent en sondage communautaire avant d’être planifiées sur la feuille de route.',
+        'cat.gen':'Général',
+        'gen.q1':'Qu’est-ce que NellyCoin (NLY) ?','gen.a1':'Un meme coin communautaire sur BNB Smart Chain, inspiré par Nelly le chat. Vision : fun, transparence et utilité progressive.',
+        'gen.q2':'Sur quelle blockchain ?','gen.a2':'Sur BNB Smart Chain (BSC). Le contrat du token est public et consultable sur BscScan.',
+        'gen.q3':'Où acheter NLY ?','gen.a3':'Sur PancakeSwap après la prévente : ajoute l’adresse officielle du token NLY, vérifie le slippage selon les taxes actives.',
+        'gen.q4':'Y a-t-il une application mobile ?','gen.a4':'Le site est une PWA : installe-le sur ton téléphone depuis le navigateur (Ajouter à l’écran d’accueil) pour un accès rapide.',
+        'cat.sec':'Sécurité',
+        'sec.q1':'Le contrat est-il audité ?','sec.a1':'Les audits et vérifications seront communiqués publiquement. Le code du token et, plus tard, du staking sera publié/verify sur BscScan.',
+        'sec.q2':'Comment éviter les faux contrats ?','sec.a2':'Toujours copier l’adresse depuis le site officiel. Méfie-toi des DM et annonces non vérifiées. Vérifie sur BscScan et Dexscreener.',
+        'sec.q3':'Mes fonds sont-ils verrouillés en staking ?','sec.a3':'Oui, pendant la durée choisie. Les actifs crypto sont volatils et risqués : n’investis que ce que tu peux te permettre de perdre (DYOR).',
+        'sec.q4':'Quelles bonnes pratiques wallet ?','sec.a4':'Sauvegarde ta seed, active le verrouillage biométrique, refuse les signatures inconnues, et utilise un hardware wallet pour de gros montants.',
+        'cat.tech':'Technique',
+        'tech.q1':'Comment connecter MetaMask / WalletConnect ?','tech.a1':'Clique “Connecter”, choisis MetaMask, Binance Wallet ou WalletConnect (QR). Assure-toi d’être sur BSC Mainnet.',
+        'tech.q2':'Pourquoi “WalletConnect indisponible” ?','tech.a2':'Ajoute le Project ID WalletConnect v2. Sinon, un fallback v1 est prévu. Vérifie aussi HTTPS et bloqueur de pop-ups.',
+        'tech.q3':'Les plans sont gris tant que je ne suis pas connecté ?','tech.a3':'Oui. Les cartes 3/6/9/12 mois s’affichent et s’activent après connexion au wallet pour éviter les erreurs et faux clics.',
+        'tech.q4':'Le bouton “Activer le staking” n’apparaît pas.','tech.a4':'Il est visible uniquement pour l’adresse owner. Si tu n’es pas l’admin, c’est normal qu’il soit caché.',
+        'cat.tok':'Tokenomics',
+        'tok.q1':'Quelle est l’offre totale ?','tok.a1':'1 000 000 000 NLY. Répartition indicative : LP, marketing, réserve, staking/rewards (détails sur la page Tokenomics).',
+        'tok.q2':'Quelles taxes au lancement ?','tok.a2':'Objectif 0% au lancement. Ensuite ≤5% (3% marketing + 2% LP). Les paramètres seront annoncés publiquement.',
+        'tok.q3':'Quel APY pour le staking ?','tok.a3':'Plans indicatifs : 8% (3m), 12% (6m), 16% (9m), 20% (12m). Les taux finaux sont confirmés au déploiement du contrat.',
+        'tok.q4':'Les récompenses se composent-elles ?','tok.a4':'Non. Chaque dépôt suit la durée choisie. Laisser au-delà n’augmente pas le rendement au-delà du plan sélectionné.',
+        'disc.title':'Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
+        'foot.all':'Tous droits réservés'
+      },
+      en:{
+        'title':'FAQ — Frequently Asked Questions',
+        'subtitle':'Everything about NellyCoin (NLY): project, tech, staking, security and community.',
+        'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.links':'Links','nav.staking':'Staking','nav.faq':'FAQ','nav.buy':'Buy NLY',
+        'cat.cf':'Community & Future',
+        'cf.q1':'How to join the community?','cf.a1':'Join us on X/Twitter, Telegram and Reddit via the “Links” section. Announcements, contests and votes happen there.',
+        'cf.q2':'What partnerships do you target?','cf.a2':'DeFi integrations (trackers, dApps), Web3 creators/influencers, and listings on aggregators. Announcements follow validation.',
+        'cf.q3':'When is staking coming?','cf.a3':'After the presale and PancakeSwap listing. The interface is ready; activation comes via a dedicated contract announced publicly.',
+        'cf.q4':'How can I submit an idea?','cf.a4':'Share it on Telegram/Reddit. Selected ideas go through community polls before being added to the roadmap.',
+        'cat.gen':'General',
+        'gen.q1':'What is NellyCoin (NLY)?','gen.a1':'A community meme coin on BNB Smart Chain, inspired by Nelly the cat. Vision: fun, transparency and progressive utility.',
+        'gen.q2':'Which blockchain?','gen.a2':'BNB Smart Chain (BSC). The token contract is public and visible on BscScan.',
+        'gen.q3':'Where to buy NLY?','gen.a3':'On PancakeSwap after presale: add the official NLY token address and adjust slippage according to active taxes.',
+        'gen.q4':'Is there a mobile app?','gen.a4':'The site is a PWA: install it from your browser (Add to Home Screen) for quick access.',
+        'cat.sec':'Security',
+        'sec.q1':'Is the contract audited?','sec.a1':'Audits/verification will be announced publicly. Token code and later the staking contract will be published/verified on BscScan.',
+        'sec.q2':'How to avoid fake contracts?','sec.a2':'Always copy the address from the official site. Beware of unsolicited DMs. Double-check on BscScan and Dexscreener.',
+        'sec.q3':'Are my funds locked while staking?','sec.a3':'Yes, for the selected duration. Crypto assets are volatile and risky—invest only what you can afford to lose (DYOR).',
+        'sec.q4':'Wallet best practices?','sec.a4':'Back up your seed, enable biometric/device lock, refuse unknown signatures, and use a hardware wallet for large amounts.',
+        'cat.tech':'Technical',
+        'tech.q1':'How to connect MetaMask / WalletConnect?','tech.a1':'Click “Connect”, choose MetaMask, Binance Wallet or WalletConnect (QR). Ensure BSC Mainnet is selected.',
+        'tech.q2':'Why “WalletConnect unavailable”?','tech.a2':'Add your WalletConnect v2 Project ID. Otherwise a v1 fallback is provided. Also check HTTPS and pop-up blockers.',
+        'tech.q3':'Are plans disabled while I’m not connected?','tech.a3':'Yes. 3/6/9/12-month cards unlock after wallet connection to prevent misclicks.',
+        'tech.q4':'I can’t see “Enable staking”.','tech.a4':'That button is visible only to the owner address. If you are not the admin, it stays hidden.',
+        'cat.tok':'Tokenomics',
+        'tok.q1':'What is the total supply?','tok.a1':'1,000,000,000 NLY. Indicative split: LP, marketing, reserve, staking/rewards (see Tokenomics page).',
+        'tok.q2':'What are launch taxes?','tok.a2':'Target 0% at launch. Then ≤5% (3% marketing + 2% LP). Final params will be announced.',
+        'tok.q3':'What APY for staking?','tok.a3':'Indicative: 8% (3m), 12% (6m), 16% (9m), 20% (12m). Final rates confirmed at contract deployment.',
+        'tok.q4':'Do rewards compound?','tok.a4':'No. Each deposit follows its chosen duration. Keeping it longer doesn’t increase rewards beyond the selected plan.',
+        'disc.title':'Disclaimer','disc.text':'NellyCoin (NLY) is a community meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).',
+        'foot.all':'All rights reserved'
+      }
+    };
+    const i18n={lang:(localStorage.getItem('nly_lang')||'fr'),t:(k)=> (I18N[i18n.lang]&&I18N[i18n.lang][k])||I18N.fr[k]||k,apply(){document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');const v=i18n.t(k); if(v) el.innerHTML=v;});},set(l){i18n.lang=l; localStorage.setItem('nly_lang',l); i18n.apply();}};
+
+    // UI
+    const $=s=>document.querySelector(s);
+    $('#year').textContent=(new Date()).getFullYear();
+    $('#buyBtn').href=PANCAKE_URL;
+    const langSel=$('#lang'); langSel.value=i18n.lang; langSel.addEventListener('change',e=>i18n.set(e.target.value));
+    i18n.apply();
+
+    // Hamburger
+    $('#menuToggle').addEventListener('click',()=> $('#mainNav').classList.toggle('open'));
+  </script>
+</body>
+</html>
