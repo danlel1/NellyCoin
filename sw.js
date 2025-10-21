@@ -1,6 +1,3 @@
-<!-- ============== -->
-<!-- FILE: /sw.js -->
-<!-- ============== -->
 const CACHE = 'nellycoin-v1';
 const ASSETS = [
   '/',
