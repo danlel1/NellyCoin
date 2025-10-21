@@ -4,8 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NellyCoin (NLY) — La mascotte de la communauté</title>
-  <meta name="description" content="NellyCoin (NLY) — Meme coin communautaire inspiré par Nelly le chat. Identité forte, fun et utilité progressive." />
+  <meta name="description" content="NellyCoin (NLY) — Meme coin communautaire inspiré par Nelly le chat. Transparence, fun et utilité progressive. FR/EN." />
   <meta name="theme-color" content="#0b1020" />
+  <!-- Icons / PWA -->
   <link rel="icon" href="assets/nelly/logo.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="assets/nelly/logo.png" />
   <link rel="manifest" href="assets/nelly/site.webmanifest" />
@@ -14,75 +15,116 @@
       --bg:#0b1020;--panel:#0f1631;--card:#121a38;
       --muted:#c7d2ea;--txt:#ffffff;
       --accent:#f6b449;--accent-2:#ffd36a;
-      --border:rgba(255,255,255,.18);
-      --shadow:0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+      --ok:#22c55e;--down:#ef4444;
+      --border:rgba(255,255,255,.22);
+      --shadow:0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:
-      radial-gradient(900px 520px at 15% -10%, #1a2454 0%, transparent 60%),
-      radial-gradient(900px 520px at 120% 10%, #401c48 0%, transparent 55%),
-      linear-gradient(180deg, #0b1020 0%, #090e1a 100%);
-      color:var(--txt); font-family: ui-sans-serif,system-ui,Segoe UI,Roboto,Ubuntu; line-height:1.6;}
-    a{color:var(--accent);text-decoration:none}
-    .container{width:min(1200px,94%);margin:0 auto;padding-bottom:32px}
-    header{position:sticky;top:0;z-index:60;background:linear-gradient(180deg,rgba(11,16,32,.92),rgba(11,16,32,.55));border-bottom:1px solid var(--border);backdrop-filter: blur(8px) saturate(130%)}
-    .nav{display:flex;align-items:center;gap:12px;padding:12px 0}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand img{width:44px;height:44px;border-radius:10px}
-    nav.main{display:flex;gap:12px;align-items:center}
+    html,body{
+      margin:0; padding:0;
+      background:
+        radial-gradient(900px 520px at 15% -10%, #1a2454 0%, transparent 60%),
+        radial-gradient(900px 520px at 120% 10%, #401c48 0%, transparent 55%),
+        linear-gradient(180deg, #0b1020 0%, #090e1a 100%);
+      color:var(--txt);
+      font-family: ui-sans-serif,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;
+      line-height:1.6; overflow-x:hidden; scroll-behavior:smooth
+    }
+    a{color:var(--accent); text-decoration:none}
+    img{max-width:100%; height:auto; display:block}
+    .container{width:min(1200px,94%); margin-inline:auto}
+
+    /* Header / Nav */
+    header{position:sticky; top:0; z-index:60;
+      backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg,rgba(11,16,32,.92),rgba(11,16,32,.55));
+      border-bottom:1px solid var(--border)
+    }
+    .nav{display:flex; align-items:center; gap:10px; padding:10px 0}
+    .brand{display:flex; align-items:center; gap:10px}
+    .brand img{width:44px; height:44px; border-radius:10px; box-shadow:0 0 24px rgba(246,180,73,.25)}
+    .brand span{font-weight:900; letter-spacing:.6px}
+    nav.main{display:flex; gap:12px; align-items:center}
+    nav.main a{position:relative; color:var(--txt); padding:8px}
+    nav.main a:after{content:''; position:absolute; left:12px; right:12px; bottom:6px; height:2px; background:transparent; border-radius:4px; transition:background .18s}
+    nav.main a:hover:after, nav.main a.active:after{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
     .spacer{flex:1}
-    .btn{cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));color:var(--txt)}
-    .btn.accent{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#1a1303;border-color:rgba(255,211,106,.85)}
-    .lang-select{border:1px solid var(--border); padding:8px 10px; border-radius:8px; background:#fff; color:#0e1116; font-weight:700}
-    .panel{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow);margin-top:12px}
-    .card{border:1px solid var(--border);border-radius:12px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01))}
+    .btn{cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+      padding:11px 14px; border-radius:12px; border:1px solid var(--border);
+      background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.08));
+      color:#0e1116; font-weight:800; box-shadow:var(--shadow)}
+    .btn.accent{background:linear-gradient(180deg,var(--accent-2),var(--accent));
+      color:#1a1303; border-color:rgba(255,211,106,.85)}
+    .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)); color:var(--txt)}
+    .btn.sm{padding:8px 10px; border-radius:10px; font-weight:700}
+    .lang-select{border:1px solid var(--border); padding:8px 10px; border-radius:10px; background:#ffffff; color:#0e1116; font-weight:800}
+
+    /* Common blocks */
+    .title{font-size:clamp(28px,4.6vw,54px); line-height:1.04; margin:12px 0}
+    .subtitle{color:var(--muted); max-width:68ch}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));
+      border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:var(--shadow); margin-top:14px}
+    .card{border:1px solid var(--border); background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
+      border-radius:14px; padding:14px; box-shadow:var(--shadow)}
     .muted{color:var(--muted)}
-    .contracts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    @media(max-width:980px){.contracts{grid-template-columns:1fr}.mobile-hide{display:none}.brand span{font-size:14px}}
-    .addr{font-family:monospace;background:rgba(255,255,255,.02);padding:6px 8px;border-radius:8px}
-    .addr-wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .link-small{font-size:13px;color:var(--muted)}
-    footer{border-top:1px solid var(--border);margin-top:28px;padding:18px 0;color:var(--muted)}
+    .list{margin:0; padding-left:18px}
+    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:14px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+    .addr{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      background:rgba(255,255,255,.06); padding:6px 8px; border-radius:8px}
+    .addr-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .link-small{font-size:13px; color:var(--muted)}
+
+    /* Mobile */
+    #menuToggle{display:none}
+    @media (max-width:980px){
+      #menuToggle{display:inline-flex}
+      nav.main{position:fixed; inset:60px 10px auto 10px; display:none; flex-direction:column; gap:6px; padding:12px; border:1px solid var(--border); border-radius:12px; background:rgba(11,16,32,.98)}
+      nav.main.open{display:flex}
+      .grid-2,.grid-3{grid-template-columns:1fr}
+      .panel{padding:14px}
+      .title{font-size:clamp(26px,6vw,40px)}
+    }
+
+    footer{border-top:1px solid var(--border); margin-top:34px; padding:18px 0; color:var(--muted)}
   </style>
 </head>
 <body>
+  <!-- HEADER -->
   <header>
     <div class="container nav">
       <a class="brand" href="#top" aria-label="NellyCoin Home">
         <img src="assets/nelly/logo.png" alt="NellyCoin logo"/>
         <span>NellyCoin (NLY)</span>
       </a>
-
+      <button id="menuToggle" aria-label="Ouvrir le menu" class="btn ghost">☰</button>
       <nav class="main" id="mainNav" aria-label="Main navigation">
         <a href="#about" data-i18n="nav.about">À propos</a>
         <a href="#tokenomics" data-i18n="nav.tokenomics">Tokenomics</a>
         <a href="#howto" data-i18n="nav.howto">Comment acheter</a>
         <a href="#roadmap" data-i18n="nav.roadmap">Feuille de route</a>
-        <a href="#staking" data-i18n="nav.staking">Staking</a>
+        <a href="staking.html" data-i18n="nav.staking">Staking</a>
         <a href="#links" data-i18n="nav.links">Liens</a>
         <a href="faq.html" data-i18n="nav.faq">FAQ</a>
       </nav>
-
       <div class="spacer"></div>
-      <select id="lang" class="lang-select" title="Langue">
-        <option value="fr">FR</option>
-        <option value="en">EN</option>
-      </select>
-      <a class="btn accent" href="#tokenomics" id="buyBtn">Acheter</a>
+      <select id="lang" class="lang-select" title="Langue"><option value="fr">FR</option><option value="en">EN</option></select>
+      <a class="btn accent" href="#howto" id="buyBtn">💱 <span data-i18n="nav.buy">Acheter NLY</span></a>
     </div>
   </header>
 
+  <!-- HERO -->
   <main class="container" id="top">
-    <!-- HERO -->
     <section class="panel">
-      <h1 style="margin:6px 0 8px" class="title" data-i18n="hero.title">NellyCoin — la mascotte de la communauté</h1>
-      <p class="muted" data-i18n="hero.subtitle">NellyCoin (NLY) est un meme coin communautaire inspiré par Nelly le chat. Transparence, humour, et utilité progressive.</p>
+      <span class="muted">⚡ BNB Smart Chain (BSC)</span>
+      <h1 class="title" data-i18n="hero.title">NellyCoin — la mascotte de la communauté</h1>
+      <p class="subtitle" data-i18n="hero.subtitle">NellyCoin (NLY) est un meme coin communautaire inspiré par Nelly le chat. Transparence, humour, et utilité progressive.</p>
     </section>
 
     <!-- ABOUT -->
-    <section id="about" class="panel">
+    <section class="panel" id="about">
       <h2 data-i18n="about.title">Pourquoi NellyCoin ?</h2>
-      <ul class="muted">
+      <ul class="list muted" style="margin-top:8px">
         <li data-i18n="about.p1">Projet communautaire sur BSC : fun, transparence et vision long terme.</li>
         <li data-i18n="about.p2">Contrat public et LP lock publiés.</li>
         <li data-i18n="about.p3">Utilités progressives (staking, concours, intégrations).</li>
@@ -93,212 +135,215 @@
     </section>
 
     <!-- TOKENOMICS -->
-    <section id="tokenomics" class="panel">
+    <section class="panel" id="tokenomics">
       <h2 data-i18n="tok.title">Tokenomics</h2>
       <p class="muted">Supply total: <b>1,000,000,000 NLY</b></p>
+      <div class="grid-2" style="margin-top:10px">
+        <div class="card"><b>Liquidity Pool</b><br/><span class="muted">30%</span></div>
+        <div class="card"><b>Marketing</b><br/><span class="muted">10% (100M)</span></div>
+        <div class="card"><b>Réserve</b><br/><span class="muted">35% 🔒</span></div>
+        <div class="card"><b>Staking/Rewards</b><br/><span class="muted">25% (250M)</span></div>
+      </div>
     </section>
 
-    <!-- OFFICIAL ADDRESSES -->
-    <section id="links" class="panel">
-      <h2 data-i18n="links.title">Liens officiels & Adresses</h2>
-      <div class="contracts">
+    <!-- HOW TO BUY -->
+    <section class="panel" id="howto">
+      <h2 data-i18n="how.title">Comment acheter</h2>
+      <ol class="list">
+        <li data-i18n="how.l1">Installer MetaMask/Trust Wallet → Réseau BSC.</li>
+        <li data-i18n="how.l2">Ajouter des BNB.</li>
+        <li data-i18n="how.l3">Ouvrir PancakeSwap et importer le contrat du token.</li>
+        <li data-i18n="how.l4">Slippage: 0.1–5% selon taxes actives.</li>
+      </ol>
+    </section>
 
+    <!-- OFFICIAL LINKS + ADDRESSES -->
+    <section class="panel" id="links">
+      <h2 data-i18n="links.title">Liens officiels & Adresses</h2>
+
+      <div class="grid-2" style="margin-top:10px">
         <!-- TOKEN CONTRACT -->
         <div class="card">
           <h3>🧾 <span data-i18n="addr.tokenTitle">Contrat NellyCoin (Token)</span></h3>
-          <div class="addr-wrap">
-            <code id="tokenAddrMasked" class="addr">0x4bFf…804b5</code>
-            <button class="btn" id="revealToken">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn" id="copyToken">📋 <span data-i18n="btn.copy">Copier</span></button>
-          </div>
-          <div style="margin-top:8px" class="link-small">
-            <a id="tokenBsc" href="https://bscscan.com/address/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">🔍 BscScan</a>
-            &nbsp; • &nbsp;
-            <a id="tokenDex" href="https://www.dextools.io" target="_blank">📊 Dexscreener</a>
+          <div class="addr-row">
+            <code id="tokenAddr" class="addr">0x0000…0000</code>
+            <button class="btn sm" id="revealToken">👁️ <span data-i18n="btn.view">Voir</span></button>
+            <button class="btn sm" id="copyToken">📋 <span data-i18n="btn.copy">Copier</span></button>
+            <a class="btn sm" id="bscToken" target="_blank" rel="noopener">🔍 BscScan</a>
           </div>
         </div>
 
         <!-- MARKETING WALLET -->
         <div class="card">
           <h3>💰 <span data-i18n="addr.mktTitle">Portefeuille Marketing</span></h3>
-          <div class="addr-wrap">
-            <code id="mktAddrMasked" class="addr">0xdb53…d494</code>
-            <button class="btn" id="revealMkt">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn" id="copyMkt">📋 <span data-i18n="btn.copy">Copier</span></button>
+          <div class="addr-row">
+            <code id="mktAddr" class="addr">0x0000…0000</code>
+            <button class="btn sm" id="revealMkt">👁️ <span data-i18n="btn.view">Voir</span></button>
+            <button class="btn sm" id="copyMkt">📋 <span data-i18n="btn.copy">Copier</span></button>
+            <a class="btn sm" id="bscMkt" target="_blank" rel="noopener">🔍 BscScan</a>
           </div>
-          <div style="margin-top:8px" class="link-small">
-            <a id="mktBsc" href="https://bscscan.com/address/0xdb53d652d88e3eb7adda48a69b7f83610d76d494" target="_blank">🔍 BscScan</a>
-            &nbsp; • &nbsp;
-            <span class="muted">Allocation: <strong>100,000,000 NLY</strong></span>
-          </div>
+          <small class="muted">Allocation: <b>100,000,000 NLY</b></small>
         </div>
 
         <!-- STAKING WALLET -->
         <div class="card">
           <h3>🪙 <span data-i18n="addr.stkTitle">Portefeuille Staking</span></h3>
-          <div class="addr-wrap">
-            <code id="stkAddrMasked" class="addr">0xa90c…2e51</code>
-            <button class="btn" id="revealStk">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn" id="copyStk">📋 <span data-i18n="btn.copy">Copier</span></button>
+          <div class="addr-row">
+            <code id="stkAddr" class="addr">0x0000…0000</code>
+            <button class="btn sm" id="revealStk">👁️ <span data-i18n="btn.view">Voir</span></button>
+            <button class="btn sm" id="copyStk">📋 <span data-i18n="btn.copy">Copier</span></button>
+            <a class="btn sm" id="bscStk" target="_blank" rel="noopener">🔍 BscScan</a>
           </div>
-          <div style="margin-top:8px" class="link-small">
-            <a id="stkBsc" href="https://bscscan.com/address/0xa90c2b54d230859386e9640073a47aca56962e51" target="_blank">🔍 BscScan</a>
-            &nbsp; • &nbsp;
-            <span class="muted">Allocation: <strong>250,000,000 NLY</strong></span>
-          </div>
+          <small class="muted">Allocation: <b>250,000,000 NLY</b></small>
         </div>
 
-        <!-- LOCKED TOKENS -->
+        <!-- LOCKED -->
         <div class="card">
           <h3>🔒 <span data-i18n="addr.lockTitle">Jetons verrouillés</span></h3>
-          <div class="addr-wrap">
+          <div class="addr-row">
             <code class="addr">350,000,000 NLY</code>
-            <button class="btn" id="openLock">🔗 <span data-i18n="btn.viewLock">Voir le lock</span></button>
+            <a class="btn sm" id="openLock" target="_blank" rel="noopener">🔗 <span data-i18n="btn.viewLock">Voir le lock</span></a>
           </div>
-          <div style="margin-top:8px" class="link-small">
-            <a id="lockLink" href="https://www.pinksale.finance/pinklock/bsc/record/1369793" target="_blank">PinkLock — record #1369793</a>
-            &nbsp; • &nbsp;
-            <span class="muted">Déverrouillage: <strong>26 octobre 2026</strong></span>
-          </div>
+          <small class="muted">Déverrouillage: <b>26 octobre 2026</b></small>
         </div>
+      </div>
 
+      <hr style="border:none; border-top:1px solid var(--border); margin:12px 0">
+      <div class="grid-3">
+        <div>
+          <h3>Communauté</h3>
+          <ul class="list">
+            <li>Twitter/X: <a href="https://x.com/NellyCoin" target="_blank">@NellyCoin</a></li>
+            <li>Telegram: <a href="https://t.me/NellyCoinOfficial" target="_blank">t.me/NellyCoinOfficial</a></li>
+            <li>Reddit: <a href="https://reddit.com/r/NellyCoin" target="_blank">r/NellyCoin</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Suivi</h3>
+          <ul class="list">
+            <li>📊 <a id="dexLink" href="#" target="_blank">Dexscreener</a></li>
+            <li>🔍 <a id="tokenLink" href="#" target="_blank">BscScan</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <p class="muted">contact@nellycoin.io</p>
+        </div>
       </div>
     </section>
 
-    <!-- CONTACT / COMMUNITY -->
-    <section class="panel">
-      <h2 data-i18n="community.title">Communauté & Contacts</h2>
-      <ul class="muted">
-        <li>Twitter/X: <a href="https://x.com/NellyCoin" target="_blank">@NellyCoin</a></li>
-        <li>Telegram: <a href="https://t.me/NellyCoinOfficial" target="_blank">t.me/NellyCoinOfficial</a></li>
-        <li>Reddit: <a href="https://reddit.com/r/NellyCoin" target="_blank">r/NellyCoin</a></li>
-        <li>Contact: <a href="mailto:contact@nellycoin.io">contact@nellycoin.io</a></li>
-      </ul>
+    <!-- ROADMAP (ancre) -->
+    <section class="panel" id="roadmap">
+      <h2 data-i18n="road.title">Feuille de route</h2>
+      <div class="grid-3">
+        <div class="card"><h4>Phase 1</h4><ul class="list"><li>Lancement du site</li><li>Communautés</li></ul></div>
+        <div class="card"><h4>Phase 2</h4><ul class="list"><li>Pré-vente</li><li>Listing PancakeSwap</li></ul></div>
+        <div class="card"><h4>Phase 3</h4><ul class="list"><li>Staking</li><li>Partenariats</li></ul></div>
+      </div>
     </section>
 
     <!-- DISCLAIMER -->
-    <section id="disclaimer" class="panel">
+    <section class="panel" id="disclaimer">
       <h3 data-i18n="disc.title">Avertissement</h3>
-      <p class="muted" data-i18n="disc.text">NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).</p>
+      <p class="muted" data-i18n="disc.text">
+        NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future.
+        Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).
+      </p>
     </section>
   </main>
 
   <footer>
-    <div class="container" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
-      <div>© <span id="year"></span> NellyCoin — <b>Tous droits réservés</b>.</div>
+    <div class="container" style="display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap">
+      <div>© <span id="year"></span> NellyCoin — <b data-i18n="foot.all">Tous droits réservés</b>.</div>
       <div style="opacity:.85">Made with 🧡 • BSC • <a href="mailto:contact@nellycoin.io">contact@nellycoin.io</a></div>
     </div>
   </footer>
 
   <script>
-    // ---- SETTINGS: addresses (full) ----
+    // PWA (safe)
+    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(()=>{}); }); }
+
+    // Settings (adresses officielles)
     const SETTINGS = {
-      TOKEN_ADDRESS: '0x4bFfd4359a06583713df160da5817737654804b5',
-      MKT_ADDRESS:   '0xdb53d652d88e3eb7adda48a69b7f83610d76d494',
-      STK_ADDRESS:   '0xa90c2b54d230859386e9640073a47aca56962e51',
-      PINKLOCK_URL:  'https://www.pinksale.finance/pinklock/bsc/record/1369793'
+      TOKEN_ADDRESS:'0x4bFfd4359a06583713df160da5817737654804b5',
+      MKT_ADDRESS:'0xdb53d652d88e3eb7adda48a69b7f83610d76d494',
+      STK_ADDRESS:'0xa90c2b54d230859386e9640073a47aca56962e51',
+      DEXSCREENER:'#', // à remplir quand la paire sera créée
+      PINKLOCK:'https://www.pinksale.finance/pinklock/bsc/record/1369793'
     };
 
-    // ---- small helpers ----
-    const maskAddr = a => a ? (a.slice(0,6) + '…' + a.slice(-4)) : '—';
-    const $ = s => document.querySelector(s);
+    // Helpers
+    const $=s=>document.querySelector(s);
+    const mask=a=>a ? a.slice(0,6)+'…'+a.slice(-4) : '0x000…0000';
 
-    // ---- fill masked & links ----
-    $('#year').textContent = (new Date()).getFullYear();
-    $('#tokenAddrMasked').textContent = maskAddr(SETTINGS.TOKEN_ADDRESS);
-    $('#mktAddrMasked').textContent   = maskAddr(SETTINGS.MKT_ADDRESS);
-    $('#stkAddrMasked').textContent   = maskAddr(SETTINGS.STK_ADDRESS);
+    // Fill year + links
+    $('#year').textContent=(new Date()).getFullYear();
+    $('#tokenLink').href = 'https://bscscan.com/token/'+SETTINGS.TOKEN_ADDRESS;
+    $('#dexLink').href = SETTINGS.DEXSCREENER || '#';
 
-    $('#tokenBsc').href = 'https://bscscan.com/address/' + SETTINGS.TOKEN_ADDRESS;
-    $('#tokenDex').href = 'https://www.dextools.io'; // replace if you have exact dexscreener link
-    $('#mktBsc').href   = 'https://bscscan.com/address/' + SETTINGS.MKT_ADDRESS;
-    $('#stkBsc').href   = 'https://bscscan.com/address/' + SETTINGS.STK_ADDRESS;
-    $('#lockLink').href = SETTINGS.PINKLOCK_URL;
+    // Address blocks
+    const tokenAddrEl = $('#tokenAddr'), mktAddrEl = $('#mktAddr'), stkAddrEl = $('#stkAddr');
+    tokenAddrEl.textContent = mask(SETTINGS.TOKEN_ADDRESS);
+    mktAddrEl.textContent = mask(SETTINGS.MKT_ADDRESS);
+    stkAddrEl.textContent = mask(SETTINGS.STK_ADDRESS);
+    $('#bscToken').href = 'https://bscscan.com/token/'+SETTINGS.TOKEN_ADDRESS;
+    $('#bscMkt').href = 'https://bscscan.com/address/'+SETTINGS.MKT_ADDRESS;
+    $('#bscStk').href = 'https://bscscan.com/address/'+SETTINGS.STK_ADDRESS;
+    $('#openLock').href = SETTINGS.PINKLOCK;
 
-    // ---- reveal / copy logic ----
-    function setupRevealCopy(maskElSel, revealBtnSel, copyBtnSel, fullAddress) {
-      const maskEl = document.querySelector(maskElSel);
-      const revealBtn = document.querySelector(revealBtnSel);
-      const copyBtn = document.querySelector(copyBtnSel);
-      let revealed = false;
-      revealBtn.addEventListener('click', () => {
-        if(!revealed) {
-          maskEl.textContent = fullAddress;
-          revealBtn.innerHTML = '🙈 <span data-i18n="btn.hide">Cacher</span>';
-        } else {
-          maskEl.textContent = maskAddr(fullAddress);
-          revealBtn.innerHTML = '👁️ <span data-i18n="btn.view">Voir</span>';
-        }
-        revealed = !revealed;
+    // Reveal / Copy logic
+    function setupRevealCopy(codeEl, btnReveal, btnCopy, full){
+      let revealed=false;
+      btnReveal.addEventListener('click',()=>{
+        if (!revealed){ codeEl.textContent=full; btnReveal.innerHTML='🙈 <span data-i18n="btn.hide">Cacher</span>'; }
+        else { codeEl.textContent=mask(full); btnReveal.innerHTML='👁️ <span data-i18n="btn.view">Voir</span>'; }
+        revealed=!revealed;
       });
-      copyBtn.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(fullAddress);
-          const old = copyBtn.innerHTML;
-          copyBtn.innerHTML = '✅ <span data-i18n="btn.copied">Copié</span>';
-          setTimeout(()=> copyBtn.innerHTML = old, 1200);
-        } catch(e) { /* ignore */ }
+      btnCopy.addEventListener('click', async ()=>{
+        try { await navigator.clipboard.writeText(full); const old=btnCopy.innerHTML; btnCopy.innerHTML='✅ <span data-i18n="btn.copied">Copié</span>'; setTimeout(()=>btnCopy.innerHTML=old,1200); } catch {}
       });
     }
+    setupRevealCopy(tokenAddrEl, $('#revealToken'), $('#copyToken'), SETTINGS.TOKEN_ADDRESS);
+    setupRevealCopy(mktAddrEl, $('#revealMkt'), $('#copyMkt'), SETTINGS.MKT_ADDRESS);
+    setupRevealCopy(stkAddrEl, $('#revealStk'), $('#copyStk'), SETTINGS.STK_ADDRESS);
 
-    setupRevealCopy('#tokenAddrMasked','#revealToken','#copyToken',SETTINGS.TOKEN_ADDRESS);
-    setupRevealCopy('#mktAddrMasked','#revealMkt','#copyMkt',SETTINGS.MKT_ADDRESS);
-    setupRevealCopy('#stkAddrMasked','#revealStk','#copyStk',SETTINGS.STK_ADDRESS);
-    $('#openLock').addEventListener('click', ()=> window.open(SETTINGS.PINKLOCK_URL,'_blank'));
+    // Mobile menu
+    $('#menuToggle')?.addEventListener('click',()=>$('#mainNav').classList.toggle('open'));
 
-    // ---- i18n (simple) ----
+    // i18n
     const I18N = {
       fr:{
-        'nav.about':'À propos','nav.tokenomics':'Tokenomics','nav.howto':'Comment acheter','nav.roadmap':'Feuille de route','nav.staking':'Staking','nav.links':'Liens','nav.faq':'FAQ',
+        'nav.about':'À propos','nav.tokenomics':'Tokenomics','nav.howto':'Comment acheter','nav.roadmap':'Feuille de route','nav.staking':'Staking','nav.links':'Liens','nav.faq':'FAQ','nav.buy':'Acheter NLY',
         'hero.title':'NellyCoin — la mascotte de la communauté','hero.subtitle':'NellyCoin (NLY) est un meme coin communautaire inspiré par Nelly le chat. Transparence, humour, et utilité progressive.',
         'about.title':'Pourquoi NellyCoin ?','about.p1':'Projet communautaire sur BSC : fun, transparence et vision long terme.','about.p2':'Contrat public et LP lock publiés.','about.p3':'Utilités progressives (staking, concours, intégrations).','about.p4':'Communication régulière et communautaire.','about.p5':'Présence active sur les réseaux sociaux et collaborations NFT.','about.p6':'Engagement envers la transparence et la sécurité technique.',
         'tok.title':'Tokenomics',
+        'how.title':'Comment acheter','how.l1':'Installer MetaMask/Trust Wallet → Réseau BSC.','how.l2':'Ajouter des BNB.','how.l3':'Ouvrir PancakeSwap et importer le contrat du token.','how.l4':'Slippage: 0.1–5% selon taxes actives.',
         'links.title':'Liens officiels & Adresses',
         'addr.tokenTitle':'Contrat NellyCoin (Token)','addr.mktTitle':'Portefeuille Marketing','addr.stkTitle':'Portefeuille Staking','addr.lockTitle':'Jetons verrouillés',
         'btn.view':'Voir','btn.hide':'Cacher','btn.copy':'Copier','btn.copied':'Copié','btn.viewLock':'Voir le lock',
-        'community.title':'Communauté & Contacts',
-        'disc.title':'Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).'
+        'road.title':'Feuille de route',
+        'disc.title':'Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
+        'foot.all':'Tous droits réservés'
       },
       en:{
-        'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.staking':'Staking','nav.links':'Links','nav.faq':'FAQ',
+        'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.staking':'Staking','nav.links':'Links','nav.faq':'FAQ','nav.buy':'Buy NLY',
         'hero.title':'NellyCoin — the community mascot','hero.subtitle':'NellyCoin (NLY) is a community meme coin inspired by Nelly the cat. Transparency, fun and progressive utility.',
         'about.title':'Why NellyCoin?','about.p1':'Community-driven project on BSC: fun, transparency and long-term vision.','about.p2':'Public contract and LP lock published.','about.p3':'Progressive utilities (staking, contests, integrations).','about.p4':'Regular and community-driven communication.','about.p5':'Active social presence and NFT collaborations.','about.p6':'Commitment to transparency and technical security.',
         'tok.title':'Tokenomics',
+        'how.title':'How to buy','how.l1':'Install MetaMask/Trust Wallet → BSC network.','how.l2':'Add some BNB.','how.l3':'Open PancakeSwap and import the token contract.','how.l4':'Slippage: 0.1–5% depending on active taxes.',
         'links.title':'Official Links & Addresses',
         'addr.tokenTitle':'NellyCoin Contract (Token)','addr.mktTitle':'Marketing Wallet','addr.stkTitle':'Staking Wallet','addr.lockTitle':'Locked Tokens',
         'btn.view':'View','btn.hide':'Hide','btn.copy':'Copy','btn.copied':'Copied','btn.viewLock':'View lock',
-        'community.title':'Community & Contacts',
-        'disc.title':'Disclaimer','disc.text':'NellyCoin (NLY) is a community meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).'
+        'road.title':'Roadmap',
+        'disc.title':'Disclaimer','disc.text':'NellyCoin (NLY) is a community meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).',
+        'foot.all':'All rights reserved'
       }
     };
-
-    const langSel = document.getElementById('lang');
-    function applyLang(l){
-      const dict = I18N[l] || I18N.fr;
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
-        const k = el.getAttribute('data-i18n');
-        if(dict[k]) el.innerHTML = dict[k];
-      });
-      // also update buttons that have inline text
-      document.querySelectorAll('#revealToken, #revealMkt, #revealStk').forEach(btn=>{
-        btn.querySelector('span') && (btn.querySelector('span').textContent = dict['btn.view']);
-      });
-      document.querySelectorAll('#copyToken, #copyMkt, #copyStk').forEach(btn=>{
-        btn.querySelector('span') && (btn.querySelector('span').textContent = dict['btn.copy']);
-      });
-      document.querySelector('#openLock span') && (document.querySelector('#openLock span').textContent = dict['btn.viewLock']);
-    }
-    langSel.value = localStorage.getItem('nly_lang') || 'fr';
-    applyLang(langSel.value);
+    const langSel=document.getElementById('lang');
+    function applyLang(l){ const d=I18N[l]||I18N.fr; document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n'); if(d[k]) el.innerHTML=d[k];}); }
+    const savedLang = localStorage.getItem('nly_lang') || 'fr';
+    langSel.value = savedLang; applyLang(savedLang);
     langSel.addEventListener('change', e=>{ localStorage.setItem('nly_lang', e.target.value); applyLang(e.target.value); });
-
-    // ---- PWA service worker register (safe) ----
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker && navigator.serviceWorker.register('/sw.js').catch(()=>{});
-      });
-    }
   </script>
 </body>
 </html>
-
