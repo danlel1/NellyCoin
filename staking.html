@@ -1,0 +1,357 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NellyCoin — Staking</title>
+  <meta name="description" content="Staker vos NLY sur BNB Smart Chain. Plans 3/6/9/12 mois, APY indicatif. Connexion multi‑wallet (MetaMask, Binance Wallet, WalletConnect)." />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/assets/nelly/logo.png" />
+  <style>
+    :root{--bg:#0b1020;--panel:#0f1631;--card:#121a38;--muted:#c7d2ea;--txt:#ffffff;--accent:#f6b449;--accent-2:#ffd36a;--ok:#22c55e;--down:#ef4444;--border:rgba(255,255,255,.22);--shadow:0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08)}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:radial-gradient(900px 520px at 15% -10%, #1a2454 0%, transparent 60%),radial-gradient(900px 520px at 120% 10%, #401c48 0%, transparent 55%),linear-gradient(180deg, #0b1020 0%, #090e1a 100%);color:var(--txt);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;line-height:1.6;overflow-x:hidden}
+    a{color:var(--accent);text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+    .container{width:min(1200px,94%);margin-inline:auto}
+    header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(140%) blur(10px);background:linear-gradient(180deg,rgba(11,16,32,.92),rgba(11,16,32,.55));border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;gap:10px;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:44px;height:44px;border-radius:10px;box-shadow:0 0 24px rgba(246,180,73,.25)}
+    .brand span{font-weight:900;letter-spacing:.6px}
+    nav.main{display:flex;gap:12px;align-items:center}
+    nav.main a{position:relative;color:var(--txt);padding:8px}
+    nav.main a:after{content:'';position:absolute;left:12px;right:12px;bottom:6px;height:2px;background:transparent;border-radius:4px;transition:background .18s}
+    nav.main a:hover:after,nav.main a.active:after{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    .spacer{flex:1}
+    .btn{cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:11px 14px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.08));color:#0e1116;font-weight:800;box-shadow:var(--shadow);transition:transform .15s ease, box-shadow .2s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(246,180,73,.18), inset 0 1px 0 rgba(255,255,255,.12)}
+    .btn.accent{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#1a1303;border-color:rgba(255,211,106,.85)}
+    .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));color:var(--txt)}
+    .btn.sm{padding:8px 10px;border-radius:10px;font-weight:700}
+    .btn.disabled, .disabled .btn{opacity:.5;pointer-events:none;filter:grayscale(30%)}
+    .lang-select{border:1px solid var(--border);padding:8px 10px;border-radius:10px;background:#ffffff;color:#0e1116;font-weight:800}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+    .card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .grid-2{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+    .muted{color:var(--muted)}
+    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:999px;padding:6px 10px;background:rgba(255,255,255,.06)}
+    .status.warn{border-color:#f59e0b;color:#f59e0b;background:rgba(245,158,11,.1)}
+    .status.ok{border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.12)}
+    .staking-off{filter:grayscale(20%);opacity:.85}
+    input[type="number"], input[type="text"]{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--txt)}
+    table{width:100%;border-collapse:separate;border-spacing:0}
+    th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left}
+    th{color:var(--muted);font-weight:600}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.nav{flex-wrap:wrap}}/* Simple modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal .box{width:min(480px,96%);background:#0f1631;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:14px}
+.wallet-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wallet-btn{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));color:var(--txt);cursor:pointer}
+.wallet-btn:hover{border-color:var(--accent)}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/index.html" aria-label="NellyCoin Home">
+        <img src="/assets/nelly/logo.png" alt="NellyCoin logo"/>
+        <span>NellyCoin (NLY)</span>
+      </a>
+      <nav class="main" id="mainNav" aria-label="Main navigation">
+        <a href="/index.html#about" data-i18n="nav.about">À propos</a>
+        <a href="/index.html#tokenomics" data-i18n="nav.tokenomics">Tokenomics</a>
+        <a href="/index.html#howto" data-i18n="nav.howto">Comment acheter</a>
+        <a href="/index.html#roadmap" data-i18n="nav.roadmap">Feuille de route</a>
+        <a href="/faq.html" data-i18n="nav.faq">FAQ</a>
+        <a class="active" href="/staking.html" data-i18n="nav.staking">Staking</a>
+        <a href="/index.html#links" data-i18n="nav.links">Liens</a>
+      </nav>
+      <div class="spacer"></div>
+      <select id="lang" class="lang-select" title="Langue"><option value="fr">FR</option><option value="en">EN</option></select>
+    </div>
+  </header> <main class="container" style="padding:20px 0 30px">
+    <!-- Dashboard top -->
+    <div class="panel" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span id="stakingStatus" class="pill status warn" data-i18n="stake.off">⚠️ Le staking est désactivé</span>
+        <span class="pill" title="Token"><b>NLY</b> • BSC</span>
+        <a class="pill" target="_blank" href="https://bscscan.com/token/0x4bFfd4359a06583713df160da5817737654804b5">🔍 BscScan</a>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button id="connectBtn" class="btn accent">🔗 <span data-i18n="btn.connect">Connecter</span></button>
+        <button id="disconnectBtn" class="btn ghost">⏏︎ <span data-i18n="btn.disconnect">Déconnecter</span></button>
+        <button id="toggleStake" class="btn">🔓 <span data-i18n="stake.enable">Activer le staking</span></button>
+      </div>
+    </div><div class="grid-2" style="margin-top:16px">
+  <!-- Left: staking plans -->
+  <section>
+    <div class="card" style="margin-bottom:12px">
+      <h2 style="margin:0 0 6px" data-i18n="stake.title">Plans de staking</h2>
+      <p class="muted" data-i18n="stake.subtitle">Choisissez une durée. APY indicatif. Les récompenses se calculent sur la période.</p>
+    </div>
+    <div id="plans" class="grid staking-off">
+      <!-- Plan template items -->
+      <div class="card plan" data-months="3" data-apy="8">
+        <h3 style="margin:0">3 <span data-i18n="mo">mois</span> — <b>8% APY</b></h3>
+        <p class="muted" data-i18n="stake.lock3">Verrouillage 3 mois. Idéal pour démarrer.</p>
+        <label data-i18n="amount">Montant (NLY)</label>
+        <input type="number" min="0" step="0.000001" placeholder="0.0" class="amt" />
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn sm approve" data-i18n="btn.approve">Approuver</button>
+          <button class="btn sm stake" data-i18n="btn.stake">Staker</button>
+        </div>
+      </div>
+      <div class="card plan" data-months="6" data-apy="12">
+        <h3 style="margin:0">6 <span data-i18n="mo">mois</span> — <b>12% APY</b></h3>
+        <p class="muted" data-i18n="stake.lock6">Verrouillage 6 mois. Rendement équilibré.</p>
+        <label data-i18n="amount">Montant (NLY)</label>
+        <input type="number" min="0" step="0.000001" placeholder="0.0" class="amt" />
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn sm approve" data-i18n="btn.approve">Approuver</button>
+          <button class="btn sm stake" data-i18n="btn.stake">Staker</button>
+        </div>
+      </div>
+      <div class="card plan" data-months="9" data-apy="16">
+        <h3 style="margin:0">9 <span data-i18n="mo">mois</span> — <b>16% APY</b></h3>
+        <p class="muted" data-i18n="stake.lock9">Verrouillage 9 mois. Pour holders engagés.</p>
+        <label data-i18n="amount">Montant (NLY)</label>
+        <input type="number" min="0" step="0.000001" placeholder="0.0" class="amt" />
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn sm approve" data-i18n="btn.approve">Approuver</button>
+          <button class="btn sm stake" data-i18n="btn.stake">Staker</button>
+        </div>
+      </div>
+      <div class="card plan" data-months="12" data-apy="20">
+        <h3 style="margin:0">12 <span data-i18n="mo">mois</span> — <b>20% APY</b></h3>
+        <p class="muted" data-i18n="stake.lock12">Verrouillage 12 mois. Rendement maximum.</p>
+        <label data-i18n="amount">Montant (NLY)</label>
+        <input type="number" min="0" step="0.000001" placeholder="0.0" class="amt" />
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn sm approve" data-i18n="btn.approve">Approuver</button>
+          <button class="btn sm stake" data-i18n="btn.stake">Staker</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3 style="margin:0 0 6px" data-i18n="how.title">Comment démarrer ?</h3>
+      <ol class="muted" style="margin:6px 0 0 18px">
+        <li data-i18n="how.l1">Connectez votre wallet (BSC).</li>
+        <li data-i18n="how.l2">Approuvez NLY pour le contrat de staking.</li>
+        <li data-i18n="how.l3">Choisissez un plan et staker le montant souhaité.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Right: wallet & actions -->
+  <aside>
+    <div class="card" style="margin-bottom:12px">
+      <h3 style="margin:0 0 6px" data-i18n="wallet.title">Ton wallet</h3>
+      <div class="muted" id="walletAddr">—</div>
+      <div class="muted" id="walletNet">BSC</div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
+      <div><small class="muted" data-i18n="wallet.balance">Solde NLY</small></div>
+      <div id="nlyBalance"><b>—</b></div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 6px" data-i18n="pos.title">Vos positions</h3>
+      <div id="positions" class="muted" data-i18n="pos.empty">Aucune position pour le moment.</div>
+    </div>
+    <div class="panel" style="margin-top:12px">
+      <h3 style="margin:0 0 6px" data-i18n="claim.title">Réclamer & Retirer</h3>
+      <label data-i18n="claim.id">ID de position</label>
+      <input id="positionId" type="text" placeholder="#"/>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button class="btn sm ghost disabled" id="claimBtn" data-i18n="btn.claim">Réclamer</button>
+        <button class="btn sm disabled" id="exitBtn" data-i18n="btn.exit">Exit</button>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:12px">
+      <h3 style="margin:0 0 6px" data-i18n="warn.title">Avertissement</h3>
+      <p class="muted" data-i18n="warn.text">Les tokens stakés sont verrouillés pendant la durée choisie. Les crypto‑actifs sont volatils et risqués. Faites vos propres recherches (DYOR).</p>
+    </div>
+  </aside>
+</div>
+
+  </main> <footer style="border-top:1px solid var(--border);padding:18px 0;color:var(--muted)">
+    <div class="container" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+      <div>© <span id="year"></span> NellyCoin — <b data-i18n="foot.all">Tous droits réservés</b>.</div>
+      <div style="opacity:.85">Made with 🧡 • BSC • <a href="mailto:contact@nellycoin.io">contact@nellycoin.io</a></div>
+    </div>
+  </footer> <!-- WalletConnect v2 (UMD) --> <script src="https://unpkg.com/@walletconnect/ethereum-provider@2/dist/index.umd.min.js"></script> <script>
+    // ========= PWA =========
+    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(()=>{}); }); }
+
+    // ========= SETTINGS =========
+    const SETTINGS = {
+      TOKEN_ADDRESS:'0x4bFfd4359a06583713df160da5817737654804b5',
+      STAKING_ADDRESS:'', // à renseigner après déploiement
+      WC_PROJECT_ID:'REPLACE_WITH_YOUR_WALLETCONNECT_PROJECT_ID', // 👉 Crée un ID gratuit sur https://cloud.walletconnect.com
+      RPC_BSC:'https://bsc-dataseed.binance.org',
+      DEFAULT_LANG:(localStorage.getItem('nly_lang')||'fr')
+    };
+
+    // ========= i18n =========
+    const I18N = {
+      fr:{
+        'nav.about':'À propos','nav.tokenomics':'Tokenomics','nav.howto':'Comment acheter','nav.roadmap':'Feuille de route','nav.faq':'FAQ','nav.staking':'Staking','nav.links':'Liens',
+        'stake.off':'⚠️ Le staking est désactivé','stake.on':'✅ Le staking est activé','stake.enable':'Activer le staking','stake.disable':'Désactiver le staking','stake.title':'Plans de staking','stake.subtitle':'Choisissez une durée. APY indicatif. Les récompenses se calculent sur la période.',
+        'stake.lock3':'Verrouillage 3 mois. Idéal pour démarrer.','stake.lock6':'Verrouillage 6 mois. Rendement équilibré.','stake.lock9':'Verrouillage 9 mois. Pour holders engagés.','stake.lock12':'Verrouillage 12 mois. Rendement maximum.',
+        'mo':'mois','amount':'Montant (NLY)','btn.approve':'Approuver','btn.stake':'Staker','btn.connect':'Connecter','btn.disconnect':'Déconnecter','btn.claim':'Réclamer','btn.exit':'Exit',
+        'how.title':'Comment démarrer ?','how.l1':'Connectez votre wallet (BSC).','how.l2':'Approuvez NLY pour le contrat de staking.','how.l3':'Choisissez un plan et staker le montant souhaité.',
+        'wallet.title':'Ton wallet','wallet.balance':'Solde NLY',
+        'pos.title':'Vos positions','pos.empty':'Aucune position pour le moment.',
+        'claim.title':'Réclamer & Retirer','claim.id':'ID de position',
+        'warn.title':'Avertissement','warn.text':'Les tokens stakés sont verrouillés pendant la durée choisie. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
+        'foot.all':'Tous droits réservés',
+        'modal.title':'Choisir un portefeuille','modal.mm':'MetaMask (extension)','modal.bw':'Binance Wallet (extension)','modal.wc':'WalletConnect (QR pour Trust, Coinbase, OKX, etc.)'
+      },
+      en:{
+        'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.faq':'FAQ','nav.staking':'Staking','nav.links':'Links',
+        'stake.off':'⚠️ Staking is disabled','stake.on':'✅ Staking is enabled','stake.enable':'Enable staking','stake.disable':'Disable staking','stake.title':'Staking plans','stake.subtitle':'Pick a duration. Indicative APY. Rewards accrue over the period.',
+        'stake.lock3':'3-month lock. Great to start.','stake.lock6':'6-month lock. Balanced yield.','stake.lock9':'9-month lock. For committed holders.','stake.lock12':'12-month lock. Maximum yield.',
+        'mo':'months','amount':'Amount (NLY)','btn.approve':'Approve','btn.stake':'Stake','btn.connect':'Connect','btn.disconnect':'Disconnect','btn.claim':'Claim','btn.exit':'Exit',
+        'how.title':'How to start?','how.l1':'Connect your wallet (BSC).','how.l2':'Approve NLY for the staking contract.','how.l3':'Pick a plan and stake the desired amount.',
+        'wallet.title':'Your wallet','wallet.balance':'NLY balance',
+        'pos.title':'Your positions','pos.empty':'No positions yet.',
+        'claim.title':'Claim & Withdraw','claim.id':'Position ID',
+        'warn.title':'Disclaimer','warn.text':'Staked tokens are locked for the chosen duration. Crypto assets are volatile and risky. Do your own research (DYOR).',
+        'foot.all':'All rights reserved',
+        'modal.title':'Choose a wallet','modal.mm':'MetaMask (extension)','modal.bw':'Binance Wallet (extension)','modal.wc':'WalletConnect (QR for Trust, Coinbase, OKX, etc.)'
+      }
+    };
+    const i18n={lang:SETTINGS.DEFAULT_LANG,t:(k)=> (I18N[i18n.lang]&&I18N[i18n.lang][k])||I18N['fr'][k]||k,apply(){document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n'); const html=i18n.t(key); if(html) el.innerHTML=html;});},set(l){i18n.lang=l; localStorage.setItem('nly_lang',l); i18n.apply();}};
+
+    // ========= Helpers =========
+    const $=s=>document.querySelector(s); const $$=s=>document.querySelectorAll(s);
+    function short(a){return a? a.slice(0,6)+'…'+a.slice(-4):'—'}
+    function toHex(n){return '0x'+Number(n).toString(16)}
+    function pad64(addr){return '000000000000000000000000'+addr.toLowerCase().replace('0x','')}
+
+    // ========= Wallet state =========
+    const wallet = { provider:null, type:null, addr:null, chainId:null, connected:false };
+    function renderWallet(){ $('#walletAddr').textContent = wallet.addr? short(wallet.addr): '—'; $('#walletNet').textContent = wallet.chainId===56?'BSC Mainnet': (wallet.chainId===97?'BSC Testnet':'—'); }
+
+    // ========= Balances =========
+    async function getNativeBalance(){
+      if(!wallet.provider || !wallet.addr) return;
+      const balHex = await wallet.provider.request({ method:'eth_getBalance', params:[wallet.addr,'latest'] });
+      const bal = (parseInt(balHex,16)/1e18).toFixed(4);
+      return bal;
+    }
+    async function getTokenBalance(){
+      if(!wallet.provider || !wallet.addr) return;
+      // balanceOf(address) -> 0x70a08231
+      const data = '0x70a08231000000000000000000000000'+ wallet.addr.replace('0x','');
+      const res = await wallet.provider.request({ method:'eth_call', params:[{to:SETTINGS.TOKEN_ADDRESS, data}, 'latest'] });
+      const bal = parseInt(res,16);
+      if(isNaN(bal)) return '0.0000';
+      return (bal/1e18).toFixed(4);
+    }
+    async function refreshBalances(){
+      const nly = await getTokenBalance();
+      $('#nlyBalance').innerHTML = nly? ('<b>'+nly+' NLY</b>') : '—';
+    }
+
+    // ========= Modal (simple) =========
+    const modal = document.createElement('div');
+    modal.className='modal';
+    modal.innerHTML = `
+      <div class="box">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">
+          <h3 style="margin:0" data-i18n="modal.title">Choisir un portefeuille</h3>
+          <button class="btn sm ghost" id="closeModal">✕</button>
+        </div>
+        <div class="wallet-list">
+          <button class="wallet-btn" id="chooseMM">🦊 <span data-i18n="modal.mm">MetaMask (extension)</span></button>
+          <button class="wallet-btn" id="chooseBW">💼 <span data-i18n="modal.bw">Binance Wallet (extension)</span></button>
+          <button class="wallet-btn" id="chooseWC">📱 <span data-i18n="modal.wc">WalletConnect (QR pour Trust, Coinbase, OKX, etc.)</span></button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+
+    // ========= Connectors =========
+    async function connectMetaMask(){
+      const eth = window.ethereum; if(!eth){ alert('MetaMask non détecté.'); return; }
+      const accounts = await eth.request({ method:'eth_requestAccounts' });
+      const chainId = await eth.request({ method:'eth_chainId' });
+      wallet.provider = eth; wallet.type='metamask'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16); wallet.connected=true;
+      renderWallet(); await refreshBalances();
+      eth.on?.('accountsChanged', (acc)=>{ wallet.addr = acc?.[0]||null; renderWallet(); refreshBalances(); });
+      eth.on?.('chainChanged', (cid)=>{ wallet.chainId=parseInt(cid,16); renderWallet(); });
+    }
+    async function connectBinanceWallet(){
+      const bw = window.BinanceChain; if(!bw){ alert('Binance Wallet non détecté.'); return; }
+      const accounts = await bw.request({ method:'eth_requestAccounts' });
+      const chainId = await bw.request({ method:'eth_chainId' });
+      wallet.provider = bw; wallet.type='binance'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16); wallet.connected=true;
+      renderWallet(); await refreshBalances();
+      bw.on?.('accountsChanged', (acc)=>{ wallet.addr = acc?.[0]||null; renderWallet(); refreshBalances(); });
+      bw.on?.('chainChanged', (cid)=>{ wallet.chainId=parseInt(cid,16); renderWallet(); });
+    }
+    async function connectWalletConnect(){
+      if(!window.WalletConnectEthereumProvider){ alert('SDK WalletConnect indisponible.'); return; }
+      const provider = await window.WalletConnectEthereumProvider.init({
+        projectId: SETTINGS.WC_PROJECT_ID,
+        chains: [56],
+        showQrModal: true,
+        methods:['eth_sendTransaction','eth_signTransaction','eth_sign','personal_sign','eth_signTypedData','eth_requestAccounts'],
+      });
+      await provider.enable();
+      const accounts = await provider.request({ method:'eth_accounts' });
+      const chainId = await provider.request({ method:'eth_chainId' });
+      wallet.provider = provider; wallet.type='walletconnect'; wallet.addr=accounts[0]; wallet.chainId=parseInt(chainId,16); wallet.connected=true;
+      renderWallet(); await refreshBalances();
+      provider.on('accountsChanged', (acc)=>{ wallet.addr = acc?.[0]||null; renderWallet(); refreshBalances(); });
+      provider.on('chainChanged', (cid)=>{ wallet.chainId=parseInt(cid,16); renderWallet(); });
+      provider.on('disconnect', ()=>{ disconnect(); });
+    }
+
+    function openModal(){ modal.classList.add('open'); i18n.apply(); }
+    function closeModal(){ modal.classList.remove('open'); }
+
+    // ========= Staking enable/disable (UI) =========
+    let stakingEnabled=false;
+    function applyStakingState(){
+      const st = document.getElementById('stakingStatus');
+      const btn = document.getElementById('toggleStake');
+      const plans = document.getElementById('plans');
+      const actionable = document.querySelectorAll('.approve,.stake,#claimBtn,#exitBtn');
+      if(stakingEnabled){
+        st.classList.remove('warn'); st.classList.add('ok'); st.textContent = i18n.t('stake.on');
+        btn.innerHTML = '🔒 '+i18n.t('stake.disable');
+        plans.classList.remove('staking-off');
+        actionable.forEach(b=>b.classList.remove('disabled'));
+      } else {
+        st.classList.remove('ok'); st.classList.add('warn'); st.textContent = i18n.t('stake.off');
+        btn.innerHTML = '🔓 '+i18n.t('stake.enable');
+        plans.classList.add('staking-off');
+        actionable.forEach(b=>b.classList.add('disabled'));
+      }
+    }
+
+    function disconnect(){
+      if(wallet.type==='walletconnect' && wallet.provider?.disconnect){ try{ wallet.provider.disconnect(); }catch(_){} }
+      wallet.provider=null; wallet.type=null; wallet.addr=null; wallet.chainId=null; wallet.connected=false;
+      renderWallet(); $('#nlyBalance').innerHTML='—';
+    }
+
+    // ========= Events =========
+    document.getElementById('year').textContent=(new Date()).getFullYear();
+    const langSel=document.getElementById('lang'); langSel.value=i18n.lang; langSel.addEventListener('change', e=> i18n.set(e.target.value));
+    document.getElementById('toggleStake').addEventListener('click',()=>{ stakingEnabled=!stakingEnabled; applyStakingState(); });
+    document.getElementById('connectBtn').addEventListener('click', openModal);
+    document.getElementById('disconnectBtn').addEventListener('click', disconnect);
+    modal.querySelector('#closeModal').addEventListener('click', closeModal);
+    modal.querySelector('#chooseMM').addEventListener('click', async ()=>{ closeModal(); await connectMetaMask(); });
+    modal.querySelector('#chooseBW').addEventListener('click', async ()=>{ closeModal(); await connectBinanceWallet(); });
+    modal.querySelector('#chooseWC').addEventListener('click', async ()=>{ closeModal(); await connectWalletConnect(); });
+
+    // ========= Boot =========
+    i18n.apply(); applyStakingState(); renderWallet();
+  </script></body>
+</html>
