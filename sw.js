@@ -1,4 +1,4 @@
-const CACHE = 'nellycoin-v1';
+const CACHE = 'nellycoin-v2';
 const ASSETS = [
   '/',
   '/manifest.webmanifest',
