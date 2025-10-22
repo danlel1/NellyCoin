@@ -557,25 +557,50 @@
     });
   </script>
 
-  <script>
+<script>
+// Gestion de l'installation PWA
 let deferredPrompt;
+const installBtn = document.getElementById('appInstall');
+
+// Cache l'installation au départ
+if (installBtn) installBtn.style.display = 'none';
+
+// Écoute l'événement de proposition d'installation
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
+  console.log('✅ Événement beforeinstallprompt détecté');
+  if (installBtn) installBtn.style.display = 'inline-flex';
+});
 
-  const installBtn = document.getElementById('appInstall');
-  if (installBtn) {
-    installBtn.style.display = 'inline-flex';
-    installBtn.addEventListener('click', async () => {
+// Clic sur le bouton "Installer"
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) {
+      alert("Ajoute l'app via ton navigateur (Ajouter à l’écran d’accueil).");
+      return;
+    }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log('Résultat de l’installation :', outcome);
+    deferredPrompt = null;
+    if (outcome === 'accepted') {
+      installBtn.textContent = "✅ Installée";
       installBtn.disabled = true;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log(`User response to install prompt: ${outcome}`);
-      deferredPrompt = null;
-    });
+    }
+  });
+}
+
+// Vérifie l'état d'installation
+window.addEventListener('appinstalled', () => {
+  console.log('🎉 NellyCoin installée en PWA !');
+  if (installBtn) {
+    installBtn.textContent = "✅ Déjà installée";
+    installBtn.disabled = true;
   }
 });
 </script>
+
 
 
   
