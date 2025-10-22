@@ -69,8 +69,20 @@ nav.main a:hover:after, nav.main a.active:after{background:linear-gradient(90deg
 .grid-4{display:grid;grid-template-columns:1fr;gap:14px}
 hr.sep{border:none;border-top:1px solid var(--border);margin:12px 0}
 
-/* Banner */
-.banner{width:100%;height:auto;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow);object-fit:cover}
+
+/* Banner (corrigée, fluide et adaptée) */
+.banner {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  overflow: hidden;
+}
 
 /* Layout — MOBILE (ordre réparé) */
 .layout{
@@ -103,7 +115,10 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:12px 0}
 #community{grid-area:community}
 #roadmap{grid-area:roadmap}
 #disclaimer{grid-area:disclaimer}
-
+/* Empêche la bannière de déformer la grille */
+#right .panel {
+  overflow: hidden;
+}
 /* Desktop — disposition inchangée et propre */
 @media (min-width:1000px){
   .grid-2{grid-template-columns:repeat(2,1fr)}
