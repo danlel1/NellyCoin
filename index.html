@@ -558,48 +558,41 @@
   </script>
 
 <script>
+// Enregistre le service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+  .then(() => console.log('✅ Service Worker enregistré'))
+  .catch(err => console.error('❌ Erreur SW', err));
+}
+
+// Gestion du bouton "Installer"
 let deferredPrompt;
 const installBtn = document.getElementById('appInstall');
-
-// On garde le bouton visible pour tests
 if (installBtn) installBtn.style.display = 'inline-flex';
 
-// Détection de l’événement avant installation
 window.addEventListener('beforeinstallprompt', (e) => {
   console.log('🎯 beforeinstallprompt détecté !');
   e.preventDefault();
   deferredPrompt = e;
-
-  if (installBtn) {
-    installBtn.style.display = 'inline-flex';
-    installBtn.textContent = '⬇️ Installer NellyCoin';
-  }
+  if (installBtn) installBtn.style.display = 'inline-flex';
 });
 
-// Gestion du clic sur le bouton “Installer”
 if (installBtn) {
   installBtn.addEventListener('click', async () => {
     if (!deferredPrompt) {
-      alert("Ajoute l'app via ton navigateur (Ajouter à l’écran d’accueil).");
+      alert("Installe l'app via ton navigateur (Ajouter à l’écran d’accueil).");
       return;
     }
-
-    deferredPrompt.prompt(); // Ouvre la fenêtre native d’installation
-
+    deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === 'accepted') {
-      console.log('✅ Installation acceptée');
       installBtn.textContent = '✅ Installée';
       installBtn.disabled = true;
-    } else {
-      console.log('❌ Installation refusée');
     }
-
-    deferredPrompt = null; // Reset
+    deferredPrompt = null;
   });
 }
 
-// Vérifie si l’app a été installée
 window.addEventListener('appinstalled', () => {
   console.log('🎉 NellyCoin installée en PWA !');
   if (installBtn) {
@@ -607,18 +600,12 @@ window.addEventListener('appinstalled', () => {
     installBtn.disabled = true;
   }
 });
-
-// Debug : si besoin, pour vérifier
-window.addEventListener('load', () => {
-  if ('serviceWorker' in navigator) {
-    console.log('🧩 Service Worker prêt');
-  } else {
-    console.warn('⚠️ Service Worker non détecté');
-  }
-});
 </script>
 
 
+
+
+  
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js')
