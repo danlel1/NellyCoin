@@ -1,5 +1,5 @@
-// Nom de version du cache — incrémente à chaque mise à jour
-const CACHE = 'nellycoin-v2';
+// Nom de version du cache – incrémente à chaque mise à jour
+const CACHE = 'nellycoin-v3';
 
 // Fichiers essentiels à mettre en cache (offline)
 const ASSETS = [
@@ -22,33 +22,27 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys
-          .filter(key => key !== CACHE)
-          .map(key => caches.delete(key))
-      )
+      Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))
     )
   );
   self.clients.claim();
 });
 
-// FETCH — répond à la requête avec le cache d’abord, sinon va en ligne
+// FETCH — sert les fichiers du cache si disponibles
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return; // ignore POST, etc.
 
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
-      const fetchPromise = fetch(event.request)
-        .then(networkResponse => {
-          // Met à jour le cache en arrière-plan
-          caches.open(CACHE).then(cache => {
-            cache.put(event.request, networkResponse.clone());
-          });
-          return networkResponse;
-        })
-        .catch(() => cachedResponse || caches.match('/'));
-      return cachedResponse || fetchPromise;
+      return (
+        cachedResponse ||
+        fetch(event.request).then(response => {
+          // met une copie en cache
+          const responseClone = response.clone();
+          caches.open(CACHE).then(cache => cache.put(event.request, responseClone));
+          return response;
+        }).catch(() => caches.match('/'))
+      );
     })
   );
 });
-
