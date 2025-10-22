@@ -57,9 +57,10 @@
       color:#1a1303; border-color:rgba(255,211,106,.85)}
     .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)); color:var(--txt)}
     .btn.sm{padding:8px 10px; border-radius:10px; font-weight:700}
+    .btn.disabled{pointer-events:none; opacity:.6}
     .lang-select{border:1px solid var(--border); padding:8px 10px; border-radius:10px; background:#ffffff; color:#0e1116; font-weight:800}
 
-    /* Common blocks */
+    /* Blocks */
     .title{font-size:clamp(28px,4.6vw,54px); line-height:1.04; margin:12px 0}
     .subtitle{color:var(--muted); max-width:68ch}
     .panel{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));
@@ -73,7 +74,11 @@
     .addr{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
       background:rgba(255,255,255,.06); padding:6px 8px; border-radius:8px}
     .addr-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    .link-small{font-size:13px; color:var(--muted)}
+    .hero-banner{width:100%; height:auto; object-fit:contain; border-radius:12px; margin:8px 0; box-shadow:var(--shadow); background:#0b1020}
+
+    /* PWA FAB */
+    .pwa-fab{position:fixed; right:16px; bottom:16px; z-index:70; display:none}
+    .pwa-fab.show{display:inline-flex}
 
     /* Mobile */
     #menuToggle{display:none}
@@ -119,6 +124,8 @@
       <span class="muted">⚡ BNB Smart Chain (BSC)</span>
       <h1 class="title" data-i18n="hero.title">NellyCoin — la mascotte de la communauté</h1>
       <p class="subtitle" data-i18n="hero.subtitle">NellyCoin (NLY) est un meme coin communautaire inspiré par Nelly le chat. Transparence, humour, et utilité progressive.</p>
+      <!-- Bannière (identique à avant) -->
+      <img class="hero-banner" src="assets/nelly/banniere.jpg" alt="Bannière NellyCoin"/>
     </section>
 
     <!-- ABOUT -->
@@ -146,15 +153,19 @@
       </div>
     </section>
 
-    <!-- HOW TO BUY -->
-    <section class="panel" id="howto">
-      <h2 data-i18n="how.title">Comment acheter</h2>
-      <ol class="list">
-        <li data-i18n="how.l1">Installer MetaMask/Trust Wallet → Réseau BSC.</li>
-        <li data-i18n="how.l2">Ajouter des BNB.</li>
-        <li data-i18n="how.l3">Ouvrir PancakeSwap et importer le contrat du token.</li>
-        <li data-i18n="how.l4">Slippage: 0.1–5% selon taxes actives.</li>
-      </ol>
+    <!-- LIVE DEX (comme avant) -->
+    <section class="panel" id="live">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <h2 style="margin:0" data-i18n="live.title">Cours & Graphique (live)</h2>
+        <small class="muted" id="liveHint" data-i18n="live.hint">Le live chart sera visible après le listing PancakeSwap.</small>
+      </div>
+      <div id="dexFrameWrap" class="card" style="margin-top:10px; padding:0; overflow:hidden; border-radius:12px">
+        <!-- Iframe Dexscreener injecté au listing -->
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px">
+        <a id="openDex" class="btn ghost disabled" href="#" target="_blank" rel="noopener" data-i18n="live.btnDex">Voir sur Dexscreener (bientôt)</a>
+        <a id="openPancake" class="btn ghost disabled" href="#" target="_blank" rel="noopener" data-i18n="live.btnPcs">Trader sur PancakeSwap (bientôt)</a>
+      </div>
     </section>
 
     <!-- ROADMAP (full bilingual) -->
@@ -256,16 +267,22 @@
     </div>
   </footer>
 
+  <!-- PWA install FAB -->
+  <button id="installBtn" class="btn accent pwa-fab">📲 <span data-i18n="pwa.install">Installer l’app</span></button>
+
   <script>
     // PWA (safe)
-    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(()=>{}); }); }
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(()=>{}); });
+    }
 
-    // Settings (adresses officielles)
+    // Settings (adresses officielles + Dex pair placeholder)
     const SETTINGS = {
       TOKEN_ADDRESS:'0x4bFfd4359a06583713df160da5817737654804b5',
       MKT_ADDRESS:'0xdb53d652d88e3eb7adda48a69b7f83610d76d494',
       STK_ADDRESS:'0xa90c2b54d230859386e9640073a47aca56962e51',
-      DEXSCREENER:'#', // à remplir quand la paire sera créée
+      DEXSCREENER_PAIR:'', // ← quand la paire sera créée: "0xPAIRADDRESS"
+      PANCAKE_TRADE:'#',
       PINKLOCK:'https://www.pinksale.finance/pinklock/bsc/record/1369793'
     };
 
@@ -273,10 +290,10 @@
     const $=s=>document.querySelector(s);
     const mask=a=>a ? a.slice(0,6)+'…'+a.slice(-4) : '0x000…0000';
 
-    // Fill year + links
+    // Year + external links
     $('#year').textContent=(new Date()).getFullYear();
     $('#tokenLink').href = 'https://bscscan.com/token/'+SETTINGS.TOKEN_ADDRESS;
-    $('#dexLink').href = SETTINGS.DEXSCREENER || '#';
+    $('#dexLink').href = SETTINGS.DEXSCREENER_PAIR ? ('https://dexscreener.com/bsc/'+SETTINGS.DEXSCREENER_PAIR) : '#';
     $('#openLock').href = SETTINGS.PINKLOCK;
 
     // Address blocks
@@ -310,7 +327,36 @@
     // Mobile menu
     $('#menuToggle')?.addEventListener('click',()=>$('#mainNav').classList.toggle('open'));
 
-    // ---- Roadmap bilingual (swap HTML chunk) ----
+    // Live Dex frame
+    const dexWrap = $('#dexFrameWrap');
+    const openDex = $('#openDex');
+    const openPcs = $('#openPancake');
+    const hint = $('#liveHint');
+
+    function mountDex(){
+      if(SETTINGS.DEXSCREENER_PAIR){
+        // Inject iframe Dexscreener
+        const src='https://dexscreener.com/bsc/'+SETTINGS.DEXSCREENER_PAIR+'?embed=1&theme=dark';
+        const iframe=document.createElement('iframe');
+        iframe.setAttribute('src',src);
+        iframe.setAttribute('style','width:100%;height:520px;border:0;');
+        iframe.setAttribute('loading','lazy');
+        dexWrap.innerHTML='';
+        dexWrap.appendChild(iframe);
+        openDex.classList.remove('disabled'); openDex.href='https://dexscreener.com/bsc/'+SETTINGS.DEXSCREENER_PAIR;
+        if(SETTINGS.PANCAKE_TRADE && SETTINGS.PANCAKE_TRADE!=='#'){ openPcs.classList.remove('disabled'); openPcs.href=SETTINGS.PANCAKE_TRADE; }
+        hint.style.display='none';
+      }else{
+        // Placeholder
+        dexWrap.innerHTML = '<div style="padding:18px" class="muted">Live chart disponible après la création de la paire PancakeSwap.</div>';
+        openDex.classList.add('disabled'); openDex.href='#';
+        openPcs.classList.add('disabled'); openPcs.href='#';
+        hint.style.display='inline';
+      }
+    }
+    mountDex();
+
+    // ---- Roadmap bilingual (HTML chunks) ----
     const ROADMAP = {
       fr: `
       <div class="card">
@@ -410,12 +456,14 @@
         'about.title':'Pourquoi NellyCoin ?','about.p1':'Projet communautaire sur BSC : fun, transparence et vision long terme.','about.p2':'Contrat public et LP lock publiés.','about.p3':'Utilités progressives (staking, concours, intégrations).','about.p4':'Communication régulière et communautaire.','about.p5':'Présence active sur les réseaux sociaux et collaborations NFT.','about.p6':'Engagement envers la transparence et la sécurité technique.',
         'tok.title':'Tokenomics',
         'how.title':'Comment acheter','how.l1':'Installer MetaMask/Trust Wallet → Réseau BSC.','how.l2':'Ajouter des BNB.','how.l3':'Ouvrir PancakeSwap et importer le contrat du token.','how.l4':'Slippage: 0.1–5% selon taxes actives.',
+        'live.title':'Cours & Graphique (live)','live.hint':'Le live chart sera visible après le listing PancakeSwap.','live.btnDex':'Voir sur Dexscreener (bientôt)','live.btnPcs':'Trader sur PancakeSwap (bientôt)',
         'links.title':'Liens officiels & Adresses','links.community':'Communauté & Contacts','links.track':'Suivi',
         'addr.tokenTitle':'Contrat NellyCoin (Token)','addr.mktTitle':'Portefeuille Marketing','addr.stkTitle':'Portefeuille Staking','addr.lockTitle':'Jetons verrouillés',
         'btn.view':'Voir','btn.hide':'Cacher','btn.copy':'Copier','btn.copied':'Copié','btn.viewLock':'Voir le lock',
         'road.title':'Feuille de route',
         'disc.title':'Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
-        'foot.all':'Tous droits réservés'
+        'foot.all':'Tous droits réservés',
+        'pwa.install':'Installer l’app'
       },
       en:{
         'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.staking':'Staking','nav.links':'Links','nav.faq':'FAQ','nav.buy':'Buy NLY',
@@ -423,12 +471,14 @@
         'about.title':'Why NellyCoin?','about.p1':'Community-driven project on BSC: fun, transparency and long-term vision.','about.p2':'Public contract and LP lock published.','about.p3':'Progressive utilities (staking, contests, integrations).','about.p4':'Regular and community-driven communication.','about.p5':'Active social presence and NFT collaborations.','about.p6':'Commitment to transparency and technical security.',
         'tok.title':'Tokenomics',
         'how.title':'How to buy','how.l1':'Install MetaMask/Trust Wallet → BSC network.','how.l2':'Add some BNB.','how.l3':'Open PancakeSwap and import the token contract.','how.l4':'Slippage: 0.1–5% depending on active taxes.',
+        'live.title':'Price & Chart (live)','live.hint':'The live chart will be visible after PancakeSwap listing.','live.btnDex':'View on Dexscreener (soon)','live.btnPcs':'Trade on PancakeSwap (soon)',
         'links.title':'Official Links & Addresses','links.community':'Community & Contacts','links.track':'Tracking',
         'addr.tokenTitle':'NellyCoin Contract (Token)','addr.mktTitle':'Marketing Wallet','addr.stkTitle':'Staking Wallet','addr.lockTitle':'Locked Tokens',
         'btn.view':'View','btn.hide':'Hide','btn.copy':'Copy','btn.copied':'Copied','btn.viewLock':'View lock',
         'road.title':'Roadmap',
         'disc.title':'Disclaimer','disc.text':'NellyCoin (NLY) is a community meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).',
-        'foot.all':'All rights reserved'
+        'foot.all':'All rights reserved',
+        'pwa.install':'Install app'
       }
     };
 
@@ -442,21 +492,38 @@
       const rm = (l==='en')? ROADMAP.en : ROADMAP.fr;
       const grid = document.getElementById('roadmapContent');
       if(grid){ grid.innerHTML = rm; grid.style.display='grid'; grid.style.gridTemplateColumns='repeat(auto-fit,minmax(250px,1fr))'; grid.style.gap='14px'; }
-      // Reset reveal/copy button labels per lang:
-      const view = d['btn.view']||'Voir', copy = d['btn.copy']||'Copier', viewLock = d['btn.viewLock']||'Voir le lock';
+      // Reset small labels (buttons in Live section)
+      const view = d['btn.view']||'Voir';
+      const copy = d['btn.copy']||'Copier';
+      const viewLk = d['btn.viewLock']||'Voir le lock';
+      const pwaTxt = d['pwa.install']||'Installer l’app';
       document.querySelector('#revealToken span')?.replaceChildren(document.createTextNode(view));
       document.querySelector('#revealMkt span')?.replaceChildren(document.createTextNode(view));
       document.querySelector('#revealStk span')?.replaceChildren(document.createTextNode(view));
       document.querySelector('#copyToken span')?.replaceChildren(document.createTextNode(copy));
       document.querySelector('#copyMkt span')?.replaceChildren(document.createTextNode(copy));
       document.querySelector('#copyStk span')?.replaceChildren(document.createTextNode(copy));
-      document.querySelector('#openLock span')?.replaceChildren(document.createTextNode(viewLock));
+      document.querySelector('#openLock span')?.replaceChildren(document.createTextNode(viewLk));
+      document.querySelector('#installBtn span')?.replaceChildren(document.createTextNode(pwaTxt));
     }
 
     const langSel=document.getElementById('lang');
-    const savedLang = localStorage.getItem('nly_lang') || (navigator.language||'fr').slice(0,2).toLowerCase().startsWith('en')?'en':'fr';
+    const savedLang = localStorage.getItem('nly_lang') || ((navigator.language||'fr').toLowerCase().startsWith('en')?'en':'fr');
     langSel.value = savedLang; applyLang(savedLang);
     langSel.addEventListener('change', e=>{ localStorage.setItem('nly_lang', e.target.value); applyLang(e.target.value); });
+
+    // PWA install flow
+    let deferredPrompt=null;
+    window.addEventListener('beforeinstallprompt', (e)=>{
+      e.preventDefault(); deferredPrompt=e;
+      const fab=$('#installBtn'); fab.classList.add('show');
+      fab.onclick=async ()=>{
+        if(!deferredPrompt) return;
+        deferredPrompt.prompt();
+        try{ await deferredPrompt.userChoice; }catch{}
+        deferredPrompt=null; fab.classList.remove('show');
+      };
+    });
   </script>
 </body>
 </html>
