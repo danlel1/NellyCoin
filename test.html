@@ -114,32 +114,33 @@
     #disclaimer{grid-area:disclaimer}
 
     /* Desktop (bannière à droite en haut) */
-    @media (min-width:1000px){
-      .grid-2{grid-template-columns:repeat(2,1fr)}
-      .grid-3{grid-template-columns:repeat(3,1fr)}
-      .grid-4{grid-template-columns:repeat(4,1fr)}
+@media (min-width:1000px){
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
 
-      .layout{
-        grid-template-columns:1.1fr 1fr;
-        grid-template-areas:
-          "hero hero"
-          "why banner"
-          "buy banner"
-          "pwa banner"
-          "status banner"
-          "live banner"
-          "token token"
-          "links links"
-          "community community"
-          "roadmap roadmap"
-          "disclaimer disclaimer";
-        max-width:1200px; margin:0 auto; align-items:start; gap:20px;
-      }
-      /* App : mobile only */
-      #app{display:none}
-      /* Stabilise panneau bannière */
-      #bannerWrap.panel{overflow:hidden}
-    }
+  .layout{
+    grid-template-columns:1.1fr 1fr;
+    grid-template-areas:
+      "hero hero"
+      "why banner"
+      "buy banner"
+      "pwa banner"
+      "status banner"
+      "banner live"
+      "token token"
+      "links links"
+      "community community"
+      "roadmap roadmap"
+      "disclaimer disclaimer";
+    max-width:1200px; margin:0 auto; align-items:start; gap:20px;
+  }
+  #app{display:none}
+  #bannerWrap.panel{overflow:hidden}
+}
+
+
+    
 
     /* Mobile menu */
     #menuToggle{display:none}
