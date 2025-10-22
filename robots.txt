@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /sw.js
+Disallow: /manifest.webmanifest
+Disallow: /assets/*.txt
+
+Sitemap: https://nellycoin.io/sitemap.xml
