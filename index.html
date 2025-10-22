@@ -584,37 +584,7 @@ style="
   </script>
 
   
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const langSelect = document.getElementById("lang-select");
-  const frElements = document.querySelectorAll(".fr");
-  const enElements = document.querySelectorAll(".en");
-
-  // Fonction de mise à jour de la langue
-  const updateLanguage = (lang) => {
-    if (lang === "en") {
-      frElements.forEach(el => el.style.display = "none");
-      enElements.forEach(el => el.style.display = "block");
-    } else {
-      frElements.forEach(el => el.style.display = "block");
-      enElements.forEach(el => el.style.display = "none");
-    }
-    localStorage.setItem("site-lang", lang);
-  };
-
-  // Charger la langue précédente
-  const savedLang = localStorage.getItem("site-lang") || "fr";
-  langSelect.value = savedLang;
-  updateLanguage(savedLang);
-
-  // Écoute du changement de langue
-  langSelect.addEventListener("change", (e) => {
-    updateLanguage(e.target.value);
-  });
-});
-</script>
-
-
+ 
   
 </body>
 </html>
