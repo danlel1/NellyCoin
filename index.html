@@ -605,15 +605,14 @@ window.addEventListener('appinstalled', () => {
 
 
 
-  
-<script>
+
+  <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js')
-  .then(() => console.log('✅ Service Worker enregistré'))
-  .catch(err => console.error('❌ Erreur SW', err));
+  .then(() => console.log('✅ Service Worker enregistré !'))
+  .catch(err => console.error('Erreur SW :', err));
 }
 </script>
-
 
   
 </body>
