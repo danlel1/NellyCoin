@@ -557,34 +557,44 @@
     });
   </script>
 
-<script>
-// Enregistre le service worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-  .then(() => console.log('✅ Service Worker enregistré'))
-  .catch(err => console.error('❌ Erreur SW', err));
-}
 
-// Gestion du bouton "Installer"
+
+
+  <script>
+// --- PWA Installation Automatique pour NellyCoin ---
 let deferredPrompt;
 const installBtn = document.getElementById('appInstall');
-if (installBtn) installBtn.style.display = 'inline-flex';
 
+// Vérifie si le service worker est actif
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(() => console.log('✅ Service Worker enregistré'))
+    .catch(err => console.error('Erreur SW :', err));
+}
+
+// Détecte l'événement "beforeinstallprompt"
 window.addEventListener('beforeinstallprompt', (e) => {
-  console.log('🎯 beforeinstallprompt détecté !');
+  console.log('📲 Événement beforeinstallprompt détecté');
   e.preventDefault();
   deferredPrompt = e;
-  if (installBtn) installBtn.style.display = 'inline-flex';
+  if (installBtn) {
+    installBtn.style.display = 'inline-flex';
+    installBtn.disabled = false;
+  }
 });
 
+// Clique sur le bouton "Installer"
 if (installBtn) {
   installBtn.addEventListener('click', async () => {
     if (!deferredPrompt) {
-      alert("Installe l'app via ton navigateur (Ajouter à l’écran d’accueil).");
+      alert("Installe l'app depuis ton navigateur (Ajouter à l’écran d’accueil).");
       return;
     }
+
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
+    console.log(`🟢 Résultat d’installation : ${outcome}`);
+
     if (outcome === 'accepted') {
       installBtn.textContent = '✅ Installée';
       installBtn.disabled = true;
@@ -593,8 +603,9 @@ if (installBtn) {
   });
 }
 
+// Vérifie si l’app est déjà installée
 window.addEventListener('appinstalled', () => {
-  console.log('🎉 NellyCoin installée en PWA !');
+  console.log('🎉 NellyCoin installée avec succès en PWA !');
   if (installBtn) {
     installBtn.textContent = '✅ Déjà installée';
     installBtn.disabled = true;
@@ -604,15 +615,6 @@ window.addEventListener('appinstalled', () => {
 
 
 
-
-
-  <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-  .then(() => console.log('✅ Service Worker enregistré !'))
-  .catch(err => console.error('Erreur SW :', err));
-}
-</script>
 
   
 </body>
