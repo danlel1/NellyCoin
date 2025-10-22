@@ -119,12 +119,12 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:12px 0}
 #right .panel {
   overflow: hidden;
 }
-/* Desktop — disposition inchangée et propre */
 @media (min-width:1000px){
   .grid-2{grid-template-columns:repeat(2,1fr)}
   .grid-4{grid-template-columns:repeat(4,1fr)}
 
   .layout{
+    display: grid;
     grid-template-columns:1.1fr 1fr;
     grid-template-areas:
       "hero hero"
@@ -134,14 +134,26 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:12px 0}
       "community community"
       "roadmap roadmap"
       "disclaimer disclaimer";
+    gap:20px;
+    max-width:1200px;
+    margin:0 auto;
+    align-items:start;
   }
-  #left,#right{display:flex;flex-direction:column;gap:14px}
+
+  #left,#right{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
   #left{grid-area:left}
   #right{grid-area:right}
 
   /* App cachée sur desktop (mobile uniquement) */
   #app{display:none}
 }
+
+
 
 /* Mobile menu (hamburger) */
 #menuToggle{display:none}
