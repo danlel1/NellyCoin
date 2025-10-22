@@ -10,7 +10,6 @@
 <link rel="apple-touch-icon" href="assets/nelly/logo.png"/>
 <link rel="manifest" href="assets/nelly/site.webmanifest"/>
 
-  
 <style>
 :root{
   --bg:#0b1020;--panel:#0f1631;--card:#121a38;
@@ -383,10 +382,10 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.s
 // CONFIG
 const SETTINGS = {
   TOKEN_ADDRESS:'0x4bFfd4359a06583713df160da5817737654804b5',
-  MKT_ADDRESS  :'0xdb53d652d88e3eb7adda48a69b7f83610d76d494',
-  STK_ADDRESS  :'0xa90c2b54d230859386e9640073a47aca56962e51',
-  PINKLOCK     :'https://www.pinksale.finance/pinklock/bsc/record/1369793',
-  DEX_LINK     :'https://dexscreener.com/bsc/0x4bFfd4359a06583713df160da5817737654804b5'
+  MKT_ADDRESS :'0xdb53d652d88e3eb7adda48a69b7f83610d76d494',
+  STK_ADDRESS :'0xa90c2b54d230859386e9640073a47aca56962e51',
+  PINKLOCK :'https://www.pinksale.finance/pinklock/bsc/record/1369793',
+  DEX_LINK :'https://dexscreener.com/bsc/0x4bFfd4359a06583713df160da5817737654804b5'
 };
 
 // Helpers
@@ -405,11 +404,11 @@ $('#tokenLink').href = 'https://bscscan.com/token/'+SETTINGS.TOKEN_ADDRESS;
 // Adresses (masquées + actions)
 const tokenAddrEl=$('#tokenAddr'), mktAddrEl=$('#mktAddr'), stkAddrEl=$('#stkAddr');
 tokenAddrEl.textContent=mask(SETTINGS.TOKEN_ADDRESS);
-mktAddrEl.textContent  =mask(SETTINGS.MKT_ADDRESS);
-stkAddrEl.textContent  =mask(SETTINGS.STK_ADDRESS);
+mktAddrEl.textContent =mask(SETTINGS.MKT_ADDRESS);
+stkAddrEl.textContent =mask(SETTINGS.STK_ADDRESS);
 $('#bscToken').href='https://bscscan.com/token/'+SETTINGS.TOKEN_ADDRESS;
-$('#bscMkt').href  ='https://bscscan.com/address/'+SETTINGS.MKT_ADDRESS;
-$('#bscStk').href  ='https://bscscan.com/address/'+SETTINGS.STK_ADDRESS;
+$('#bscMkt').href ='https://bscscan.com/address/'+SETTINGS.MKT_ADDRESS;
+$('#bscStk').href ='https://bscscan.com/address/'+SETTINGS.STK_ADDRESS;
 $('#openLock').href=SETTINGS.PINKLOCK;
 
 function setupRevealCopy(codeEl,btnReveal,btnCopy,full){
