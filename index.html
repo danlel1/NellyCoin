@@ -558,48 +558,67 @@
   </script>
 
 <script>
-// Gestion de l'installation PWA
 let deferredPrompt;
 const installBtn = document.getElementById('appInstall');
 
-// Cache l'installation au départ
-if (installBtn) installBtn.style.display = 'none';
+// On garde le bouton visible pour tests
+if (installBtn) installBtn.style.display = 'inline-flex';
 
-// Écoute l'événement de proposition d'installation
+// Détection de l’événement avant installation
 window.addEventListener('beforeinstallprompt', (e) => {
+  console.log('🎯 beforeinstallprompt détecté !');
   e.preventDefault();
   deferredPrompt = e;
-  console.log('✅ Événement beforeinstallprompt détecté');
-  if (installBtn) installBtn.style.display = 'inline-flex';
+
+  if (installBtn) {
+    installBtn.style.display = 'inline-flex';
+    installBtn.textContent = '⬇️ Installer NellyCoin';
+  }
 });
 
-// Clic sur le bouton "Installer"
+// Gestion du clic sur le bouton “Installer”
 if (installBtn) {
   installBtn.addEventListener('click', async () => {
     if (!deferredPrompt) {
       alert("Ajoute l'app via ton navigateur (Ajouter à l’écran d’accueil).");
       return;
     }
-    deferredPrompt.prompt();
+
+    deferredPrompt.prompt(); // Ouvre la fenêtre native d’installation
+
     const { outcome } = await deferredPrompt.userChoice;
-    console.log('Résultat de l’installation :', outcome);
-    deferredPrompt = null;
     if (outcome === 'accepted') {
-      installBtn.textContent = "✅ Installée";
+      console.log('✅ Installation acceptée');
+      installBtn.textContent = '✅ Installée';
       installBtn.disabled = true;
+    } else {
+      console.log('❌ Installation refusée');
     }
+
+    deferredPrompt = null; // Reset
   });
 }
 
-// Vérifie l'état d'installation
+// Vérifie si l’app a été installée
 window.addEventListener('appinstalled', () => {
   console.log('🎉 NellyCoin installée en PWA !');
   if (installBtn) {
-    installBtn.textContent = "✅ Déjà installée";
+    installBtn.textContent = '✅ Déjà installée';
     installBtn.disabled = true;
   }
 });
+
+// Debug : si besoin, pour vérifier
+window.addEventListener('load', () => {
+  if ('serviceWorker' in navigator) {
+    console.log('🧩 Service Worker prêt');
+  } else {
+    console.warn('⚠️ Service Worker non détecté');
+  }
+});
 </script>
+
+
 
 
 
