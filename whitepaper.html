@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NellyCoin — Whitepaper (FR/EN)</title>
+  <meta name="description" content="Whitepaper officiel de NellyCoin (NLY) — vision, tokenomics, sécurité, roadmap. Bilingue FR/EN." />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="icon" href="assets/nelly/logo.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/nelly/logo.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <style>
+    :root{
+      --bg:#0b1020;--panel:#0f1631;--card:#121a38;
+      --muted:#c7d2ea;--txt:#ffffff;
+      --accent:#f6b449;--accent-2:#ffd36a;
+      --border:rgba(255,255,255,.22);
+      --shadow:0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{
+      margin:0; padding:0;
+      background:
+        radial-gradient(900px 520px at 15% -10%, #1a2454 0%, transparent 60%),
+        radial-gradient(900px 520px at 120% 10%, #401c48 0%, transparent 55%),
+        linear-gradient(180deg, #0b1020 0%, #090e1a 100%);
+      color:var(--txt);
+      font-family: ui-sans-serif,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;
+      line-height:1.6; overflow-x:hidden; scroll-behavior:smooth
+    }
+    a{color:var(--accent); text-decoration:none}
+    img{max-width:100%; height:auto; display:block}
+    .container{width:min(1200px,94%); margin-inline:auto}
+    /* Header / Nav */
+    header{position:sticky; top:0; z-index:60;
+      backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg,rgba(11,16,32,.92),rgba(11,16,32,.55));
+      border-bottom:1px solid var(--border)
+    }
+    .nav{display:flex; align-items:center; gap:10px; padding:10px 0}
+    .brand{display:flex; align-items:center; gap:10px}
+    .brand img{width:44px; height:44px; border-radius:10px; box-shadow:0 0 24px rgba(246,180,73,.25)}
+    .brand span{font-weight:900; letter-spacing:.6px}
+    nav.main{display:flex; gap:12px; align-items:center}
+    nav.main a{position:relative; color:var(--txt); padding:8px}
+    nav.main a::after{content:''; position:absolute; left:12px; right:12px; bottom:6px; height:2px; background:transparent; border-radius:4px; transition:background .18s}
+    nav.main a:hover::after, nav.main a.active::after{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+    .spacer{flex:1}
+    .btn{cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+      padding:11px 14px; border-radius:12px; border:1px solid var(--border);
+      background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.08));
+      color:#0e1116; font-weight:800; box-shadow:var(--shadow)}
+    .btn.accent{background:linear-gradient(180deg,var(--accent-2),var(--accent));
+      color:#1a1303; border-color:rgba(255,211,106,.85)}
+    .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)); color:var(--txt)}
+    .btn.sm{padding:8px 10px; border-radius:10px; font-weight:700}
+    .lang-select{border:1px solid var(--border); padding:8px 10px; border-radius:10px; background:#ffffff; color:#0e1116; font-weight:800}
+    /* Blocks */
+    .title{font-size:clamp(28px,4.6vw,54px); line-height:1.04; margin:12px 0}
+    .subtitle{color:var(--muted); max-width:70ch}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));
+      border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:var(--shadow); margin-top:14px}
+    .card{border:1px solid var(--border); background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
+      border-radius:14px; padding:14px; box-shadow:var(--shadow)}
+    .muted{color:var(--muted)}
+    .list{margin:0; padding-left:18px}
+    .grid-2{display:grid; grid-template-columns:1fr; gap:14px}
+    .grid-3{display:grid; grid-template-columns:1fr; gap:14px}
+    .grid-4{display:grid; grid-template-columns:1fr; gap:14px}
+    .section-title{display:flex; align-items:center; gap:10px}
+    .tag{display:inline-flex; align-items:center; gap:6px; font-size:12px; padding:4px 8px; border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.06); color:var(--muted)}
+    /* Banner */
+    .banner{width:100%; border-radius:16px; border:1px solid var(--border); box-shadow:var(--shadow); object-fit:cover}
+    /* Desktop grid */
+    @media (min-width:1000px){
+      .grid-2{grid-template-columns:repeat(2,1fr)}
+      .grid-3{grid-template-columns:repeat(3,1fr)}
+      .grid-4{grid-template-columns:repeat(4,1fr)}
+    }
+    /* Mobile menu */
+    #menuToggle{display:none}
+    @media (max-width:980px){
+      #menuToggle{display:inline-flex}
+      nav.main{position:fixed; inset:60px 10px auto 10px; display:none; flex-direction:column; gap:6px; padding:12px; border:1px solid var(--border); border-radius:12px; background:rgba(11,16,32,.98)}
+      nav.main.open{display:flex}
+    }
+    footer{border-top:1px solid var(--border); margin-top:34px; padding:18px 0; color:var(--muted)}
+    /* Two-column bilingual layout block */
+    .bi{display:grid; gap:16px}
+    @media (min-width:900px){ .bi{grid-template-columns:1fr 1fr} }
+    .bi h3{margin:.2rem 0 .4rem}
+    .bi p, .bi li{color:var(--muted)}
+    .kpi{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
+    @media (min-width:800px){ .kpi{grid-template-columns:repeat(4,1fr)} }
+    .kpi .card b{display:block; font-size:18px}
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html#top" aria-label="NellyCoin Home">
+        <img src="assets/nelly/logo.png" alt="NellyCoin logo"/>
+        <span>NellyCoin (NLY)</span>
+      </a>
+      <button id="menuToggle" aria-label="Ouvrir le menu" class="btn ghost">☰</button>
+      <nav class="main" id="mainNav" aria-label="Main navigation">
+        <a href="index.html#about" data-i18n="nav.about">À propos</a>
+        <a href="index.html#howto" data-i18n="nav.howto">Comment acheter</a>
+        <a href="index.html#token" data-i18n="nav.tokenomics">Tokenomics</a>
+        <a href="index.html#roadmap" data-i18n="nav.roadmap">Feuille de route</a>
+        <a href="staking.html" data-i18n="nav.staking">Staking</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a class="active" href="whitepaper.html" data-i18n="nav.whitepaper">Whitepaper</a>
+      </nav>
+      <div class="spacer"></div>
+      <select id="lang" class="lang-select" title="Langue"><option value="fr">FR</option><option value="en">EN</option></select>
+      <a class="btn accent" href="index.html#howto" id="buyBtn">💱 <span data-i18n="nav.buy">Acheter NLY</span></a>
+    </div>
+  </header>
+
+  <!-- COVER -->
+  <main class="container" id="top">
+    <section class="panel">
+      <div class="tag">📄 <span data-i18n="cover.wp">Whitepaper Officiel</span> • <span id="wpVer">v1.0</span></div>
+      <h1 class="title" data-i18n="cover.title">NellyCoin — Whitepaper (FR/EN)</h1>
+      <p class="subtitle" data-i18n="cover.subtitle">Vision, tokenomics, feuille de route, sécurité et utilités futures du projet NellyCoin (NLY) sur BNB Smart Chain.</p>
+      <div class="grid-2" style="margin-top:12px; align-items:center">
+        <img src="assets/nelly/banniere.jpg" alt="Bannière NellyCoin" class="banner">
+        <div class="card">
+          <b data-i18n="cover.downloadTitle">Télécharger</b>
+          <p class="muted" data-i18n="cover.downloadText">La version PDF officielle sera publiée après la prévente.</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap">
+            <a class="btn ghost" href="#" aria-disabled="true">📄 <span data-i18n="cover.pdfSoon">PDF bientôt</span></a>
+            <a class="btn" href="index.html#links">🔗 <span data-i18n="cover.links">Liens officiels</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXEC SUMMARY -->
+    <section class="panel" id="exec">
+      <div class="section-title"><h2 data-i18n="exec.title">Résumé exécutif / Executive summary</h2></div>
+      <div class="bi">
+        <div>
+          <h3>FR</h3>
+          <p data-i18n="exec.fr">NellyCoin (NLY) est un meme coin communautaire inspiré par Nelly le chat, conçu pour allier humour, transparence et utilité progressive. Déployé sur BNB Smart Chain, NLY vise à fédérer une communauté active autour de mécanismes simples (staking, concours, partenariats) et d’un branding fort.</p>
+        </div>
+        <div>
+          <h3>EN</h3>
+          <p data-i18n="exec.en">NellyCoin (NLY) is a community-driven meme coin inspired by Nelly the cat, combining fun, transparency, and progressive utility. Built on BNB Smart Chain, NLY aims to gather an active community through simple mechanics (staking, contests, partnerships) and strong branding.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISION / MISSION -->
+    <section class="panel" id="vision">
+      <div class="section-title"><h2 data-i18n="vision.title">Vision & Mission</h2></div>
+      <div class="bi">
+        <div>
+          <h3>FR</h3>
+          <ul class="list">
+            <li data-i18n="vision.fr1">Construire une communauté durable autour d’une mascotte fédératrice.</li>
+            <li data-i18n="vision.fr2">Garantir transparence et sécurité (contrat public, LP lock, audit).</li>
+            <li data-i18n="vision.fr3">Développer des utilités progressives : staking, NFT, mini-jeu P2E.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>EN</h3>
+          <ul class="list">
+            <li data-i18n="vision.en1">Build a sustainable community around a unifying mascot.</li>
+            <li data-i18n="vision.en2">Ensure transparency and security (public contract, LP lock, audit).</li>
+            <li data-i18n="vision.en3">Develop progressive utilities: staking, NFTs, P2E mini-game.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOKENOMICS -->
+    <section class="panel" id="tokenomics">
+      <div class="section-title"><h2 data-i18n="tok.title">Tokenomics</h2></div>
+      <div class="kpi" style="margin-bottom:10px">
+        <div class="card"><b data-i18n="tok.supply">Supply total</b><span>1,000,000,000 NLY</span></div>
+        <div class="card"><b data-i18n="tok.tax">Taxes</b><span data-i18n="tok.taxv">0% au lancement, puis ≤5% (3% marketing + 2% LP)</span></div>
+        <div class="card"><b>Chain</b><span>BNB Smart Chain</span></div>
+        <div class="card"><b>Ticker</b><span>NLY</span></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3 data-i18n="tok.alloc">Répartition / Allocation</h3>
+          <ul class="list">
+            <li>Liquidity Pool — 30%</li>
+            <li>Marketing — 10% (100M)</li>
+            <li>Réserve — 35% 🔒 (350M lock)</li>
+            <li>Staking/Rewards — 25% (250M)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 data-i18n="tok.addr">Adresses officielles</h3>
+          <ul class="list">
+            <li>Token: <code>0x4bFfd4359a06583713df160da5817737654804b5</code></li>
+            <li>Marketing: <code>0xdb53d652d88e3eb7adda48a69b7f83610d76d494</code></li>
+            <li>Staking: <code>0xa90c2b54d230859386e9640073a47aca56962e51</code></li>
+            <li>Lock: <a href="https://www.pinksale.finance/pinklock/bsc/record/1369793" target="_blank" rel="noopener">PinkLock</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="panel" id="roadmap">
+      <div class="section-title"><h2 data-i18n="road.title">Feuille de route / Roadmap</h2></div>
+      <div class="grid-4">
+        <div class="card">
+          <h4>Phase 1</h4>
+          <ul class="list">
+            <li data-i18n="road.p1a">Déploiement du contrat NLY sur BSC / Deploy NLY contract on BSC</li>
+            <li data-i18n="road.p1b">Site officiel, identité visuelle / Official site, visual identity</li>
+            <li data-i18n="road.p1c">Réseaux sociaux & communauté / Socials & community</li>
+            <li data-i18n="road.p1d">Pré-vente PinkSale / PinkSale presale</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Phase 2</h4>
+          <ul class="list">
+            <li data-i18n="road.p2a">Listing PancakeSwap (NLY/BNB)</li>
+            <li data-i18n="road.p2b">LP Lock & transparence</li>
+            <li data-i18n="road.p2c">Activation des taxes / Fees activation</li>
+            <li data-i18n="road.p2d">Marketing global & audit</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Phase 3</h4>
+          <ul class="list">
+            <li data-i18n="road.p3a">Staking / NellyStake</li>
+            <li data-i18n="road.p3b">NellyNFT Club</li>
+            <li data-i18n="road.p3c">Partenariats & intégrations</li>
+            <li data-i18n="road.p3d">Mini-jeu P2E “Nelly Run”</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Phase 4</h4>
+          <ul class="list">
+            <li data-i18n="road.p4a">CEX listings</li>
+            <li data-i18n="road.p4b">DAO NellyCoin</li>
+            <li data-i18n="road.p4c">NellyVerse (metaverse)</li>
+            <li data-i18n="road.p4d">Objectif 1M holders</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECURITY -->
+    <section class="panel" id="security">
+      <div class="section-title"><h2 data-i18n="sec.title">Sécurité & Transparence</h2></div>
+      <div class="bi">
+        <div>
+          <h3>FR</h3>
+          <ul class="list">
+            <li data-i18n="sec.fr1">Contrat vérifié sur BscScan, code public.</li>
+            <li data-i18n="sec.fr2">LP lock via PinkSale pour limiter les risques.</li>
+            <li data-i18n="sec.fr3">Audit prévu (BlockSafu ou Coinscope).</li>
+            <li data-i18n="sec.fr4">Propriété burnée après lancement (si applicable).</li>
+          </ul>
+        </div>
+        <div>
+          <h3>EN</h3>
+          <ul class="list">
+            <li data-i18n="sec.en1">Contract verified on BscScan, public codebase.</li>
+            <li data-i18n="sec.en2">LP lock via PinkSale to reduce risk.</li>
+            <li data-i18n="sec.en3">Audit scheduled (BlockSafu or Coinscope).</li>
+            <li data-i18n="sec.en4">Ownership renounced post-launch (if applicable).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAKING & UTILS -->
+    <section class="panel" id="staking">
+      <div class="section-title"><h2 data-i18n="stk.title">Staking & Utilités futures</h2></div>
+      <div class="bi">
+        <div>
+          <h3>FR</h3>
+          <p data-i18n="stk.fr">Le staking de NLY permettra de récompenser les détenteurs via une émission contrôlée depuis l’allocation dédiée (250M). Des intégrations avec des partenaires, un mini-jeu P2E et une collection NFT sont planifiés pour renforcer l’écosystème.</p>
+        </div>
+        <div>
+          <h3>EN</h3>
+          <p data-i18n="stk.en">NLY staking will reward holders through a controlled issuance from the dedicated allocation (250M). Partnerships, a P2E mini-game, and an NFT collection are planned to strengthen the ecosystem.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY & CONTACT -->
+    <section class="panel" id="community">
+      <div class="section-title"><h2 data-i18n="com.title">Communauté & Contact</h2></div>
+      <div class="grid-2">
+        <div class="card">
+          <h3 data-i18n="com.join">Rejoindre la communauté</h3>
+          <ul class="list">
+            <li>Twitter/X: <a href="https://x.com/NellyCoin" target="_blank">@NellyCoin</a></li>
+            <li>Telegram: <a href="https://t.me/NellyCoinOfficial" target="_blank">t.me/NellyCoinOfficial</a></li>
+            <li>Reddit: <a href="https://reddit.com/r/NellyCoin" target="_blank">r/NellyCoin</a></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 data-i18n="com.follow">Suivi & transparence</h3>
+          <ul class="list">
+            <li>📊 Dexscreener: <a href="https://dexscreener.com/search?q=0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">Search NLY</a></li>
+            <li>🔍 BscScan: <a href="https://bscscan.com/token/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">Token</a></li>
+            <li>✉️ <span data-i18n="com.contact">Contact</span>: <a href="mailto:contact@nellycoin.io">contact@nellycoin.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISCLAIMER -->
+    <section class="panel" id="disclaimer" style="background:rgba(255,230,0,.08); border-color:#f6b449;">
+      <h3 data-i18n="disc.title">Avertissement / Disclaimer</h3>
+      <p class="muted" data-i18n="disc.text">NellyCoin (NLY) est un projet communautaire. Aucun conseil financier, aucune garantie de performance ou de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap">
+      <div>© <span id="year"></span> NellyCoin — <b data-i18n="foot.all">Tous droits réservés</b>.</div>
+      <div style="opacity:.85">Made with 🧡 • BSC • <a href="mailto:contact@nellycoin.io">contact@nellycoin.io</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const menuToggle=document.getElementById('menuToggle');
+    const mainNav=document.getElementById('mainNav');
+    menuToggle?.addEventListener('click',()=>mainNav.classList.toggle('open'));
+
+    // Year
+    document.getElementById('year').textContent=(new Date()).getFullYear();
+    document.getElementById('wpVer').textContent='v1.0';
+
+    // i18n
+    const I18N = {
+      fr:{
+        'nav.about':'À propos','nav.tokenomics':'Tokenomics','nav.howto':'Comment acheter','nav.roadmap':'Feuille de route','nav.staking':'Staking','nav.links':'Liens','nav.faq':'FAQ','nav.whitepaper':'Whitepaper','nav.buy':'Acheter NLY',
+        'cover.wp':'Whitepaper Officiel','cover.title':'NellyCoin — Whitepaper (FR/EN)','cover.subtitle':'Vision, tokenomics, feuille de route, sécurité et utilités futures du projet NellyCoin (NLY) sur BNB Smart Chain.','cover.downloadTitle':'Télécharger','cover.downloadText':'La version PDF officielle sera publiée après la prévente.','cover.pdfSoon':'PDF bientôt','cover.links':'Liens officiels',
+        'exec.title':'Résumé exécutif / Executive summary','exec.fr':'NellyCoin (NLY) est un meme coin communautaire inspiré par Nelly le chat, conçu pour allier humour, transparence et utilité progressive. Déployé sur BNB Smart Chain, NLY vise à fédérer une communauté active autour de mécanismes simples (staking, concours, partenariats) et d’un branding fort.','exec.en':'NellyCoin (NLY) is a community-driven meme coin inspired by Nelly the cat, combining fun, transparency, and progressive utility. Built on BNB Smart Chain, NLY aims to gather an active community through simple mechanics (staking, contests, partnerships) and strong branding.',
+        'vision.title':'Vision & Mission','vision.fr1':'Construire une communauté durable autour d’une mascotte fédératrice.','vision.fr2':'Garantir transparence et sécurité (contrat public, LP lock, audit).','vision.fr3':'Développer des utilités progressives : staking, NFT, mini-jeu P2E.','vision.en1':'Build a sustainable community around a unifying mascot.','vision.en2':'Ensure transparency and security (public contract, LP lock, audit).','vision.en3':'Develop progressive utilities: staking, NFTs, P2E mini-game.',
+        'tok.title':'Tokenomics','tok.supply':'Supply total','tok.tax':'Taxes','tok.taxv':'0% au lancement, puis ≤5% (3% marketing + 2% LP)','tok.alloc':'Répartition / Allocation','tok.addr':'Adresses officielles',
+        'road.title':'Feuille de route / Roadmap','road.p1a':'Déploiement du contrat NLY sur BSC / Deploy NLY contract on BSC','road.p1b':'Site officiel, identité visuelle / Official site, visual identity','road.p1c':'Réseaux sociaux & communauté / Socials & community','road.p1d':'Pré-vente PinkSale / PinkSale presale','road.p2a':'Listing PancakeSwap (NLY/BNB)','road.p2b':'LP Lock & transparence','road.p2c':'Activation des taxes / Fees activation','road.p2d':'Marketing global & audit','road.p3a':'Staking / NellyStake','road.p3b':'NellyNFT Club','road.p3c':'Partenariats & intégrations','road.p3d':'Mini-jeu P2E “Nelly Run”','road.p4a':'CEX listings','road.p4b':'DAO NellyCoin','road.p4c':'NellyVerse (metaverse)','road.p4d':'Objectif 1M holders',
+        'sec.title':'Sécurité & Transparence','sec.fr1':'Contrat vérifié sur BscScan, code public.','sec.fr2':'LP lock via PinkSale pour limiter les risques.','sec.fr3':'Audit prévu (BlockSafu ou Coinscope).','sec.fr4':'Propriété burnée après lancement (si applicable).','sec.en1':'Contract verified on BscScan, public codebase.','sec.en2':'LP lock via PinkSale to reduce risk.','sec.en3':'Audit scheduled (BlockSafu or Coinscope).','sec.en4':'Ownership renounced post-launch (if applicable).',
+        'stk.title':'Staking & Utilités futures','stk.fr':'Le staking de NLY permettra de récompenser les détenteurs via une émission contrôlée depuis l’allocation dédiée (250M). Des intégrations avec des partenaires, un mini-jeu P2E et une collection NFT sont planifiés pour renforcer l’écosystème.','stk.en':'NLY staking will reward holders through a controlled issuance from the dedicated allocation (250M). Partnerships, a P2E mini-game, and an NFT collection are planned to strengthen the ecosystem.',
+        'com.title':'Communauté & Contact','com.join':'Rejoindre la communauté','com.follow':'Suivi & transparence','com.contact':'Contact',
+        'disc.title':'Avertissement / Disclaimer','disc.text':'NellyCoin (NLY) est un projet communautaire. Aucun conseil financier, aucune garantie de performance ou de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
+        'foot.all':'Tous droits réservés'
+      },
+      en:{
+        'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.staking':'Staking','nav.links':'Links','nav.faq':'FAQ','nav.whitepaper':'Whitepaper','nav.buy':'Buy NLY',
+        'cover.wp':'Official Whitepaper','cover.title':'NellyCoin — Whitepaper (FR/EN)','cover.subtitle':'Vision, tokenomics, roadmap, security and future utilities of the NellyCoin (NLY) project on BNB Smart Chain.','cover.downloadTitle':'Download','cover.downloadText':'The official PDF will be published after the presale.','cover.pdfSoon':'PDF soon','cover.links':'Official links',
+        'exec.title':'Executive summary','exec.fr':'NellyCoin (NLY) est un meme coin communautaire...','exec.en':'NellyCoin (NLY) is a community-driven meme coin...',
+        'vision.title':'Vision & Mission','vision.fr1':'Build a sustainable community... (FR text left for sync)','vision.fr2':'Ensure transparency and security...','vision.fr3':'Develop progressive utilities...','vision.en1':'Build a sustainable community around a unifying mascot.','vision.en2':'Ensure transparency and security (public contract, LP lock, audit).','vision.en3':'Develop progressive utilities: staking, NFTs, P2E mini-game.',
+        'tok.title':'Tokenomics','tok.supply':'Total supply','tok.tax':'Fees','tok.taxv':'0% at launch, then ≤5% (3% marketing + 2% LP)','tok.alloc':'Distribution / Allocation','tok.addr':'Official addresses',
+        'road.title':'Roadmap','road.p1a':'Deploy NLY contract on BSC','road.p1b':'Official site, visual identity','road.p1c':'Socials & community','road.p1d':'PinkSale presale','road.p2a':'Listing on PancakeSwap (NLY/BNB)','road.p2b':'LP Lock & transparency','road.p2c':'Fees activation','road.p2d':'Global marketing & audit','road.p3a':'Staking / NellyStake','road.p3b':'NellyNFT Club','road.p3c':'Partnerships & integrations','road.p3d':'P2E mini-game “Nelly Run”','road.p4a':'CEX listings','road.p4b':'NellyCoin DAO','road.p4c':'NellyVerse (metaverse)','road.p4d':'Goal 1M holders',
+        'sec.title':'Security & Transparency','sec.fr1':'(FR text synced)','sec.fr2':'(FR text synced)','sec.fr3':'(FR text synced)','sec.fr4':'(FR text synced)','sec.en1':'Contract verified on BscScan, public codebase.','sec.en2':'LP lock via PinkSale to reduce risk.','sec.en3':'Audit scheduled (BlockSafu or Coinscope).','sec.en4':'Ownership renounced post-launch (if applicable).',
+        'stk.title':'Staking & Future utilities','stk.fr':'(FR text synced)','stk.en':'NLY staking will reward holders through a controlled issuance from the dedicated allocation (250M). Partnerships, a P2E mini-game, and an NFT collection are planned to strengthen the ecosystem.',
+        'com.title':'Community & Contact','com.join':'Join the community','com.follow':'Tracking & transparency','com.contact':'Contact',
+        'disc.title':'Disclaimer','disc.text':'NellyCoin (NLY) is a community project. No financial advice, no guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).',
+        'foot.all':'All rights reserved'
+      }
+    };
+    const langSel=document.getElementById('lang');
+    function applyLang(l){
+      const d=I18N[l]||I18N.fr;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const k=el.getAttribute('data-i18n');
+        if(d[k]) el.innerHTML=d[k];
+      });
+    }
+    const savedLang=localStorage.getItem('nly_lang')||'fr';
+    langSel.value=savedLang; applyLang(savedLang);
+    langSel.addEventListener('change', e=>{
+      localStorage.setItem('nly_lang', e.target.value);
+      applyLang(e.target.value);
+    });
+  </script>
+</body>
+</html>
