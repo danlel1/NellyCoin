@@ -1,7 +1,7 @@
 {
-  "name": "NellyCoin",
+  "name": "NellyCoin (NLY)",
   "short_name": "NellyCoin",
-  "description": "NellyCoin (NLY) — le meme coin félin sur BNB Smart Chain.",
+  "description": "NellyCoin (NLY) – le meme coin félin sur BNB Smart Chain.",
   "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
@@ -21,9 +21,11 @@
     },
     {
       "src": "/logo.svg",
+      "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "maskable any"
     }
   ]
 }
+
 
