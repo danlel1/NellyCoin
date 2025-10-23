@@ -16,6 +16,12 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
+  <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="NellyCoin">
+<meta name="apple-mobile-web-app-title" content="NellyCoin">
+
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="NellyCoin (NLY) — Le meme coin félin sur BNB Smart Chain">
@@ -579,61 +585,42 @@
   </script>
 
 
-
-
-  <script>
-// --- PWA Installation Automatique pour NellyCoin ---
+<script>
 let deferredPrompt;
-const installBtn = document.getElementById('appInstall');
 
-// Vérifie si le service worker est actif
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-    .then(() => console.log('✅ Service Worker enregistré'))
-    .catch(err => console.error('Erreur SW :', err));
-}
-
-// Détecte l'événement "beforeinstallprompt"
-window.addEventListener('beforeinstallprompt', (e) => {
-  console.log('📲 Événement beforeinstallprompt détecté');
+window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  if (installBtn) {
-    installBtn.style.display = 'inline-flex';
-    installBtn.disabled = false;
-  }
+  document.querySelector("#installBtn").style.display = "inline-block";
 });
 
-// Clique sur le bouton "Installer"
-if (installBtn) {
-  installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) {
-      alert("Installe l'app depuis ton navigateur (Ajouter à l’écran d’accueil).");
-      return;
-    }
-
+document.querySelector("#installBtn").addEventListener("click", async () => {
+  if (deferredPrompt) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    console.log(`🟢 Résultat d’installation : ${outcome}`);
-
-    if (outcome === 'accepted') {
-      installBtn.textContent = '✅ Installée';
-      installBtn.disabled = true;
+    console.log(`Résultat installation : ${outcome}`);
+    if (outcome === "accepted") {
+      document.querySelector("#installBtn").textContent = "✅ NellyCoin installée";
+      document.querySelector("#installBtn").disabled = true;
     }
     deferredPrompt = null;
-  });
-}
-
-// Vérifie si l’app est déjà installée
-window.addEventListener('appinstalled', () => {
-  console.log('🎉 NellyCoin installée avec succès en PWA !');
-  if (installBtn) {
-    installBtn.textContent = '✅ Déjà installée';
-    installBtn.disabled = true;
+  } else {
+    // Installation manuelle automatique
+    if (window.matchMedia('(display-mode: browser)').matches) {
+      alert("⏳ Préparation de l’installation directe...");
+      window.location.href = "https://nellycoin.io/?mode=install";
+    } else {
+      alert("✅ NellyCoin est déjà installée !");
+    }
   }
 });
-</script>
 
+window.addEventListener("appinstalled", () => {
+  console.log("🎉 NellyCoin installée avec succès !");
+  document.querySelector("#installBtn").textContent = "✅ Déjà installée";
+  document.querySelector("#installBtn").disabled = true;
+});
+</script>
 
 
 
