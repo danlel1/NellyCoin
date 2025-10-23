@@ -587,46 +587,55 @@
   </script>
 
 
-
- <script>
+<script>
 let deferredPrompt;
-const installBtn = document.querySelector("#appInstall");
+const installBtn = document.getElementById('appInstall');
 
-window.addEventListener("beforeinstallprompt", (e) => {
+// Écoute l’événement "beforeinstallprompt"
+window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  console.log("✅ Événement beforeinstallprompt détecté");
-  installBtn.style.display = "inline-block";
+  installBtn.style.display = 'inline-block';
 });
 
+// Clique sur le bouton "Installer"
 if (installBtn) {
-  installBtn.addEventListener("click", async () => {
+  installBtn.addEventListener('click', async () => {
     if (!deferredPrompt) {
-      alert("Installe l’app depuis ton navigateur (Ajouter à l’écran d’accueil).");
+      alert("L'app est déjà installée ou installe-la via ton navigateur (Ajouter à l'écran d'accueil).");
       return;
     }
-
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    console.log(`Résultat d’installation : ${outcome}`);
-
-    if (outcome === "accepted") {
-      installBtn.textContent = "✅ NellyCoin installée";
+    console.log(`Résultat d'installation : ${outcome}`);
+    if (outcome === 'accepted') {
+      installBtn.textContent = '✅ Installée';
       installBtn.disabled = true;
     }
-
     deferredPrompt = null;
   });
 }
 
-window.addEventListener("appinstalled", () => {
-  console.log("🎉 NellyCoin installée avec succès !");
+// Vérifie si l’app est déjà installée (au démarrage)
+window.addEventListener('load', () => {
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if (isStandalone && installBtn) {
+    installBtn.textContent = '✅ Déjà installée';
+    installBtn.disabled = true;
+  }
+});
+
+// Quand l’installation se termine
+window.addEventListener('appinstalled', () => {
+  console.log('✅ NellyCoin installée avec succès en PWA !');
   if (installBtn) {
-    installBtn.textContent = "✅ Déjà installée";
+    installBtn.textContent = '✅ Installée';
     installBtn.disabled = true;
   }
 });
 </script>
+
+
   
 </body>
 </html>
