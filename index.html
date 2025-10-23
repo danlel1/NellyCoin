@@ -192,6 +192,47 @@
   </style>
 </head>
 
+
+
+<div id="splash">
+  <img src="/assets/nelly/logo.png" alt="NellyCoin" />
+</div>
+
+<script>
+window.addEventListener('load', () => {
+  const splash = document.getElementById('splash');
+  splash.style.opacity = '0';
+  setTimeout(() => splash.remove(), 1000);
+});
+</script>
+
+<style>
+#splash {
+  position: fixed;
+  inset: 0;
+  background: #0b1020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s ease-out;
+  z-index: 9999;
+}
+#splash img {
+  width: 120px;
+  animation: pulse 2s infinite ease-in-out;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+</style>
+
+
+
+
+  
+
+  
 <body>
   <!-- HEADER -->
   <header>
