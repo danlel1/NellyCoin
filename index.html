@@ -194,6 +194,63 @@
 
 
 
+  <!-- Splash Screen (mobile + PWA uniquement) -->
+<div id="splash">
+  <img src="/assets/nelly/logo.png" alt="NellyCoin Logo">
+</div>
+
+<style>
+  @media (max-width: 768px) {
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #0b1020;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1s ease-out;
+    }
+
+    #splash img {
+      width: 140px;
+      animation: zoomInOut 3s ease-in-out infinite;
+    }
+
+    @keyframes zoomInOut {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.9; }
+    }
+  }
+
+  @media (min-width: 769px) {
+    #splash { display: none !important; }
+  }
+</style>
+
+<script>
+  const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone;
+
+  if (isStandalone) {
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('splash');
+      setTimeout(() => {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.remove(), 1000);
+      }, 4000);
+    });
+  } else {
+    const splash = document.getElementById('splash');
+    splash.remove();
+  }
+</script>
+
+
+
+  
+
 <div id="splash">
   <img src="/assets/nelly/logo.png" alt="NellyCoin" />
 </div>
