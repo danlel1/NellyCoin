@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="none"/>
+  <!-- Contour principal doré -->
+  <ellipse cx="256" cy="256" rx="230" ry="160" fill="#071207" stroke="#f5d97c" stroke-width="6"/>
+
+  <!-- Iris vert doux -->
+  <radialGradient id="iris" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#c9ffd1"/>
+    <stop offset="45%" stop-color="#6eff9b"/>
+    <stop offset="85%" stop-color="#02662a"/>
+  </radialGradient>
+  <circle cx="256" cy="256" r="130" fill="url(#iris)"/>
+
+  <!-- Pupille verticale -->
+  <ellipse cx="256" cy="256" rx="28" ry="110" fill="#000000"/>
+
+  <!-- Reflet doux -->
+  <ellipse cx="230" cy="230" rx="55" ry="30" fill="#ffffff" opacity="0.22"/>
+</svg>
