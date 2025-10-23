@@ -587,55 +587,56 @@
   </script>
 
 
+
 <script>
 let deferredPrompt;
 const installBtn = document.getElementById('appInstall');
 
-// Écoute l’événement "beforeinstallprompt"
+// Si déjà installé localement
+if (localStorage.getItem('nellycoin_installed') === 'true') {
+  installBtn.textContent = '✅ Déjà installée';
+  installBtn.disabled = true;
+}
+
+// beforeinstallprompt
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
   installBtn.style.display = 'inline-block';
 });
 
-// Clique sur le bouton "Installer"
-if (installBtn) {
-  installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) {
-      alert("L'app est déjà installée ou installe-la via ton navigateur (Ajouter à l'écran d'accueil).");
-      return;
-    }
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`Résultat d'installation : ${outcome}`);
-    if (outcome === 'accepted') {
-      installBtn.textContent = '✅ Installée';
-      installBtn.disabled = true;
-    }
-    deferredPrompt = null;
-  });
-}
+// Bouton Installer
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) {
+    alert("L'app est déjà installée ou installe-la via ton navigateur (Ajouter à l'écran d'accueil).");
+    return;
+  }
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    installBtn.textContent = '✅ Installée';
+    installBtn.disabled = true;
+    localStorage.setItem('nellycoin_installed', 'true');
+  }
+  deferredPrompt = null;
+});
 
-// Vérifie si l’app est déjà installée (au démarrage)
+// Quand l'app est installée
+window.addEventListener('appinstalled', () => {
+  installBtn.textContent = '✅ Installée';
+  installBtn.disabled = true;
+  localStorage.setItem('nellycoin_installed', 'true');
+});
+
+// Vérifie si l'app s’ouvre en mode standalone
 window.addEventListener('load', () => {
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-  if (isStandalone && installBtn) {
+  if (isStandalone) {
     installBtn.textContent = '✅ Déjà installée';
     installBtn.disabled = true;
   }
 });
-
-// Quand l’installation se termine
-window.addEventListener('appinstalled', () => {
-  console.log('✅ NellyCoin installée avec succès en PWA !');
-  if (installBtn) {
-    installBtn.textContent = '✅ Installée';
-    installBtn.disabled = true;
-  }
-});
 </script>
-
-
   
 </body>
 </html>
