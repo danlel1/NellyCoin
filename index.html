@@ -585,45 +585,48 @@
   </script>
 
 
-<script>
+
+  <script>
 let deferredPrompt;
+const installBtn = document.querySelector("#appInstall");
 
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.querySelector("#installBtn").style.display = "inline-block";
+  console.log("✅ Événement beforeinstallprompt capté");
+  installBtn.style.display = "inline-block";
 });
 
-document.querySelector("#installBtn").addEventListener("click", async () => {
-  if (deferredPrompt) {
+if (installBtn) {
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) {
+      alert("Installe l’app depuis ton navigateur (Ajouter à l’écran d’accueil).");
+      return;
+    }
+
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    console.log(`Résultat installation : ${outcome}`);
+    console.log(`Résultat d’installation : ${outcome}`);
+
     if (outcome === "accepted") {
-      document.querySelector("#installBtn").textContent = "✅ NellyCoin installée";
-      document.querySelector("#installBtn").disabled = true;
+      installBtn.textContent = "✅ NellyCoin installée";
+      installBtn.disabled = true;
     }
+
     deferredPrompt = null;
-  } else {
-    // Installation manuelle automatique
-    if (window.matchMedia('(display-mode: browser)').matches) {
-      alert("⏳ Préparation de l’installation directe...");
-      window.location.href = "https://nellycoin.io/?mode=install";
-    } else {
-      alert("✅ NellyCoin est déjà installée !");
-    }
-  }
-});
+  });
+}
 
 window.addEventListener("appinstalled", () => {
   console.log("🎉 NellyCoin installée avec succès !");
-  document.querySelector("#installBtn").textContent = "✅ Déjà installée";
-  document.querySelector("#installBtn").disabled = true;
+  if (installBtn) {
+    installBtn.textContent = "✅ Déjà installée";
+    installBtn.disabled = true;
+  }
 });
 </script>
 
-
-
+  
   
 </body>
 </html>
