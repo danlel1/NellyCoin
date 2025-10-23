@@ -6,8 +6,8 @@ const ASSETS = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  '/assets/nelly/logo.png',
-  '/assets/nelly/banniere.jpg'
+  '/assets/nelly/logo.webp',
+  '/assets/nelly/banniere.webp'
 ];
 
 // INSTALLATION — met en cache les fichiers de base
