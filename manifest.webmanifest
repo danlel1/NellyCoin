@@ -1,3 +1,4 @@
+
 {
   "name": "NellyCoin (NLY)",
   "short_name": "NellyCoin",
@@ -8,6 +9,7 @@
   "orientation": "portrait",
   "background_color": "#0b1020",
   "theme_color": "#f6b449",
+
   "icons": [
     {
       "src": "/assets/nelly/logo.png",
@@ -17,15 +19,18 @@
     {
       "src": "/assets/nelly/logo.png",
       "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/logo.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "maskable any"
     }
-  ]
+  ],
+
+  "screenshots": [
+    {
+      "src": "/assets/nelly/splash.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+
+  "display_override": ["standalone", "fullscreen"]
 }
-
-
