@@ -586,14 +586,14 @@
 
 
 
-  <script>
+ <script>
 let deferredPrompt;
 const installBtn = document.querySelector("#appInstall");
 
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  console.log("✅ Événement beforeinstallprompt capté");
+  console.log("✅ Événement beforeinstallprompt détecté");
   installBtn.style.display = "inline-block";
 });
 
@@ -625,8 +625,6 @@ window.addEventListener("appinstalled", () => {
   }
 });
 </script>
-
-  
   
 </body>
 </html>
