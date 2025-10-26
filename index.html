@@ -236,26 +236,27 @@
         
       </section>
 
-      <section id="live" class="panel">
-        <div class="addr-row" style="justify-content:space-between;align-items:center">
-          <h3>📊 <span data-i18n="live.title">Cours & Stats (live)</span></h3>
-          <button class="btn sm" id="refresh">↻ <span data-i18n="live.refresh">Rafraîchir</span></button>
-        </div>
-        <p class="muted" data-i18n="live.desc">Le live chart sera visible après le listing PancakeSwap. Données via Dexscreener.</p>
-        <div class="grid-2">
-          <div class="card"><b data-i18n="live.pusd">Prix (USD)</b> <span id="pxUsd">—</span></div>
-          <div class="card"><b data-i18n="live.var">Variation 24h</b> <span id="pxChg">—</span></div>
-          <div class="card"><b data-i18n="live.pbnb">Prix (BNB)</b> <span id="pxBnb">—</span></div>
-          <div class="card"><b data-i18n="live.vol">Volume 24h</b> <span id="vol24">—</span></div>
-          <div class="card"><b>FDV</b> <span id="fdv">—</span></div>
-          <div class="card"><b data-i18n="live.liq">Liquidité</b> <span id="liq">—</span></div>
-        </div>
-        <div class="addr-row" style="margin-top:8px">
-          <span class="link-small">Dexscreener</span>
-          <a id="dexLive" class="btn sm" target="_blank" rel="noopener">📈 Dex</a>
-          <a id="tokenLive" class="btn sm" target="_blank" rel="noopener">🔍 BscScan</a>
-        </div>
-      </section>
+<section id="live" class="panel">
+  <h3>📊 Cours & Stats (live)</h3>
+  <p>Le live chart sera visible après le listing PancakeSwap. Données via Dexscreener.</p>
+
+  <div class="grid grid-cols-2 gap-3 mt-3">
+    <div class="stat-box">Prix (USD) —</div>
+    <div class="stat-box">Variation 24h —</div>
+    <div class="stat-box">Prix (BNB) —</div>
+    <div class="stat-box">Volume 24h —</div>
+    <div class="stat-box">FDV —</div>
+    <div class="stat-box">Liquidité —</div>
+  </div>
+
+  <div class="flex gap-2 mt-4">
+    <button id="refresh-live" class="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600 transition">
+      🔁 Rafraîchir
+    </button>
+    <a href="https://dexscreener.com" target="_blank" class="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600">Dexscreener</a>
+    <a href="https://bscscan.com" target="_blank" class="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600">BscScan</a>
+  </div>
+</section>
     </div>
 
     <!-- HERO -->
