@@ -315,69 +315,39 @@
       </section>
 
 <section id="live" class="panel">
-  <h3 class="section-title">
-    📊 Cours & Stats (live)
-  </h3>
-  <p class="text-muted">
+  <h3>📊 Cours & Stats (live)</h3>
+  <p class="muted">
     Le live chart sera visible après le listing PancakeSwap.<br>
     Données mises à jour automatiquement via Dexscreener.
   </p>
 
   <div class="stats-grid">
-    <div class="stat-item"><span>💵 Prix (USD)</span><strong id="price-usd">—</strong></div>
-    <div class="stat-item"><span>📈 Variation 24h</span><strong id="change-24h">—</strong></div>
-    <div class="stat-item"><span>🪙 Prix (BNB)</span><strong id="price-bnb">—</strong></div>
-    <div class="stat-item"><span>📊 Volume 24h</span><strong id="volume-24h">—</strong></div>
-    <div class="stat-item"><span>💎 FDV</span><strong id="fdv">—</strong></div>
-    <div class="stat-item"><span>🌊 Liquidité</span><strong id="liquidity">—</strong></div>
+    <div class="stat"><span>💵 Prix (USD)</span> <span id="price-usd">—</span></div>
+    <div class="stat"><span>📈 Variation 24h</span> <span id="variation24h">—</span> <span id="trend-icon"></span></div>
+    <div class="stat"><span>🟡 Prix (BNB)</span> <span id="price-bnb">—</span></div>
+    <div class="stat"><span>📊 Volume 24h</span> <span id="volume-24h">—</span></div>
+    <div class="stat"><span>💎 FDV</span> <span id="fdv">—</span></div>
+    <div class="stat"><span>🌊 Liquidité</span> <span id="liquidity">—</span></div>
   </div>
 
-  <div class="actions">
-    <button id="refresh-btn" class="refresh-btn">🔄 Rafraîchir</button>
-    <a href="https://dexscreener.com/bsc" target="_blank" class="btn-link">📊 Dexscreener</a>
-    <a href="https://bscscan.com" target="_blank" class="btn-link">🔍 BscScan</a>
+  <div class="stats-actions">
+    <button id="refresh" class="btn orange">🔄 Rafraîchir</button>
+    <a href="#" id="dexLive" target="_blank" class="btn blue">📊 Dexscreener</a>
+    <a href="#" id="bscLink" target="_blank" class="btn purple">🔍 BscScan</a>
   </div>
+
+  <h3 style="margin-top:20px;">📈 Graphique en direct</h3>
+  <iframe
+    id="dexChart"
+    src="https://dexscreener.com/bsc/0x0000000000000000000000000000000000000000?embed=1&theme=dark"
+    style="width:100%;height:480px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 0 15px rgba(0,0,0,0.4);"
+    allowfullscreen
+  ></iframe>
 </section>
 
 
-      <section id="live" class="panel">
-  <div class="addr-row" style="justify-content:space-between;align-items:center">
-    <h3>📊 <span data-i18n="live.title">Cours & Stats (live)</span></h3>
-    <button class="btn sm" id="refresh">↻ <span data-i18n="live.refresh">Rafraîchir</span></button>
-  </div>
 
-  <p class="muted" data-i18n="live.desc">
-    Le live chart et les statistiques s’actualisent automatiquement toutes les 30 secondes.  
-    Données via Dexscreener.
-  </p>
-
-  <div class="grid-2">
-    <div class="card"><b>Prix (USD)</b> <span id="price-usd">—</span></div>
-    <div class="card"><b>Prix (BNB)</b> <span id="price-bnb">—</span></div>
-    <div class="card">
-      <b>Variation 24h</b> <span id="variation24h">—</span> <span id="trend-icon"></span>
-    </div>
-    <div class="card"><b>Volume 24h</b> <span id="volume-24h">—</span></div>
-    <div class="card"><b>FDV</b> <span id="fdv">—</span></div>
-    <div class="card"><b>Liquidité</b> <span id="liquidity">—</span></div>
-  </div>
-
-  <div class="addr-row" style="margin-top:8px">
-    <span class="link-small">Source: Dexscreener (auto-refresh 30s).</span>
-    <a id="dexLive" class="btn sm" target="_blank" rel="noopener">📈 Dex</a>
-  </div>
-
-  <!-- 🧠 Graphique en direct -->
-  <div style="margin-top:18px;">
-    <h3>📈 <span data-i18n="chart.title">Graphique en direct</span></h3>
-    <iframe
-      id="dexChart"
-      src="https://dexscreener.com/bsc/0x0000000000000000000000000000000000000000?embed=1&theme=dark"
-      style="width:100%; height:480px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); box-shadow:0 0 20px rgba(0,0,0,0.4);"
-      allowfullscreen
-    ></iframe>
-  </div>
-</section>
+ 
       
     </div>
 
