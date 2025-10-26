@@ -220,60 +220,35 @@
 
 
     
-  .stat-item strong {
-  color: #ffd166;
-  font-weight: 600;
-}
 
-.actions {
-  margin-top: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-start;
-}
 
-.refresh-btn {
-  background: linear-gradient(90deg, #ffb703, #fb8500);
-  color: #000;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+.stats-grid {
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap:12px;
+  margin:14px 0 10px;
 }
+.stat-pill{
+  display:flex;justify-content:space-between;align-items:center;
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;
+  padding:10px 14px;
+}
+.stat-pill .label{opacity:.95}
+.value{font-weight:700}
+.dash{color:#f6c244} /* tiret jaune par défaut (comme ta photo 2) */
 
-.refresh-btn:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
+.stats-actions{display:flex;gap:10px;margin-top:10px}
+.btn{
+  border:none;border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;
+  background:rgba(255,255,255,.08);color:#eee;transition:.2s;
+  border:1px solid rgba(255,255,255,.08);
 }
-
-.btn-link {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 8px 16px;
-  border-radius: 10px;
-  color: #ffb703;
-  text-decoration: none;
-  font-weight: 500;
-  transition: 0.2s ease;
-}
-
-.btn-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-    /* --- Animation bouton Rafraîchir --- */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.refresh-btn.loading {
-  pointer-events: none;
-  opacity: 0.8;
-  animation: spin 0.9s linear;
-}
+.btn:hover{transform:translateY(-1px);opacity:.95}
+.btn.orange{background:#ff9f1c;color:#111;border-color:#e48c16}
+.btn.gray{background:#3c4450}
+.btn.purple{background:#8b5cf6}
 
   </style>
 </head>
