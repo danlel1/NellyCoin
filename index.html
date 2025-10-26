@@ -671,40 +671,44 @@
 
 
 <script>
-const pairAddress = "0x0000000000000000000000000000000000000000"; // Remplacer après listing
-const apiURL = `https://api.dexscreener.io/latest/dex/pairs/bsc/${pairAddress}`;
+  const refreshBtn = document.getElementById("refresh-btn");
 
-async function updateStats() {
-  try {
-    console.log("📊 Rafraîchissement automatique des stats NellyCoin...");
-    const res = await fetch(apiURL);
-    const data = await res.json();
+  async function updateStats() {
+    refreshBtn.classList.add("loading");
 
-    if (data && data.pair) {
-      const p = data.pair;
-      document.getElementById("price-usd").textContent = `$${parseFloat(p.priceUsd).toFixed(6)}`;
-      document.getElementById("price-bnb").textContent = `${parseFloat(p.priceNative).toFixed(8)} BNB`;
-      document.getElementById("change-24h").textContent = `${p.priceChange.h24.toFixed(2)}%`;
-      document.getElementById("volume-24h").textContent = `$${Number(p.volume.h24).toLocaleString()}`;
-      document.getElementById("fdv").textContent = `$${Number(p.fdv).toLocaleString()}`;
-      document.getElementById("liquidity").textContent = `$${Number(p.liquidity.usd).toLocaleString()}`;
-    } else {
-      console.warn("⚠️ Aucune donnée trouvée sur Dexscreener pour cette adresse.");
+    // 🔗 Mets ici ton adresse du pair NellyCoin sur Dexscreener
+    const pairAddress = "https://api.dexscreener.io/latest/dex/pairs/bsc/TON_ADRESSE_ICI";
+
+    try {
+      const response = await fetch(pairAddress);
+      const data = await response.json();
+
+      const pair = data.pairs?.[0];
+      if (pair) {
+        document.getElementById("price-usd").textContent = pair.priceUsd ? `$${parseFloat(pair.priceUsd).toFixed(8)}` : "--";
+        document.getElementById("price-bnb").textContent = pair.priceNative ? `${parseFloat(pair.priceNative).toFixed(8)} BNB` : "--";
+        document.getElementById("fdv").textContent = pair.fdv ? `$${(pair.fdv / 1_000_000).toFixed(2)}M` : "--";
+        document.getElementById("volume24h").textContent = pair.volume.h24 ? `$${pair.volume.h24.toLocaleString()}` : "--";
+        document.getElementById("liquidity").textContent = pair.liquidity.usd ? `$${pair.liquidity.usd.toLocaleString()}` : "--";
+        document.getElementById("variation24h").textContent = pair.priceChange.h24 ? `${pair.priceChange.h24.toFixed(2)}%` : "--";
+      }
+    } catch (err) {
+      console.error("Erreur lors du chargement des données :", err);
     }
-  } catch (error) {
-    console.error("Erreur lors de la mise à jour :", error);
+
+    refreshBtn.classList.remove("loading");
   }
-}
 
-// Rafraîchissement manuel
-document.getElementById("refresh-btn").addEventListener("click", updateStats);
+  // 🕒 Rafraîchit toutes les 30 secondes
+  setInterval(updateStats, 30000);
 
-// Auto-refresh toutes les 30 secondes
-setInterval(updateStats, 30000);
+  // 🖱️ Clique manuel
+  refreshBtn.addEventListener("click", updateStats);
 
-// Chargement initial
-updateStats();
+  // 🚀 Premier chargement à l’ouverture
+  updateStats();
 </script>
+
 
   
 </body>
