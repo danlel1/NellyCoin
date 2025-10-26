@@ -601,81 +601,41 @@
 
 
 <script>
-let deferredPrompt;
-const installBtn = document.getElementById('appInstall');
+const pairAddress = "0x0000000000000000000000000000000000000000"; // Remplacer après listing
+const apiURL = `https://api.dexscreener.io/latest/dex/pairs/bsc/${pairAddress}`;
 
-// Si déjà installé localement
-if (localStorage.getItem('nellycoin_installed') === 'true') {
-  installBtn.textContent = '✅ Déjà installée';
-  installBtn.disabled = true;
+async function updateStats() {
+  try {
+    console.log("📊 Rafraîchissement automatique des stats NellyCoin...");
+    const res = await fetch(apiURL);
+    const data = await res.json();
+
+    if (data && data.pair) {
+      const p = data.pair;
+      document.getElementById("price-usd").textContent = `$${parseFloat(p.priceUsd).toFixed(6)}`;
+      document.getElementById("price-bnb").textContent = `${parseFloat(p.priceNative).toFixed(8)} BNB`;
+      document.getElementById("change-24h").textContent = `${p.priceChange.h24.toFixed(2)}%`;
+      document.getElementById("volume-24h").textContent = `$${Number(p.volume.h24).toLocaleString()}`;
+      document.getElementById("fdv").textContent = `$${Number(p.fdv).toLocaleString()}`;
+      document.getElementById("liquidity").textContent = `$${Number(p.liquidity.usd).toLocaleString()}`;
+    } else {
+      console.warn("⚠️ Aucune donnée trouvée sur Dexscreener pour cette adresse.");
+    }
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour :", error);
+  }
 }
 
-// beforeinstallprompt
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = 'inline-block';
-});
+// Rafraîchissement manuel
+document.getElementById("refresh-btn").addEventListener("click", updateStats);
 
-// Bouton Installer
-installBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) {
-    alert("L'app est déjà installée ou installe-la via ton navigateur (Ajouter à l'écran d'accueil).");
-    return;
-  }
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  if (outcome === 'accepted') {
-    installBtn.textContent = '✅ Installée';
-    installBtn.disabled = true;
-    localStorage.setItem('nellycoin_installed', 'true');
-  }
-  deferredPrompt = null;
-});
+// Auto-refresh toutes les 30 secondes
+setInterval(updateStats, 30000);
 
-// Quand l'app est installée
-window.addEventListener('appinstalled', () => {
-  installBtn.textContent = '✅ Installée';
-  installBtn.disabled = true;
-  localStorage.setItem('nellycoin_installed', 'true');
-});
-
-// Vérifie si l'app s’ouvre en mode standalone
-window.addEventListener('load', () => {
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-  if (isStandalone) {
-    installBtn.textContent = '✅ Déjà installée';
-    installBtn.disabled = true;
-  }
-});
+// Chargement initial
+updateStats();
 </script>
 
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const refreshButton = document.querySelector("#refresh-live");
-
-  function refreshLiveStats() {
-    // Animation du bouton
-    if (refreshButton) refreshButton.classList.add("animate-spin");
-
-    // (Tu ajouteras ici la future requête Dexscreener)
-    console.log("📊 Rafraîchissement automatique des stats NellyCoin...");
-
-    // Simulation du chargement (1 seconde)
-    setTimeout(() => {
-      if (refreshButton) refreshButton.classList.remove("animate-spin");
-    }, 1000);
-  }
-
-  // Rafraîchissement automatique toutes les 30 secondes
-  setInterval(refreshLiveStats, 30000);
-
-  // Bouton manuel
-  if (refreshButton) {
-    refreshButton.addEventListener("click", refreshLiveStats);
-  }
-});
-</script>
   
 </body>
 </html>
