@@ -223,32 +223,69 @@
 
 
 .stats-grid {
-  display:grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap:12px;
-  margin:14px 0 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
 }
-.stat-pill{
-  display:flex;justify-content:space-between;align-items:center;
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:12px;
-  padding:10px 14px;
-}
-.stat-pill .label{opacity:.95}
-.value{font-weight:700}
-.dash{color:#f6c244} /* tiret jaune par défaut (comme ta photo 2) */
 
-.stats-actions{display:flex;gap:10px;margin-top:10px}
-.btn{
-  border:none;border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;
-  background:rgba(255,255,255,.08);color:#eee;transition:.2s;
-  border:1px solid rgba(255,255,255,.08);
+.stat-item {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
 }
-.btn:hover{transform:translateY(-1px);opacity:.95}
-.btn.orange{background:#ff9f1c;color:#111;border-color:#e48c16}
-.btn.gray{background:#3c4450}
-.btn.purple{background:#8b5cf6}
+
+.stat-item span {
+  color: #aaa;
+}
+
+.stat-item strong {
+  color: #ffd166;
+  font-weight: 600;
+}
+
+.actions {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.refresh-btn {
+  background: linear-gradient(90deg, #ffb703, #fb8500);
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.refresh-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.btn-link {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 16px;
+  border-radius: 10px;
+  color: #ffb703;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.btn-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
 
   </style>
 </head>
@@ -289,54 +326,32 @@
 
         
       </section>
-<section id="live" class="panel">
-  <h3>📊 Cours & Stats (live)</h3>
-  <p class="muted">
+
+
+      <section id="live" class="panel">
+  <h3 class="section-title">
+    📊 Cours & Stats (live)
+  </h3>
+  <p class="text-muted">
     Le live chart sera visible après le listing PancakeSwap.<br>
     Données mises à jour automatiquement via Dexscreener.
   </p>
 
   <div class="stats-grid">
-    <div class="stat-pill">
-      <span class="label">🪙 Prix (USD)</span>
-      <span id="price-usd" class="value dash">—</span>
-    </div>
-
-    <div class="stat-pill">
-      <span class="label">📈 Variation 24h</span>
-      <span>
-        <span id="variation-24h" class="value dash">—</span>
-        <span id="trend-icon"></span>
-      </span>
-    </div>
-
-    <div class="stat-pill">
-      <span class="label">🟡 Prix (BNB)</span>
-      <span id="price-bnb" class="value dash">—</span>
-    </div>
-
-    <div class="stat-pill">
-      <span class="label">📊 Volume 24h</span>
-      <span id="volume-24h" class="value dash">—</span>
-    </div>
-
-    <div class="stat-pill">
-      <span class="label">💎 FDV</span>
-      <span id="fdv" class="value dash">—</span>
-    </div>
-
-    <div class="stat-pill">
-      <span class="label">🌊 Liquidité</span>
-      <span id="liquidity" class="value dash">—</span>
-    </div>
+    <div class="stat-item"><span>💵 Prix (USD)</span><strong id="price-usd">—</strong></div>
+    <div class="stat-item"><span>📈 Variation 24h</span><strong id="change-24h">—</strong></div>
+    <div class="stat-item"><span>🪙 Prix (BNB)</span><strong id="price-bnb">—</strong></div>
+    <div class="stat-item"><span>📊 Volume 24h</span><strong id="volume-24h">—</strong></div>
+    <div class="stat-item"><span>💎 FDV</span><strong id="fdv">—</strong></div>
+    <div class="stat-item"><span>🌊 Liquidité</span><strong id="liquidity">—</strong></div>
   </div>
 
-  <div class="stats-actions">
-    <button id="refresh" class="btn orange">🔄 Rafraîchir</button>
-    <a id="dexLive" href="#" target="_blank" class="btn gray">📊 Dexscreener</a>
-    <a id="bscLink" href="#" target="_blank" class="btn purple">🔍 BscScan</a>
+  <div class="actions">
+    <button id="refresh-btn" class="refresh-btn">🔄 Rafraîchir</button>
+    <a href="https://dexscreener.com/bsc" target="_blank" class="btn-link">📊 Dexscreener</a>
+    <a href="https://bscscan.com" target="_blank" class="btn-link">🔍 BscScan</a>
   </div>
-
+</section>
   <!-- Si tu veux garder le graphique, laisse ce bloc; sinon supprime-le -->
   <h3 style="margin-top:18px;">📈 Graphique en direct</h3>
   <iframe
