@@ -237,26 +237,94 @@
       </section>
 
 <section id="live" class="panel">
-  <h3>📊 Cours & Stats (live)</h3>
-  <p>Le live chart sera visible après le listing PancakeSwap. Données via Dexscreener.</p>
+  <h3 class="section-title">
+    📊 Cours & Stats (live)
+  </h3>
+  <p class="text-muted">
+    Le live chart sera visible après le listing PancakeSwap.<br>
+    Données mises à jour automatiquement via Dexscreener.
+  </p>
 
-  <div class="grid grid-cols-2 gap-3 mt-3">
-    <div class="stat-box">Prix (USD) —</div>
-    <div class="stat-box">Variation 24h —</div>
-    <div class="stat-box">Prix (BNB) —</div>
-    <div class="stat-box">Volume 24h —</div>
-    <div class="stat-box">FDV —</div>
-    <div class="stat-box">Liquidité —</div>
+  <div class="stats-grid">
+    <div class="stat-item"><span>💵 Prix (USD)</span><strong id="price-usd">—</strong></div>
+    <div class="stat-item"><span>📈 Variation 24h</span><strong id="change-24h">—</strong></div>
+    <div class="stat-item"><span>🪙 Prix (BNB)</span><strong id="price-bnb">—</strong></div>
+    <div class="stat-item"><span>📊 Volume 24h</span><strong id="volume-24h">—</strong></div>
+    <div class="stat-item"><span>💎 FDV</span><strong id="fdv">—</strong></div>
+    <div class="stat-item"><span>🌊 Liquidité</span><strong id="liquidity">—</strong></div>
   </div>
 
-  <div class="flex gap-2 mt-4">
-    <button id="refresh-live" class="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600 transition">
-      🔁 Rafraîchir
-    </button>
-    <a href="https://dexscreener.com" target="_blank" class="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600">Dexscreener</a>
-    <a href="https://bscscan.com" target="_blank" class="px-3 py-1 rounded-md bg-gray-700 hover:bg-gray-600">BscScan</a>
+  <div class="actions">
+    <button id="refresh-btn" class="refresh-btn">🔄 Rafraîchir</button>
+    <a href="https://dexscreener.com/bsc" target="_blank" class="btn-link">📊 Dexscreener</a>
+    <a href="https://bscscan.com" target="_blank" class="btn-link">🔍 BscScan</a>
   </div>
 </section>
+
+      .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+}
+
+.stat-item span {
+  color: #aaa;
+}
+
+.stat-item strong {
+  color: #ffd166;
+  font-weight: 600;
+}
+
+.actions {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.refresh-btn {
+  background: linear-gradient(90deg, #ffb703, #fb8500);
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.refresh-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.btn-link {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 16px;
+  border-radius: 10px;
+  color: #ffb703;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.btn-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
     </div>
 
     <!-- HERO -->
