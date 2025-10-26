@@ -274,6 +274,7 @@
   opacity: 0.8;
   animation: spin 0.9s linear;
 }
+
   </style>
 </head>
 
@@ -313,7 +314,6 @@
 
         
       </section>
-
 <section id="live" class="panel">
   <h3>📊 Cours & Stats (live)</h3>
   <p class="muted">
@@ -322,28 +322,56 @@
   </p>
 
   <div class="stats-grid">
-    <div class="stat"><span>💵 Prix (USD)</span> <span id="price-usd">—</span></div>
-    <div class="stat"><span>📈 Variation 24h</span> <span id="variation24h">—</span> <span id="trend-icon"></span></div>
-    <div class="stat"><span>🟡 Prix (BNB)</span> <span id="price-bnb">—</span></div>
-    <div class="stat"><span>📊 Volume 24h</span> <span id="volume-24h">—</span></div>
-    <div class="stat"><span>💎 FDV</span> <span id="fdv">—</span></div>
-    <div class="stat"><span>🌊 Liquidité</span> <span id="liquidity">—</span></div>
+    <div class="stat-pill">
+      <span class="label">🪙 Prix (USD)</span>
+      <span id="price-usd" class="value dash">—</span>
+    </div>
+
+    <div class="stat-pill">
+      <span class="label">📈 Variation 24h</span>
+      <span>
+        <span id="variation-24h" class="value dash">—</span>
+        <span id="trend-icon"></span>
+      </span>
+    </div>
+
+    <div class="stat-pill">
+      <span class="label">🟡 Prix (BNB)</span>
+      <span id="price-bnb" class="value dash">—</span>
+    </div>
+
+    <div class="stat-pill">
+      <span class="label">📊 Volume 24h</span>
+      <span id="volume-24h" class="value dash">—</span>
+    </div>
+
+    <div class="stat-pill">
+      <span class="label">💎 FDV</span>
+      <span id="fdv" class="value dash">—</span>
+    </div>
+
+    <div class="stat-pill">
+      <span class="label">🌊 Liquidité</span>
+      <span id="liquidity" class="value dash">—</span>
+    </div>
   </div>
 
   <div class="stats-actions">
     <button id="refresh" class="btn orange">🔄 Rafraîchir</button>
-    <a href="#" id="dexLive" target="_blank" class="btn blue">📊 Dexscreener</a>
-    <a href="#" id="bscLink" target="_blank" class="btn purple">🔍 BscScan</a>
+    <a id="dexLive" href="#" target="_blank" class="btn gray">📊 Dexscreener</a>
+    <a id="bscLink" href="#" target="_blank" class="btn purple">🔍 BscScan</a>
   </div>
 
-  <h3 style="margin-top:20px;">📈 Graphique en direct</h3>
+  <!-- Si tu veux garder le graphique, laisse ce bloc; sinon supprime-le -->
+  <h3 style="margin-top:18px;">📈 Graphique en direct</h3>
   <iframe
     id="dexChart"
     src="https://dexscreener.com/bsc/0x0000000000000000000000000000000000000000?embed=1&theme=dark"
-    style="width:100%;height:480px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 0 15px rgba(0,0,0,0.4);"
+    style="width:100%;height:480px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 0 14px rgba(0,0,0,.35);"
     allowfullscreen
   ></iframe>
 </section>
+
 
 
 
