@@ -263,6 +263,17 @@
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
+    /* --- Animation bouton Rafraîchir --- */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.refresh-btn.loading {
+  pointer-events: none;
+  opacity: 0.8;
+  animation: spin 0.9s linear;
+}
   </style>
 </head>
 
