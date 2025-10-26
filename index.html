@@ -714,7 +714,10 @@ async function updateStats() {
 
       // 🔺 Variation + flèche de tendance
       if (pair.priceChange && pair.priceChange.h24 !== undefined) {
-        const change = parseFloat(pair.priceChange.h24);
+        const change = parseFloat(pair.priceChange.h24); 
+        const ch = +(p.priceChange?.h24||5.72); // test: 5.72% de hausse
+
+        
         const varEl = document.getElementById("variation24h");
         const trendIcon = document.getElementById("trend-icon");
         varEl.textContent = `${change.toFixed(2)}%`;
