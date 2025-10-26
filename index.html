@@ -649,6 +649,33 @@ window.addEventListener('load', () => {
   }
 });
 </script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const refreshButton = document.querySelector("#refresh-live");
+
+  function refreshLiveStats() {
+    // Animation du bouton
+    if (refreshButton) refreshButton.classList.add("animate-spin");
+
+    // (Tu ajouteras ici la future requête Dexscreener)
+    console.log("📊 Rafraîchissement automatique des stats NellyCoin...");
+
+    // Simulation du chargement (1 seconde)
+    setTimeout(() => {
+      if (refreshButton) refreshButton.classList.remove("animate-spin");
+    }, 1000);
+  }
+
+  // Rafraîchissement automatique toutes les 30 secondes
+  setInterval(refreshLiveStats, 30000);
+
+  // Bouton manuel
+  if (refreshButton) {
+    refreshButton.addEventListener("click", refreshLiveStats);
+  }
+});
+</script>
   
 </body>
 </html>
