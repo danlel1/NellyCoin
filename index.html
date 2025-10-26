@@ -338,6 +338,47 @@
     <a href="https://bscscan.com" target="_blank" class="btn-link">🔍 BscScan</a>
   </div>
 </section>
+
+
+      <section id="live" class="panel">
+  <div class="addr-row" style="justify-content:space-between;align-items:center">
+    <h3>📊 <span data-i18n="live.title">Cours & Stats (live)</span></h3>
+    <button class="btn sm" id="refresh">↻ <span data-i18n="live.refresh">Rafraîchir</span></button>
+  </div>
+
+  <p class="muted" data-i18n="live.desc">
+    Le live chart et les statistiques s’actualisent automatiquement toutes les 30 secondes.  
+    Données via Dexscreener.
+  </p>
+
+  <div class="grid-2">
+    <div class="card"><b>Prix (USD)</b> <span id="price-usd">—</span></div>
+    <div class="card"><b>Prix (BNB)</b> <span id="price-bnb">—</span></div>
+    <div class="card">
+      <b>Variation 24h</b> <span id="variation24h">—</span> <span id="trend-icon"></span>
+    </div>
+    <div class="card"><b>Volume 24h</b> <span id="volume-24h">—</span></div>
+    <div class="card"><b>FDV</b> <span id="fdv">—</span></div>
+    <div class="card"><b>Liquidité</b> <span id="liquidity">—</span></div>
+  </div>
+
+  <div class="addr-row" style="margin-top:8px">
+    <span class="link-small">Source: Dexscreener (auto-refresh 30s).</span>
+    <a id="dexLive" class="btn sm" target="_blank" rel="noopener">📈 Dex</a>
+  </div>
+
+  <!-- 🧠 Graphique en direct -->
+  <div style="margin-top:18px;">
+    <h3>📈 <span data-i18n="chart.title">Graphique en direct</span></h3>
+    <iframe
+      id="dexChart"
+      src="https://dexscreener.com/bsc/0x0000000000000000000000000000000000000000?embed=1&theme=dark"
+      style="width:100%; height:480px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); box-shadow:0 0 20px rgba(0,0,0,0.4);"
+      allowfullscreen
+    ></iframe>
+  </div>
+</section>
+      
     </div>
 
     <!-- HERO -->
@@ -680,45 +721,65 @@
   </script>
 
 
-
 <script>
-  const refreshBtn = document.getElementById("refresh-btn");
+const pairAddress = "0x0000000000000000000000000000000000000000"; // 🔁 Remplacer après listing réel
+const apiURL = `https://api.dexscreener.io/latest/dex/pairs/bsc/${pairAddress}`;
 
-  async function updateStats() {
-    refreshBtn.classList.add("loading");
+const refreshBtn = document.getElementById("refresh");
+async function updateStats() {
+  try {
+    console.log("📊 Rafraîchissement automatique des stats NellyCoin...");
+    if (refreshBtn) refreshBtn.classList.add("loading");
 
-    // 🔗 Mets ici ton adresse du pair NellyCoin sur Dexscreener
-    const pairAddress = "https://api.dexscreener.io/latest/dex/pairs/bsc/TON_ADRESSE_ICI";
+    const res = await fetch(apiURL);
+    const data = await res.json();
+    const pair = data?.pair || data?.pairs?.[0];
 
-    try {
-      const response = await fetch(pairAddress);
-      const data = await response.json();
+    if (pair) {
+      document.getElementById("price-usd").textContent = `$${parseFloat(pair.priceUsd).toFixed(6)}`;
+      document.getElementById("price-bnb").textContent = `${parseFloat(pair.priceNative).toFixed(8)} BNB`;
 
-      const pair = data.pairs?.[0];
-      if (pair) {
-        document.getElementById("price-usd").textContent = pair.priceUsd ? `$${parseFloat(pair.priceUsd).toFixed(8)}` : "--";
-        document.getElementById("price-bnb").textContent = pair.priceNative ? `${parseFloat(pair.priceNative).toFixed(8)} BNB` : "--";
-        document.getElementById("fdv").textContent = pair.fdv ? `$${(pair.fdv / 1_000_000).toFixed(2)}M` : "--";
-        document.getElementById("volume24h").textContent = pair.volume.h24 ? `$${pair.volume.h24.toLocaleString()}` : "--";
-        document.getElementById("liquidity").textContent = pair.liquidity.usd ? `$${pair.liquidity.usd.toLocaleString()}` : "--";
-        document.getElementById("variation24h").textContent = pair.priceChange.h24 ? `${pair.priceChange.h24.toFixed(2)}%` : "--";
+      // 🔺 Variation + flèche de tendance
+      if (pair.priceChange && pair.priceChange.h24 !== undefined) {
+        const change = parseFloat(pair.priceChange.h24);
+        const varEl = document.getElementById("variation24h");
+        const trendIcon = document.getElementById("trend-icon");
+        varEl.textContent = `${change.toFixed(2)}%`;
+        if (change > 0) {
+          varEl.style.color = "#3ce47a"; // vert
+          trendIcon.textContent = "🔺";
+        } else if (change < 0) {
+          varEl.style.color = "#ff4444"; // rouge
+          trendIcon.textContent = "🔻";
+        } else {
+          varEl.style.color = "inherit";
+          trendIcon.textContent = "—";
+        }
       }
-    } catch (err) {
-      console.error("Erreur lors du chargement des données :", err);
+
+      document.getElementById("volume-24h").textContent = `$${Number(pair.volume.h24).toLocaleString()}`;
+      document.getElementById("fdv").textContent = `$${Number(pair.fdv).toLocaleString()}`;
+      document.getElementById("liquidity").textContent = `$${Number(pair.liquidity.usd).toLocaleString()}`;
+    } else {
+      console.warn("⚠️ Aucune donnée trouvée sur Dexscreener pour cette adresse.");
     }
-
-    refreshBtn.classList.remove("loading");
+  } catch (error) {
+    console.error("❌ Erreur de mise à jour :", error);
+  } finally {
+    if (refreshBtn) refreshBtn.classList.remove("loading");
   }
+}
 
-  // 🕒 Rafraîchit toutes les 30 secondes
-  setInterval(updateStats, 30000);
+// ⏳ Rafraîchissement manuel
+refreshBtn?.addEventListener("click", updateStats);
 
-  // 🖱️ Clique manuel
-  refreshBtn.addEventListener("click", updateStats);
+// 🔁 Auto-refresh toutes les 30 secondes
+setInterval(updateStats, 30000);
 
-  // 🚀 Premier chargement à l’ouverture
-  updateStats();
+// 🚀 Chargement initial
+updateStats();
 </script>
+
 
 
   
