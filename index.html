@@ -196,6 +196,73 @@
       padding:20px;
       margin:40px auto;
     }
+
+    .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+}
+
+.stat-item span {
+  color: #aaa;
+}
+
+
+    
+  .stat-item strong {
+  color: #ffd166;
+  font-weight: 600;
+}
+
+.actions {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.refresh-btn {
+  background: linear-gradient(90deg, #ffb703, #fb8500);
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.refresh-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.btn-link {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 16px;
+  border-radius: 10px;
+  color: #ffb703;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.btn-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
   </style>
 </head>
 
@@ -260,71 +327,6 @@
     <a href="https://bscscan.com" target="_blank" class="btn-link">🔍 BscScan</a>
   </div>
 </section>
-
-      .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.stat-item {
-  background: rgba(255, 255, 255, 0.04);
-  padding: 10px 15px;
-  border-radius: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 15px;
-}
-
-.stat-item span {
-  color: #aaa;
-}
-
-.stat-item strong {
-  color: #ffd166;
-  font-weight: 600;
-}
-
-.actions {
-  margin-top: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-start;
-}
-
-.refresh-btn {
-  background: linear-gradient(90deg, #ffb703, #fb8500);
-  color: #000;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.refresh-btn:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-
-.btn-link {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 8px 16px;
-  border-radius: 10px;
-  color: #ffb703;
-  text-decoration: none;
-  font-weight: 500;
-  transition: 0.2s ease;
-}
-
-.btn-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
     </div>
 
     <!-- HERO -->
