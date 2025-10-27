@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-  <channel>
-    <title>NellyCoin News</title>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+  <title>NellyCoin News</title>
+  <link>https://nellycoin.io/</link>
+  <description>Dernières actualités et annonces officielles de NellyCoin 🐾</description>
+  <language>fr</language>
+
+  <!-- 🟢 ARTICLE 1 -->
+  <item>
+    <title>🚀 Lancement officiel de NellyCoin</title>
     <link>https://nellycoin.io/</link>
-    <description>Dernières actualités et annonces officielles de NellyCoin</description>
-    <language>fr</language>
+    <description>🐱 NellyCoin (NLY) est maintenant en ligne sur la BNB Smart Chain ! Rejoignez l’aventure communautaire la plus féline du Web3. 🌕</description>
+    <media:content url="https://nellycoin.io/assets/banner.jpg" medium="image" />
+    <pubDate>Mon, 28 Oct 2025 10:00:00 +0000</pubDate>
+  </item>
 
-    <item>
-      <title>Lancement officiel de NellyCoin 🚀</title>
-      <link>https://nellycoin.io/</link>
-      <description>NellyCoin (NLY) est maintenant en ligne sur la BNB Smart Chain !</description>
-      <pubDate>Mon, 28 Oct 2025 10:00:00 +0000</pubDate>
-    </item>
+  <!-- 🟢 ARTICLE 2 -->
+  <item>
+    <title>🔥 Prévente NellyCoin à venir</title>
+    <link>https://nellycoin.io/</link>
+    <description>⏳ La prévente approche ! Préparez vos portefeuilles et rejoignez la famille NellyCoin sur BNB Smart Chain 🟡</description>
+    <media:content url="https://nellycoin.io/assets/preview.jpg" medium="image" />
+    <pubDate>Mon, 28 Oct 2025 12:00:00 +0000</pubDate>
+  </item>
 
-    <item>
-      <title>Prévente à venir 🪙</title>
-      <link>https://nellycoin.io/</link>
-      <description>La prévente NellyCoin approche, préparez vos portefeuilles !</description>
-      <pubDate>Mon, 28 Oct 2025 12:00:00 +0000</pubDate>
-    </item>
+  <!-- 🟢 ARTICLE 3 (TEST) -->
+  <item>
+    <title>🧪 Test automatique NellyCoin RSS</title>
+    <link>https://nellycoin.io/</link>
+    <description>✅ Ceci est un test de publication automatique via le bot Telegram NellyCoinBot 😸  
+Suivez-nous sur Telegram pour toutes les news !</description>
+    <media:content url="https://nellycoin.io/assets/banner.jpg" medium="image" />
+    <pubDate>Mon, 27 Oct 2025 14:35:00 +0000</pubDate>
+  </item>
 
-    <item>
-  <title>🚀 Test automatique NellyCoin RSS</title>
-  <link>https://nellycoin.io</link>
-  <description>Ceci est un test de publication automatique via le bot Telegram NellyCoinBot 😸</description>
-  <pubDate>Mon, 27 Oct 2025 14:35:00 +0000</pubDate>
-</item>
-
-  </channel>
+</channel>
 </rss>
