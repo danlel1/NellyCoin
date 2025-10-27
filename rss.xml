@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>NellyCoin News</title>
+    <link>https://nellycoin.io/</link>
+    <description>Dernières actualités et annonces officielles de NellyCoin</description>
+    <language>fr</language>
+
+    <item>
+      <title>Lancement officiel de NellyCoin 🚀</title>
+      <link>https://nellycoin.io/</link>
+      <description>NellyCoin (NLY) est maintenant en ligne sur la BNB Smart Chain !</description>
+      <pubDate>Mon, 28 Oct 2025 10:00:00 +0000</pubDate>
+    </item>
+
+    <item>
+      <title>Prévente à venir 🪙</title>
+      <link>https://nellycoin.io/</link>
+      <description>La prévente NellyCoin approche, préparez vos portefeuilles !</description>
+      <pubDate>Mon, 28 Oct 2025 12:00:00 +0000</pubDate>
+    </item>
+
+  </channel>
+</rss>
