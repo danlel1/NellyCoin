@@ -181,7 +181,8 @@
     #menuToggle{display:none}
     @media (max-width:980px){
       #menuToggle{display:inline-flex}
-      nav.main{position:fixed; inset:60px 10px auto 10px; display:none; flex-direction:column; gap:6px; padding:12px; border:1px solid var(--border); border-radius:12px; background:rgba(11,16,32,.98)}
+      nav.main{position:fixed; inset:60px 10px auto 10px; display:none; flex-direction:column; gap:6px; padding:12px; border:1px 
+        solid var(--border); border-radius:12px; background:rgba(11,16,32,.98)}
       nav.main.open{display:flex}
     }
 
@@ -758,6 +759,21 @@ updateStats();
 </script>
 
 
+
+  <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menuToggle');
+    const nav = document.querySelector('nav.main');
+
+    if (menuToggle && nav) {
+      menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('open');
+      });
+    } else {
+      console.warn('⚠️ menuToggle ou nav.main non trouvé');
+    }
+  });
+</script>
 
   
 </body>
