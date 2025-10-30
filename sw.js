@@ -1,5 +1,5 @@
 // Nom de version du cache – incrémente à chaque mise à jour
-const CACHE = 'nellycoin-v5';
+const CACHE = 'nellycoin-v15';
 
 // Fichiers essentiels à mettre en cache (offline)
 const ASSETS = [
