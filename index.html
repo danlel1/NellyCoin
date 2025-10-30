@@ -696,24 +696,27 @@
       }
     };
 
-    // --- i18n apply
-    const langSel=document.getElementById('lang');
-    function applyLang(l){
-      const d=I18N[l]||I18N.fr;
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
-        const k=el.getAttribute('data-i18n');
-        if(d[k]) el.innerHTML=d[k];
-      });
-    }
-    const savedLang = localStorage.getItem('nly_lang') || 'fr';
-    langSel.value = savedLang; applyLang(savedLang);
-    langSel.addEventListener('change', e=>{
-      const v=e.target.value;
-      localStorage.setItem('nly_lang', v);
-      applyLang(v);
-    });
-  </script>
 
+
+  <script>
+  // ✅ Gestion du changement de langue
+  document.getElementById("lang").addEventListener("change", function() {
+    const lang = this.value;
+    localStorage.setItem("selectedLang", lang);
+    location.reload(); // recharge la page pour appliquer la traduction
+  });
+
+  // ✅ Au chargement, appliquer la langue sauvegardée
+  window.addEventListener("DOMContentLoaded", function() {
+    const savedLang = localStorage.getItem("selectedLang") || "fr";
+    document.getElementById("lang").value = savedLang;
+
+    // Si tu utilises un script i18n (comme i18next ou ton propre système)
+    if (typeof setLanguage === "function") {
+      setLanguage(savedLang);
+    }
+  });
+</script>
 
 <script>
 const pairAddress = "0x0000000000000000000000000000000000000000"; // 🔁 Remplacer après listing réel
