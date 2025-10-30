@@ -9,7 +9,7 @@
 <meta name="description" content="NellyCoin (NLY) — le meme coin félin sur la BNB Smart Chain. Rejoins la révolution des cats-memes et découvre la puissance de la communauté Nelly !">
 
 
-  
+ 
   <!-- Open Graph / Social Card -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://nellycoin.io/">
@@ -42,7 +42,7 @@
 
 
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
-  
+ 
   <style>
     :root{
       --bg:#0b1020;--panel:#0f1631;--card:#121a38;
@@ -181,7 +181,7 @@
     #menuToggle{display:none}
     @media (max-width:980px){
       #menuToggle{display:inline-flex}
-      nav.main{position:fixed; inset:60px 10px auto 10px; display:none; flex-direction:column; gap:6px; padding:12px; border:1px 
+      nav.main{position:fixed; inset:60px 10px auto 10px; display:none; flex-direction:column; gap:6px; padding:12px; border:1px
         solid var(--border); border-radius:12px; background:rgba(11,16,32,.98)}
       nav.main.open{display:flex}
     }
@@ -220,7 +220,7 @@
 }
 
 
-    
+   
 
 
 .stats-grid {
@@ -329,7 +329,7 @@
 </a>
 </header>
 
-  
+ 
   <!-- PAGE -->
   <main class="container layout" id="top">
     <!-- COLONNE DROITE (desktop): bannière + live -->
@@ -337,7 +337,7 @@
       <section id="bannerWrap" class="panel">
        <img src="/assets/nelly/banniere-720.webp" alt="Bannière NellyCoin" width="720" height="480" fetchpriority="high">
 
-        
+       
       </section>
 
 
@@ -445,13 +445,13 @@
       </div>
     </section>
 
-        
+       
     <!-- Liens Officiels + Adresses -->
     <section class="panel" id="links">
       <h2 data-i18n="links.title">Adresses & officiels</h2>
       <div class="grid-2" style="margin-top:10px">
         <!-- TOKEN CONTRACT -->
-        <div class="card">         
+        <div class="card">        
           <h3>🧾 <span data-i18n="addr.tokenTitle">Contrat NellyCoin (Token)</span></h3>
           <div class="addr-row">
             <code id="tokenAddr" class="addr">0x0000…0000</code>
@@ -613,8 +613,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const el = document.getElementById(id);
       if (el) {
         el.innerHTML = `
-          <a href="https://bscscan.com/address/${addr}" 
-             target="_blank" 
+          <a href="https://bscscan.com/address/${addr}"
+             target="_blank"
              rel="noopener noreferrer"
              style="color:#ffd36a; text-decoration:none;">
             ${addr.slice(0, 6)}...${addr.slice(-4)}
@@ -665,7 +665,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  
+ 
     // --- Helpers
     const $=s=>document.querySelector(s);
     const mask=a=>a ? a.slice(0,6)+'…'+a.slice(-4) : '0x000…0000';
@@ -801,10 +801,10 @@ async function updateStats() {
 
       // 🔺 Variation + flèche de tendance
       if (pair.priceChange && pair.priceChange.h24 !== undefined) {
-        const change = parseFloat(pair.priceChange.h24); 
+        const change = parseFloat(pair.priceChange.h24);
         const ch = +(p.priceChange?.h24||5.72); // test: 5.72% de hausse
 
-        
+       
         const varEl = document.getElementById("variation24h");
         const trendIcon = document.getElementById("trend-icon");
         varEl.textContent = `${change.toFixed(2)}%`;
@@ -863,8 +863,6 @@ updateStats();
 
 
 
-  
+ 
 </body>
 </html>
-
-
