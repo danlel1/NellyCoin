@@ -1,0 +1,6 @@
+   <div class="spacer"></div>
+      <select id="lang" class="lang-select" title="Langue"><option value="fr">FR</option><option value="en">EN</option></select>
+     <a class="btn accent" href="https://www.pinksale.finance/launchpad/bsc/0xB86D870bB1f66B92fec954FEaE35386D30917BE5" id="buyBtn">
+  <span>🚀 Buy $NLY</span>
+</a>
+
