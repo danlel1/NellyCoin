@@ -796,6 +796,56 @@ updateStats();
   });
 </script>
 
+<script>
+// --- Injection automatique des adresses officielles depuis SETTINGS ---
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof SETTINGS !== "undefined") {
+    // Fonction raccourcie pour afficher et masquer une adresse
+    const setAddress = (id, addr) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = addr.slice(0, 6) + "..." + addr.slice(-4);
+    };
+
+    // Appliquer les adresses aux champs correspondants
+    setAddress("tokenAddr", SETTINGS.TOKEN_ADDRESS);
+    setAddress("mktAddr", SETTINGS.MKT_ADDRESS);
+    setAddress("stkAddr", SETTINGS.STK_ADDRESS);
+
+    // Boutons "Voir" -> ouvre le lien BscScan
+    const reveal = (btnId, addr) => {
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        btn.addEventListener("click", () => {
+          window.open(`https://bscscan.com/address/${addr}`, "_blank");
+        });
+      }
+    };
+
+    reveal("revealToken", SETTINGS.TOKEN_ADDRESS);
+    reveal("revealMkt", SETTINGS.MKT_ADDRESS);
+    reveal("revealStk", SETTINGS.STK_ADDRESS);
+
+    // Boutons "Copier"
+    const copy = (btnId, addr) => {
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        btn.addEventListener("click", () => {
+          navigator.clipboard.writeText(addr);
+          alert("Adresse copiée ✅");
+        });
+      }
+    };
+
+    copy("copyToken", SETTINGS.TOKEN_ADDRESS);
+    copy("copyMkt", SETTINGS.MKT_ADDRESS);
+    copy("copyStk", SETTINGS.STK_ADDRESS);
+  }
+});
+</script>
+
+
+
+
   
 </body>
 </html>
