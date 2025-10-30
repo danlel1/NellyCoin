@@ -129,18 +129,19 @@
     .btn-link{background:rgba(255,255,255,.05);padding:8px 16px;border-radius:10px;color:#ffb703;text-decoration:none;font-weight:500;transition:.2s}
 
 
-    /* ✅ Ajustement bannière : entre le hero et "Pourquoi NellyCoin ?" sur mobile */
-@media (max-width: 999px) {
+    @media (max-width: 999px) {
+  /* Force la bannière à apparaître juste après le hero */
+  #hero {
+    display: flex;
+    flex-direction: column;
+  }
+
   #bannerWrap {
-    order: 2; /* place la bannière après le bloc hero */
-    grid-area: unset;
+    order: 2;
+    width: 100%;
     margin-top: 10px;
   }
-  #why {
-    order: 3; /* "Pourquoi NellyCoin ?" vient juste après */
-  }
 }
-    
     .btn-link:hover{background:rgba(255,255,255,.1);color:#fff}
 
   </style>
