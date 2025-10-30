@@ -130,6 +130,127 @@
     .btn-link:hover{background:rgba(255,255,255,.1);color:#fff}
   </style>
 </head>
+
+
+
+
+
+
+  <!-- 🐾 Popup Prévente NellyCoin -->
+<div id="presalePopup" class="popup-overlay">
+  <div class="popup-content">
+    <span class="close-popup" onclick="closePopup()">×</span>
+    <img src="assets/nelly/banniere-720.webp" alt="NellyCoin Banner" class="popup-banner">
+    <h2>🚀 La prévente NellyCoin est en cours !</h2>
+    <p>Rejoins la révolution féline et sois parmi les premiers holders 🐾</p>
+    <a href="https://www.pinksale.finance/launchpad/bsc/0xB86D870bB1f66B92fec954FEaE35386D30917BE5" 
+       target="_blank" class="btn-buy-glow">
+      🚀 Rejoindre la prévente sur PinkSale
+    </a>
+  </div>
+</div>
+
+<style>
+/* 🎨 Style du popup */
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none; /* caché par défaut */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  position: relative;
+  background: linear-gradient(145deg, #0b1020, #141a2e);
+  color: #fff;
+  border-radius: 18px;
+  padding: 25px;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(255,200,0,0.4);
+  animation: fadeIn 0.6s ease-in-out;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.popup-banner {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.close-popup {
+  position: absolute;
+  top: 10px; right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.close-popup:hover {
+  color: #ffb703;
+  transform: scale(1.2);
+}
+
+/* 🌈 Bouton stylé PinkSale */
+.btn-buy-glow {
+  display: inline-block;
+  margin-top: 18px;
+  background: linear-gradient(90deg, #ffb703, #ffd36a, #ffb703);
+  background-size: 300% 100%;
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 12px 22px;
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 0 15px rgba(255, 183, 3, 0.6);
+  transition: all 0.3s ease;
+  animation: glowShift 3s infinite linear;
+}
+
+.btn-buy-glow:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 215, 100, 0.8);
+}
+
+@keyframes glowShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.9);}
+  to {opacity: 1; transform: scale(1);}
+}
+</style>
+
+<script>
+// 🚀 Affichage auto du popup (une fois par session)
+window.addEventListener('load', () => {
+  const popup = document.getElementById('presalePopup');
+  if (!sessionStorage.getItem('nelly_popup_seen')) {
+    popup.style.display = 'flex';
+    sessionStorage.setItem('nelly_popup_seen', 'true');
+  }
+});
+
+function closePopup() {
+  document.getElementById('presalePopup').style.display = 'none';
+}
+</script>
+
+
+
+
+
+
+  
 <body>
   <!-- HEADER -->
   <header>
