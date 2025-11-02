@@ -618,7 +618,40 @@
 
 
 
+<!-- 👁️ Compteur de visiteurs NellyCoin -->
+<div id="visitor-counter" style="
+  position: fixed;
+  bottom: 15px; right: 15px;
+  background: #0b1020;
+  border: 2px solid #f6b449;
+  border-radius: 10px;
+  color: #ffd36a;
+  font-family: 'Poppins', sans-serif;
+  padding: 8px 15px;
+  font-size: 14px;
+  box-shadow: 0 0 10px #f6b449;
+  z-index: 9999;
+">
+  👀 Visitors: <span id="visit-count">Loading...</span>
+</div>
 
+<script>
+  // NellyCoin visitor counter using CountAPI
+  async function updateVisitorCount() {
+    try {
+      const res = await fetch("https://api.countapi.xyz/hit/nellycoin.io/visits");
+      const data = await res.json();
+      document.getElementById("visit-count").textContent = data.value.toLocaleString();
+    } catch (e) {
+      document.getElementById("visit-count").textContent = "Error";
+      console.error("Visitor counter error:", e);
+    }
+  }
+  updateVisitorCount();
+</script>
+
+
+  
   
   
   
