@@ -208,45 +208,7 @@
 
 
 
-<footer id="visitor-footer" style="
-  width: 100%;
-  text-align: center;
-  margin-top: 40px;
-  padding: 15px 0;
-  background: #0b1020;
-  border-top: 2px solid #f6b449;
-  color: #ffd36a;
-  font-family: 'Poppins', sans-serif;
-  font-size: 15px;
-  box-shadow: 0 -2px 10px rgba(246,180,73,0.3);
-">
-  👀 Total visitors: <span id="visit-count">Loading...</span>
-</footer>
 
-<script>
-  const counterKey = "nellycoin_io_visits";
-
-  async function updateVisitorCount() {
-    try {
-      // 🔹 Vérifie d’abord si le compteur existe
-      let check = await fetch(`https://api.countapi.xyz/get/${counterKey}`);
-      if (check.status !== 200) {
-        // 🔹 Le compteur n’existe pas encore → on le crée à 0
-        await fetch(`https://api.countapi.xyz/create?namespace=&key=${counterKey}&value=0`);
-      }
-
-      // 🔹 Incrémente ensuite la visite
-      const res = await fetch(`https://api.countapi.xyz/hit/${counterKey}`);
-      const data = await res.json();
-      document.getElementById("visit-count").textContent = data.value.toLocaleString();
-    } catch (e) {
-      document.getElementById("visit-count").textContent = "Unavailable";
-      console.error("Visitor counter error:", e);
-    }
-  }
-
-  updateVisitorCount();
-</script>
 
 
 
@@ -647,7 +609,63 @@
 
 
 
+<!-- 👁️ Compteur de visiteurs NellyCoin -->
+<div id="visitor-section" style="
+  width: 100%;
+  text-align: center;
+  margin-top: 80px;
+  padding: 20px 0;
+  background: #0b1020;
+  border-top: 2px solid #f6b449;
+  color: #ffd36a;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  box-shadow: 0 -2px 15px rgba(246,180,73,0.3);
+">
+  👀 <span id="visitor-text">Total visitors:</span> <span id="visit-count">Loading...</span>
+</div>
 
+<script>
+  // 🔸 NellyCoin Counter - mobile compatible + auto-create namespace
+  const namespace = "nellycoin.io";
+  const key = "site_visits";
+
+  async function updateVisitorCount() {
+    const countEl = document.getElementById("visit-count");
+    try {
+      // 🔹 Vérifie d’abord si le compteur existe
+      const check = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+      if (!check.ok) {
+        // 🔹 Crée le compteur s'il n'existe pas
+        await fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0`);
+      }
+
+      // 🔹 Incrémente ensuite la visite
+      const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
+      const data = await res.json();
+
+      if (data && data.value !== undefined) {
+        countEl.textContent = data.value.toLocaleString();
+      } else {
+        countEl.textContent = "Error";
+      }
+    } catch (err) {
+      console.error("Visitor counter error:", err);
+      countEl.textContent = "Unavailable";
+    }
+  }
+
+  // 🔸 Traduction automatique FR/EN selon le navigateur
+  const userLang = navigator.language || navigator.userLanguage;
+  const visitorText = document.getElementById("visitor-text");
+  if (userLang.startsWith("fr")) {
+    visitorText.textContent = "Total des visiteurs :";
+  } else {
+    visitorText.textContent = "Total visitors:";
+  }
+
+  updateVisitorCount();
+</script>
 
   
   
