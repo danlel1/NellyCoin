@@ -230,21 +230,63 @@
 }
 </style>
 
-<script>
-// 🚀 Affichage auto du popup (une fois par session)
-window.addEventListener('load', () => {
-  const popup = document.getElementById('presalePopup');
-  if (!sessionStorage.getItem('nelly_popup_seen')) {
-    popup.style.display = 'flex';
-    sessionStorage.setItem('nelly_popup_seen', 'true');
-  }
-});
 
-function closePopup() {
-  document.getElementById('presalePopup').style.display = 'none';
-}
-</script>
 
+
+
+
+  <!-- 🔥 NellyCoin Bilingual Presale Popup -->
+<div id="presalePopup" style="
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; visibility: visible;
+">
+  <div style="
+    background: #0b1020;
+    color: #fff;
+    border: 2px solid #f6b449;
+    border-radius: 15px;
+    box-shadow: 0 0 25px #f6b449;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    padding: 25px;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+  ">
+    <button onclick="document.getElementById('presalePopup').style.display='none'" 
+      style="position:absolute;top:10px;right:15px;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;">✖</button>
+
+    <img src="logo.png" alt="NellyCoin" style="width:100px;margin-bottom:15px;border-radius:50%;box-shadow:0 0 15px #f6b449;">
+
+    <h2 style="color:#ffd36a;">🚀 La prévente NellyCoin est en cours !</h2>
+    <p>Rejoins la révolution féline et sois parmi les premiers holders 🐾</p>
+    <p style="color:#ffd36a;font-weight:bold;">💰 Programme d’affiliation actif : 3 % de récompense !</p>
+
+    <hr style="margin:20px 0;border:1px solid #222;">
+
+    <h2 style="color:#ffd36a;">🚀 NellyCoin Presale is Live!</h2>
+    <p>Join the feline revolution and become one of the first holders 🐾</p>
+    <p style="color:#ffd36a;font-weight:bold;">💰 Affiliate Program Active – Earn 3 % reward!</p>
+
+    <a href="https://www.pinksale.finance/launchpad/0xB86D870bB1f66B92fec954FEaE55386D30917BE5" target="_blank" 
+      style="display:inline-block;margin-top:20px;padding:10px 20px;
+      background:#f6b449;color:#000;text-decoration:none;
+      font-weight:bold;border-radius:8px;box-shadow:0 0 15px #f6b449;">
+      🚀 Rejoindre la prévente / Join Presale
+    </a>
+  </div>
+</div>
+<!-- 🔥 End Popup -->
+
+
+
+
+
+
+  
 
 
 
@@ -643,52 +685,6 @@ function closePopup() {
     setInterval(updateStats, 30000);
     updateStats();
   </script>
-
-  
-<!-- 👁️ NellyCoin Visitor Counter -->
-<div style="
-  text-align:center;
-  margin-top:40px;
-  font-family:'Orbitron', sans-serif;
-  font-size:20px;
-  color:#ffd36a;
-  text-shadow:0 0 10px #f6b449, 0 0 20px #f6b449;
-">
-  👁️ Total Visitors: <span id="count">Loading...</span>
-</div>
-
-<script>
-(async () => {
-  const endpoint = "https://api.countapi.xyz";
-  const namespace = "nellycoin";
-  const key = "visitors";
-
-  try {
-    // Crée la clé si elle n'existe pas encore
-    await fetch(`${endpoint}/create?namespace=${namespace}&key=${key}&value=0`);
-
-    // Incrémente à chaque visite
-    const res = await fetch(`${endpoint}/hit/${namespace}/${key}`);
-    const data = await res.json();
-
-    if (data && data.value !== undefined) {
-      document.getElementById("count").textContent = data.value.toLocaleString();
-    } else {
-      document.getElementById("count").textContent = "0";
-    }
-  } catch (err) {
-    console.error("Visitor counter error:", err);
-    document.getElementById("count").textContent = "0";
-  }
-})();
-</script>
-
-
-
-
-
-
-
 
 
 
