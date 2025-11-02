@@ -645,7 +645,6 @@ function closePopup() {
   </script>
 
   
-
 <!-- 👁️ NellyCoin Visitor Counter -->
 <div style="
   text-align:center;
@@ -659,22 +658,31 @@ function closePopup() {
 </div>
 
 <script>
-const endpoint = "https://api.nellycount.workers.dev"; // proxy sécurisé
-const key = "nellycoin_visitors";
+(async () => {
+  const endpoint = "https://api.countapi.xyz";
+  const namespace = "nellycoin";
+  const key = "visitors";
 
-async function updateCounter() {
   try {
-    const res = await fetch(`${endpoint}/hit/${key}`);
+    // Crée la clé si elle n'existe pas encore
+    await fetch(`${endpoint}/create?namespace=${namespace}&key=${key}&value=0`);
+
+    // Incrémente à chaque visite
+    const res = await fetch(`${endpoint}/hit/${namespace}/${key}`);
     const data = await res.json();
-    document.getElementById("count").textContent = data.value.toLocaleString();
+
+    if (data && data.value !== undefined) {
+      document.getElementById("count").textContent = data.value.toLocaleString();
+    } else {
+      document.getElementById("count").textContent = "0";
+    }
   } catch (err) {
     console.error("Visitor counter error:", err);
     document.getElementById("count").textContent = "0";
   }
-}
-
-updateCounter();
+})();
 </script>
+
 
 
 
