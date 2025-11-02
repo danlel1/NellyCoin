@@ -643,5 +643,47 @@ function closePopup() {
     setInterval(updateStats, 30000);
     updateStats();
   </script>
+
+
+...
+<!-- Autres sections de ton site -->
+
+<!-- 👁️ NellyCoin Visitor Counter -->
+<div style="
+  text-align:center;
+  margin-top:40px;
+  font-family:'Orbitron', sans-serif;
+  font-size:20px;
+  color:#ffd36a;
+  text-shadow:0 0 10px #f6b449, 0 0 20px #f6b449;
+">
+  👁️ Total Visitors: <span id="count">0</span>
+</div>
+
+<script>
+fetch('https://api.countapi.xyz/hit/nellycoin.io/visits')
+  .then(res => res.json())
+  .then(res => {
+    document.getElementById('count').textContent = res.value.toLocaleString();
+  })
+  .catch(() => {
+    document.getElementById('count').textContent = '...';
+  });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+  
+  
+  
 </body>
 </html>
