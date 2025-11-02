@@ -644,9 +644,7 @@ function closePopup() {
     updateStats();
   </script>
 
-
-...
-<!-- Autres sections de ton site -->
+  
 
 <!-- 👁️ NellyCoin Visitor Counter -->
 <div style="
@@ -657,22 +655,27 @@ function closePopup() {
   color:#ffd36a;
   text-shadow:0 0 10px #f6b449, 0 0 20px #f6b449;
 ">
-  👁️ Total Visitors: <span id="count">0</span>
+  👁️ Total Visitors: <span id="count">Loading...</span>
 </div>
 
 <script>
-fetch('https://api.countapi.xyz/hit/nellycoin.io/visits')
+const counterKey = 'nellycoin_visits';
+
+fetch(`https://api.countapi.xyz/update/${counterKey}?amount=1`)
   .then(res => res.json())
   .then(res => {
-    document.getElementById('count').textContent = res.value.toLocaleString();
+    if (res.value) {
+      document.getElementById('count').textContent = res.value.toLocaleString();
+    } else {
+      document.getElementById('count').textContent = '0';
+    }
   })
-  .catch(() => {
-    document.getElementById('count').textContent = '...';
+  .catch(err => {
+    console.error('Counter error:', err);
+    document.getElementById('count').textContent = '0';
   });
 </script>
 
-</body>
-</html>
 
 
 
