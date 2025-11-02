@@ -208,11 +208,6 @@
 
 
 
-
-
-
-
-<!-- 👁️ Compteur de visiteurs NellyCoin -->
 <footer id="visitor-footer" style="
   width: 100%;
   text-align: center;
@@ -229,29 +224,33 @@
 </footer>
 
 <script>
-  // 🔸 NellyCoin visitor counter using CountAPI (mobile-friendly)
+  const counterKey = "nellycoin_io_visits";
+
   async function updateVisitorCount() {
     try {
-      const res = await fetch("https://api.countapi.xyz/hit/nellycoin.io/visits");
+      // 🔹 Vérifie d’abord si le compteur existe
+      let check = await fetch(`https://api.countapi.xyz/get/${counterKey}`);
+      if (check.status !== 200) {
+        // 🔹 Le compteur n’existe pas encore → on le crée à 0
+        await fetch(`https://api.countapi.xyz/create?namespace=&key=${counterKey}&value=0`);
+      }
+
+      // 🔹 Incrémente ensuite la visite
+      const res = await fetch(`https://api.countapi.xyz/hit/${counterKey}`);
       const data = await res.json();
       document.getElementById("visit-count").textContent = data.value.toLocaleString();
     } catch (e) {
-      document.getElementById("visit-count").textContent = "Error";
+      document.getElementById("visit-count").textContent = "Unavailable";
       console.error("Visitor counter error:", e);
     }
   }
+
   updateVisitorCount();
 </script>
 
 
 
-
   
-
-
-
-
-
   
 <body>
   <!-- HEADER -->
