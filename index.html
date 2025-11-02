@@ -645,7 +645,6 @@ function closePopup() {
   </script>
 
   
-
 <!-- 👁️ NellyCoin Visitor Counter -->
 <div style="
   text-align:center;
@@ -659,22 +658,25 @@ function closePopup() {
 </div>
 
 <script>
-const counterKey = 'nellycoin_visits';
+const namespace = "nellycoin";
+const key = "visitor_count";
 
-fetch(`https://api.countapi.xyz/update/${counterKey}?amount=1`)
+// D'abord, créer la clé si elle n'existe pas
+fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0&update_lowerbound=0&update_upperbound=1`)
+  .then(() => {
+    // Puis, incrémenter à chaque visite
+    return fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
+  })
   .then(res => res.json())
   .then(res => {
-    if (res.value) {
-      document.getElementById('count').textContent = res.value.toLocaleString();
-    } else {
-      document.getElementById('count').textContent = '0';
-    }
+    document.getElementById("count").textContent = res.value.toLocaleString();
   })
   .catch(err => {
-    console.error('Counter error:', err);
-    document.getElementById('count').textContent = '0';
+    console.error("Counter error:", err);
+    document.getElementById("count").textContent = "Error";
   });
-</script>
+        </script>
+
 
 
 
