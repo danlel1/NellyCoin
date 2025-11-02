@@ -1,0 +1,14 @@
+<script>
+// 🚀 Affichage auto du popup (une fois par session)
+window.addEventListener('load', () => {
+  const popup = document.getElementById('presalePopup');
+  if (!sessionStorage.getItem('nelly_popup_seen')) {
+    popup.style.display = 'flex';
+    sessionStorage.setItem('nelly_popup_seen', 'true');
+  }
+});
+
+function closePopup() {
+  document.getElementById('presalePopup').style.display = 'none';
+}
+</script>
