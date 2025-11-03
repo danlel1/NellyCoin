@@ -609,63 +609,65 @@
 
 
 
-<!-- 👁️ Compteur de visiteurs NellyCoin -->
+<!-- 👁️ Visitor Counter -->
 <div id="visitor-section" style="
-  width: 100%;
-  text-align: center;
-  margin-top: 80px;
-  padding: 20px 0;
-  background: #0b1020;
-  border-top: 2px solid #f6b449;
-  color: #ffd36a;
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  box-shadow: 0 -2px 15px rgba(246,180,73,0.3);
-">
-  👀 <span id="visitor-text">Total visitors:</span> <span id="visit-count">Loading...</span>
+  width:100%;text-align:center;margin-top:80px;padding:20px 0;
+  background:#0b1020;border-top:2px solid #f6b449;color:#ffd36a;
+  font-family:'Poppins',sans-serif;font-size:16px;box-shadow:0 -2px 15px rgba(246,180,73,.3)">
+  👀 <span id="visitor-text">Total visitors:</span> <span id="visit-count">Loading…</span>
 </div>
 
 <script>
-  // 🔸 NellyCoin Counter - mobile compatible + auto-create namespace
-  const namespace = "nellycoin.io";
-  const key = "site_visits";
+(function(){
+  const NS = "nellycoin_io"; // namespace (letters/numbers/underscore only)
+  const KEY = "site_visits_v1"; // change version if you ever want to reset
+  const $count = document.getElementById("visit-count");
 
-  async function updateVisitorCount() {
-    const countEl = document.getElementById("visit-count");
-    try {
-      // 🔹 Vérifie d’abord si le compteur existe
-      const check = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
-      if (!check.ok) {
-        // 🔹 Crée le compteur s'il n'existe pas
-        await fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0`);
-      }
+  // auto FR/EN label
+  document.getElementById("visitor-text").textContent =
+    (navigator.language||"").startsWith("fr") ? "Total des visiteurs :" : "Total visitors:";
 
-      // 🔹 Incrémente ensuite la visite
-      const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
-      const data = await res.json();
+  // 1) Try normal fetch
+  async function tryFetch(){
+    // ensure the counter exists
+    await fetch(`https://api.countapi.xyz/create?namespace=${NS}&key=${KEY}&value=0`).catch(()=>{});
+    const r = await fetch(`https://api.countapi.xyz/hit/${NS}/${KEY}`);
+    if(!r.ok) throw new Error("fetch blocked");
+    const data = await r.json();
+    if(typeof data.value !== "number") throw new Error("bad payload");
+    $count.textContent = data.value.toLocaleString();
+  }
 
-      if (data && data.value !== undefined) {
-        countEl.textContent = data.value.toLocaleString();
+  // 2) Fallback via JSONP (bypasses CORS/ad-blockers)
+  function tryJsonp(){
+    window.__nelly_cb = function(data){
+      if(data && typeof data.value === "number"){
+        $count.textContent = data.value.toLocaleString();
       } else {
-        countEl.textContent = "Error";
+        $count.textContent = "—";
       }
-    } catch (err) {
-      console.error("Visitor counter error:", err);
-      countEl.textContent = "Unavailable";
-    }
+      cleanup();
+    };
+    // ensure exists (jsonp)
+    const s0 = document.createElement("script");
+    s0.src = `https://api.countapi.xyz/create?namespace=${NS}&key=${KEY}&value=0&callback=__nelly_cb`;
+    s0.onerror = cleanup; document.body.appendChild(s0);
+
+    // hit (jsonp)
+    const s1 = document.createElement("script");
+    s1.src = `https://api.countapi.xyz/hit/${NS}/${KEY}?callback=__nelly_cb`;
+    s1.onerror = function(){ $count.textContent = "—"; cleanup(); };
+    document.body.appendChild(s1);
+
+    function cleanup(){ try{ delete window.__nelly_cb; }catch(e){} }
   }
 
-  // 🔸 Traduction automatique FR/EN selon le navigateur
-  const userLang = navigator.language || navigator.userLanguage;
-  const visitorText = document.getElementById("visitor-text");
-  if (userLang.startsWith("fr")) {
-    visitorText.textContent = "Total des visiteurs :";
-  } else {
-    visitorText.textContent = "Total visitors:";
-  }
-
-  updateVisitorCount();
+  // run
+  tryFetch().catch(tryJsonp);
+})();
 </script>
+
+
 
   
   
