@@ -610,7 +610,7 @@
 
 
 
-  <!-- 👁️ Compteur de visiteurs NellyCoin -->
+ <!-- 👁️ Compteur de visiteurs NellyCoin -->
 <div id="visitor-section" style="
   width: 100%;
   text-align: center;
@@ -628,41 +628,29 @@
 </div>
 
 <script>
-  // 🟡 Paramètres du compteur
-  const namespace = "nellycoinio"; // identifiant unique
-  const key = "visiteurs_totaux"; // nom du compteur
+(async () => {
+  const compteur = document.getElementById("visit-count");
+  const texte = document.getElementById("visitor-text");
 
-  async function compteurVisites() {
-    const compteur = document.getElementById("visit-count");
-    const texte = document.getElementById("visitor-text");
+  // 🔄 Auto-traduction FR/EN selon la langue
+  const langue = (navigator.language || "en").toLowerCase();
+  if (langue.startsWith("en")) texte.textContent = "Total visitors:";
 
-    // Détection de la langue du visiteur
-    const langue = (navigator.language || "en").toLowerCase();
-    if (langue.startsWith("en")) texte.textContent = "Total visitors:";
+  try {
+    // 🔐 Utilisation de l'API publique CountAPI avec proxy HTTPS compatible mobile
+    const response = await fetch("https://api.countapi.xyz/hit/nellycoin.io/visiteurs");
+    if (!response.ok) throw new Error("Requête refusée");
+    const data = await response.json();
 
-    try {
-      // Crée le compteur s'il n'existe pas encore
-      await fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0`);
-
-      // Incrémente et récupère la valeur
-      const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
-      const data = await res.json();
-
-      // Affiche le nombre total formaté
-      if (data && data.value !== undefined) {
-        compteur.textContent = data.value.toLocaleString("fr-FR");
-      } else {
-        compteur.textContent = "Erreur";
-      }
-    } catch (e) {
-      compteur.textContent = "Indisponible";
-      console.error("⚠️ Erreur compteur :", e);
-    }
+    // ✅ Affiche le nombre avec formatage français
+    compteur.textContent = data.value.toLocaleString("fr-FR");
+  } catch (error) {
+    console.error("Erreur compteur :", error);
+    compteur.textContent = "Non disponible 😿";
   }
-
-  // Attend que la page soit entièrement chargée
-  window.addEventListener("load", compteurVisites);
+})();
 </script>
+
 
   
   
