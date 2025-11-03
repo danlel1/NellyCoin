@@ -610,46 +610,15 @@
 
 
 
- <!-- 👁️ Compteur de visiteurs NellyCoin -->
-<div id="visitor-section" style="
-  width: 100%;
-  text-align: center;
-  margin-top: 50px;
-  padding: 20px 0;
-  background: #0b1020;
-  border-top: 2px solid #f6b449;
-  color: #ffd36a;
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  box-shadow: 0 -2px 15px rgba(246,180,73,0.3);
-">
-  👀 <span id="visitor-text">Total des visiteurs :</span>
-  <span id="visit-count" style="font-weight:bold;">Chargement...</span>
-</div>
 
-<script>
-(async () => {
-  const compteur = document.getElementById("visit-count");
-  const texte = document.getElementById("visitor-text");
-
-  // 🔄 Auto-traduction FR/EN selon la langue
-  const langue = (navigator.language || "en").toLowerCase();
-  if (langue.startsWith("en")) texte.textContent = "Total visitors:";
-
-  try {
-    // 🔐 Utilisation de l'API publique CountAPI avec proxy HTTPS compatible mobile
-    const response = await fetch("https://api.countapi.xyz/hit/nellycoin.io/visiteurs");
-    if (!response.ok) throw new Error("Requête refusée");
-    const data = await response.json();
-
-    // ✅ Affiche le nombre avec formatage français
-    compteur.textContent = data.value.toLocaleString("fr-FR");
-  } catch (error) {
-    console.error("Erreur compteur :", error);
-    compteur.textContent = "Non disponible 😿";
-  }
+  <script type="text/javascript" id="servicewb_158381">
+(function() {
+var cv = document.createElement("script"); cv.type = "text/javascript"; cv.async = true;
+cv.src = "http://www.compteur-visite.com/service.php?v=1.1&id=158381&k=751525df93fd2de977d224cc40429a3b&c="+document.cookie;
+var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(cv, s);
 })();
 </script>
+<noscript><a href="http://www.compteur-visite.com/">Services gratuits pour webmasters</a></noscript>
 
 
   
