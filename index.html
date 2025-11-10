@@ -451,6 +451,26 @@
     </section>
   </main>
 
+
+  
+<section id="partners" class="partners-section" style="text-align:center; padding:60px 20px; background:#f8fafc;">
+  <h2 style="font-size:2rem; font-weight:700; color:#111;">Our Partners</h2>
+  <p style="color:#555; margin-bottom:30px;">Trusted collaborations that support the NellyCoin ecosystem.</p>
+  
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:50px;">
+    <div style="text-align:center;">
+      <img src="assets/img/pinksale.jpg" alt="DEXView Partner" style="width:140px; height:auto; margin-bottom:10px;">
+      <p style="font-weight:600;">DEXView</p>
+    </div>
+    <div style="text-align:center;">
+      <img src="assets/img/pinksale,jpg" alt="PinkSale Partner" style="width:140px; height:auto; margin-bottom:10px;">
+      <p style="font-weight:600;">PinkSale</p>
+    </div>
+  </div>
+</section>
+
+  
+  
   <footer>
     <div class="container" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
       <div>© <span id="year"></span> NellyCoin — <b data-i18n="foot.all">Tous droits réservés</b>.</div>
@@ -608,58 +628,6 @@
   </script>
 
 
-
-
-<!-- 👁️ Compteur des visiteurs NellyCoin -->
-<div id="visitor-section" style="
-  width: 100%;
-  text-align: center;
-  margin-top: 40px;
-  padding: 15px 0;
-  background: #0b1020;
-  border-top: 2px solid #f6b449;
-  color: #ffd36a;
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  box-shadow: 0 -2px 15px rgba(246,180,73,0.3);
-">
-  👀 <span id="visitor-text">Total des visiteurs :</span>
-  <span id="visit-count" style="font-weight:bold;">Chargement...</span>
-</div>
-
-<script>
-(async () => {
-  const compteur = document.getElementById("visit-count");
-  const texte = document.getElementById("visitor-text");
-  const langue = (navigator.language || "en").toLowerCase();
-
-  // 🌍 Auto traduction FR/EN
-  if (langue.startsWith("en")) texte.textContent = "Total visitors:";
-
-  // 🧩 Clé unique pour ton site NellyCoin
-  const namespace = "nellycoin.io";
-  const key = "visiteurs_totaux";
-
-  try {
-    // 🔥 API principale (CountAPI)
-    const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
-    const data = await res.json();
-
-    // ✅ Affiche le compteur global
-    if (data && data.value) {
-      compteur.textContent = data.value.toLocaleString("fr-FR");
-    } else {
-      throw new Error("No value");
-    }
-  } catch (err) {
-    // 🐾 Fallback local (jamais vide)
-    let local = localStorage.getItem("nellycoin_visits") || 0;
-    local++;
-    localStorage.setItem("nellycoin_visits", local);
-    compteur.textContent = local;
-  }
-})();
-</script>
 
 
   
