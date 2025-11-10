@@ -451,39 +451,71 @@
     </section>
   </main>
 
-<section id="partners" style="background:#4ac7ff; padding:60px 20px; text-align:center;">
-  <h2 style="font-size:2.2rem; font-weight:800; color:#fff; text-shadow:1px 1px 3px rgba(0,0,0,0.15); margin-bottom:40px;">
+
+
+
+
+
+
+
+  <section id="partners" style="padding:60px 20px; text-align:center; overflow:hidden; position:relative;">
+  <h2 style="font-size:2.2rem; font-weight:800; color:#ffffff; margin-bottom:40px;">
     Our Partners
   </h2>
 
-  <div style="position:relative; width:220px; height:120px; margin:0 auto;">
+  <div class="partners-slider" 
+       style="display:flex; align-items:center; gap:80px; 
+              animation:slide 14s linear infinite; width:max-content; margin:0 auto;">
+    
+    <!-- PinkSale -->
     <a href="https://www.pinksale.finance" target="_blank" rel="noopener noreferrer">
-      <img src="assets/img/pinksale.jpg" alt="PinkSale Partner"
-           style="position:absolute; top:0; left:0; width:100%; height:auto; border-radius:12px;
-                  box-shadow:0 0 15px rgba(0,0,0,0.25); animation:fade 8s infinite;">
+      <img src="assets/img/pinksale.jpg" alt="PinkSale Partner" 
+           style="width:180px; border-radius:16px; box-shadow:0 0 25px rgba(255,255,255,0.25);">
     </a>
+
+    <!-- DEXView -->
     <a href="https://www.dexview.com" target="_blank" rel="noopener noreferrer">
-      <img src="assets/img/dexview.jpg" alt="DEXView Partner"
-           style="position:absolute; top:0; left:0; width:100%; height:auto; border-radius:12px;
-                  box-shadow:0 0 15px rgba(0,0,0,0.25); animation:fade2 8s infinite;">
+      <img src="assets/img/pinksale.jpg" alt="DEXView Partner" 
+           style="width:180px; border-radius:16px; box-shadow:0 0 25px rgba(255,255,255,0.25);">
+    </a>
+
+    <!-- Dupliqué pour effet de boucle fluide -->
+    <a href="https://www.pinksale.finance" target="_blank" rel="noopener noreferrer">
+      <img src="assets/img/pinksale.jpg" alt="PinkSale Partner" 
+           style="width:180px; border-radius:16px; box-shadow:0 0 25px rgba(255,255,255,0.25);">
+    </a>
+
+    <a href="https://www.dexview.com" target="_blank" rel="noopener noreferrer">
+      <img src="assets/img/dexview.jpg" alt="DEXView Partner" 
+           style="width:180px; border-radius:16px; box-shadow:0 0 25px rgba(255,255,255,0.25);">
     </a>
   </div>
 
   <style>
-    @keyframes fade {
-      0%, 45% { opacity: 1; }
-      50%, 95% { opacity: 0; }
-      100% { opacity: 1; }
+    @keyframes slide {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
-    @keyframes fade2 {
-      0%, 45% { opacity: 0; }
-      50%, 95% { opacity: 1; }
-      100% { opacity: 0; }
+
+    /* Mobile (adapté aux petits écrans) */
+    @media (max-width: 768px) {
+      #partners h2 {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+      }
+      .partners-slider {
+        gap: 40px;
+        animation-duration: 18s;
+      }
+      .partners-slider img {
+        width: 140px !important;
+      }
     }
   </style>
 </section>
 
 
+  
   
 
   
