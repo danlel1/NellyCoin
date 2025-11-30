@@ -386,37 +386,51 @@ setTimeout(() => {
 
 
 
-      <!-- ===============================
-     NELLYCOIN – LIVE STATS BLOCK
-================================ -->
+
+
+
+      <!-- =====================================
+   NELLYCOIN – LIVE STATS + MINI CHART
+   Desktop & Mobile – FINAL
+===================================== -->
 
 <section id="nelly-live-stats">
-  <h2>📊 Cours & Stats (Live)</h2>
+  <h2>
+    📊 Cours & Stats
+    <span class="live-badge">LIVE</span>
+  </h2>
+
   <p class="subtitle">
     Données en temps réel via DexScreener — Rafraîchissement auto toutes les 30s
   </p>
 
   <div class="stats-grid">
-    <div>Prix USD: <span id="price-usd">-</span></div>
-    <div>Prix BNB: <span id="price-bnb">-</span></div>
+    <!-- PRIX + MINI GRAPH -->
+    <div class="price-block">
+      <span>Prix USD</span>
+      <span id="price-usd">-</span>
+      <canvas id="mini-chart"></canvas>
+    </div>
 
-    <div>Change 1h: <span id="change-1h">-</span></div>
-    <div>Change 6h: <span id="change-6h">-</span></div>
+    <div><span>Prix BNB</span><span id="price-bnb">-</span></div>
 
-    <div>Change 12h: <span id="change-12h">-</span></div>
-    <div>Change 24h: <span id="change-24h">-</span></div>
+    <div><span>Change 1h</span><span id="change-1h">-</span></div>
+    <div><span>Change 6h</span><span id="change-6h">-</span></div>
 
-    <div>Volume 24h: <span id="volume-24h">-</span></div>
-    <div>Liquidité: <span id="liquidity">-</span></div>
+    <div><span>Change 12h</span><span id="change-12h">-</span></div>
+    <div><span>Change 24h</span><span id="change-24h">-</span></div>
 
-    <div>Market Cap: <span id="mc">-</span></div>
-    <div>FDV: <span id="fdv">-</span></div>
+    <div><span>Volume 24h</span><span id="volume-24h">-</span></div>
+    <div><span>Liquidité</span><span id="liquidity">-</span></div>
 
-    <div>Buys 24h: <span id="buys-24h">-</span></div>
-    <div>Sells 24h: <span id="sells-24h">-</span></div>
+    <div><span>Market Cap</span><span id="mc">-</span></div>
+    <div><span>FDV</span><span id="fdv">-</span></div>
 
-    <div>Total TX 24h: <span id="tx-24h">-</span></div>
-    <div>Dernière MAJ: <span id="last-update">-</span></div>
+    <div><span>Buys 24h</span><span id="buys-24h">-</span></div>
+    <div><span>Sells 24h</span><span id="sells-24h">-</span></div>
+
+    <div><span>Total TX 24h</span><span id="tx-24h">-</span></div>
+    <div><span>Dernière MAJ</span><span id="last-update">-</span></div>
   </div>
 
   <div class="actions">
@@ -427,75 +441,161 @@ setTimeout(() => {
 </section>
 
 <style>
+/* ===== BASE ===== */
 #nelly-live-stats {
-  background: #0b1020;
   color: #e5e7eb;
-  border-radius: 14px;
-  padding: 22px;
-  max-width: 900px;
-  margin: 40px auto;
-  font-family: Arial, sans-serif;
+  margin-top: 24px;
 }
 
 #nelly-live-stats h2 {
-  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
 }
 
-#nelly-live-stats .subtitle {
+.subtitle {
   font-size: 0.9rem;
-  opacity: 0.8;
+  opacity: 0.85;
   margin-bottom: 16px;
 }
 
+/* LIVE BADGE */
+.live-badge {
+  background: #22c55e;
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  animation: livePulse 1.6s infinite;
+}
+
+@keyframes livePulse {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* GRID */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
-.stats-grid div {
-  background: #111827;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 0.95rem;
+.stats-grid > div {
+  background: #141c2f;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
 }
 
-.stats-grid span {
-  font-weight: bold;
+/* PRICE BLOCK */
+.price-block {
+  grid-column: span 2;
+  flex-direction: column;
+  gap: 6px;
 }
 
+#mini-chart {
+  width: 100%;
+  height: 40px;
+}
+
+/* TEXT */
+.stats-grid span:last-child {
+  font-weight: 600;
+}
+
+/* ACTIONS */
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 18px;
   flex-wrap: wrap;
-  margin-top: 16px;
 }
 
 .actions button,
 .actions a {
-  background: #1f2937;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
+  background: #141c2f;
+  color: #e5e7eb;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
   padding: 10px 16px;
+  font-size: 0.9rem;
   cursor: pointer;
   text-decoration: none;
-  font-size: 0.9rem;
 }
 
 .actions button {
   background: #f6b449;
   color: #000;
+  border: none;
+  font-weight: 600;
+}
+
+/* PRICE ANIMATION */
+.price-up {
+  animation: priceUp 0.6s ease;
+}
+.price-down {
+  animation: priceDown 0.6s ease;
+}
+
+@keyframes priceUp {
+  0% { background-color: rgba(34,197,94,0.35); }
+  100% { background-color: transparent; }
+}
+
+@keyframes priceDown {
+  0% { background-color: rgba(239,68,68,0.35); }
+  100% { background-color: transparent; }
+}
+
+/* MOBILE MODE */
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .price-block {
+    grid-column: span 1;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button,
+  .actions a {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Cache Change 1h / 6h sur mobile (clean) */
+  .stats-grid > div:nth-child(3),
+  .stats-grid > div:nth-child(4) {
+    display: none;
+  }
 }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ✅ LP Pair BSC (confirmé OK par ton test)
-  const API_URL =
-    "https://api.dexscreener.io/latest/dex/pairs/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8";
+  const PAIR_ADDRESS = "0xfe83edaa741b98fce98e20315ea1db64d03f91e8";
 
+  const API_PAIR =
+    `https://api.dexscreener.io/latest/dex/pairs/bsc/${PAIR_ADDRESS}`;
+
+  const API_CANDLES =
+    `https://api.dexscreener.io/latest/dex/candles/bsc/${PAIR_ADDRESS}?interval=5m`;
+
+  let lastPriceUsd = null;
   const $ = id => document.getElementById(id);
 
   function setText(id, value) {
@@ -511,14 +611,65 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.color = v > 0 ? "#22c55e" : v < 0 ? "#ef4444" : "#e5e7eb";
   }
 
+  async function drawMiniChart() {
+    try {
+      const r = await fetch(API_CANDLES);
+      const j = await r.json();
+      const candles = j.candles;
+      if (!candles || candles.length < 2) return;
+
+      const prices = candles.map(c => c.close);
+      const canvas = $("mini-chart");
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      canvas.width = canvas.offsetWidth;
+      canvas.height = 40;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const min = Math.min(...prices);
+      const max = Math.max(...prices);
+      const range = max - min || 1;
+
+      ctx.beginPath();
+      prices.forEach((p, i) => {
+        const x = (i / (prices.length - 1)) * canvas.width;
+        const y = canvas.height - ((p - min) / range) * canvas.height;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+
+      ctx.strokeStyle =
+        prices[0] <= prices[prices.length - 1] ? "#22c55e" : "#ef4444";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+    } catch (e) {
+      console.error("Mini chart error:", e);
+    }
+  }
+
   async function updateStats() {
     try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      const p = data.pairs && data.pairs[0];
+      const r = await fetch(API_PAIR);
+      const j = await r.json();
+      const p = j.pairs?.[0];
       if (!p) return;
 
-      setText("price-usd", "$" + Number(p.priceUsd).toFixed(8));
+      const price = Number(p.priceUsd);
+      const priceEl = $("price-usd");
+
+      if (priceEl && lastPriceUsd !== null) {
+        priceEl.classList.remove("price-up", "price-down");
+        void priceEl.offsetWidth;
+        if (price > lastPriceUsd) priceEl.classList.add("price-up");
+        if (price < lastPriceUsd) priceEl.classList.add("price-down");
+      }
+
+      setText("price-usd", "$" + price.toFixed(8));
+      lastPriceUsd = price;
+
       setText("price-bnb", Number(p.priceNative).toFixed(9) + " BNB");
 
       setChange("change-1h", p.priceChange?.h1);
@@ -539,19 +690,24 @@ document.addEventListener("DOMContentLoaded", () => {
       setText("tx-24h", buys + sells);
       setText("last-update", new Date().toLocaleTimeString());
 
+      drawMiniChart();
+
     } catch (e) {
       console.error("Dex error:", e);
     }
   }
 
   $("refresh-btn").addEventListener("click", updateStats);
-
   updateStats();
-  setInterval(updateStats, 30000); // ✅ auto refresh 30s
+  setInterval(updateStats, 30000);
 });
 </script>
 
 
+
+
+
+      
 
       
 
