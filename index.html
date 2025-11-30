@@ -635,112 +635,65 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-
+ </div>
       
 
       
 
-    </div>
+   
 
-    <!-- Tokenomics -->
-    <section class="panel" id="token">
-      <h2 data-i18n="tok.title">Tokenomics</h2>
-      <p class="muted">Supply total: <b>1,000,000,000 NLY</b></p>
-      <div class="grid-2" style="margin-top:10px">
-        <div class="card"><b>Liquidity Pool</b><br/><span class="muted">30%</span></div>
-        <div class="card"><b>Marketing</b><br/><span class="muted">10% (100M)</span></div>
-        <div class="card"><b>Réserve</b><br/><span class="muted">35% 🔒</span></div>
-        <div class="card"><b>Staking/Rewards</b><br/><span class="muted">25% (250M)</span></div>
-      </div>
-    </section>
-
-    <!-- Links & Addresses -->
-    <section class="panel" id="links">
-      <h2 data-i18n="links.title">Adresses & officiels</h2>
-      <div class="grid-2" style="margin-top:10px">
-        <div class="card">
-          <h3>🧾 <span data-i18n="addr.tokenTitle">Contrat NellyCoin (Token)</span></h3>
-          <div class="addr-row">
-            <code id="tokenAddr" class="addr">0x0000…0000</code>
-            <button class="btn sm" id="revealToken">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn sm" id="copyToken">📋 <span data-i18n="btn.copy">Copier</span></button>
-            <a class="btn sm" id="bscToken" target="_blank" rel="noopener">🔍 BscScan</a>
-          </div>
-        </div>
-        <div class="card">
-          <h3>💰 <span data-i18n="addr.mktTitle">Portefeuille Marketing</span></h3>
-          <div class="addr-row">
-            <code id="mktAddr" class="addr">0x0000…0000</code>
-            <button class="btn sm" id="revealMkt">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn sm" id="copyMkt">📋 <span data-i18n="btn.copy">Copier</span></button>
-            <a class="btn sm" id="bscMkt" target="_blank" rel="noopener">🔍 BscScan</a>
-          </div>
-          <small class="muted">Allocation: <b>100,000,000 NLY</b></small>
-        </div>
-        <div class="card">
-          <h3>🪙 <span data-i18n="addr.stkTitle">Portefeuille Staking</span></h3>
-          <div class="addr-row">
-            <code id="stkAddr" class="addr">0x0000…0000</code>
-            <button class="btn sm" id="revealStk">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn sm" id="copyStk">📋 <span data-i18n="btn.copy">Copier</span></button>
-            <a class="btn sm" id="bscStk" target="_blank" rel="noopener">🔍 BscScan</a>
-          </div>
-          <small class="muted">Allocation: <b>250,000,000 NLY</b></small>
-        </div>
-        <div class="card">
-          <h3>🔒 <span data-i18n="addr.lockTitle">Jetons verrouillés</span></h3>
-          <div class="addr-row">
-            <code class="addr">350,000,000 NLY</code>
-            <a class="btn sm" id="openLock" target="_blank" rel="noopener">🔗 <span data-i18n="btn.viewLock">Voir le lock</span></a>
-          </div>
-          <small class="muted">Déverrouillage: <b>26 octobre 2026</b></small>
-        </div>
-      
-  </div>
-
-<section id="links" class="panel">
+   <section class="addresses">
   <h2>Adresses & officiels</h2>
 
-  <div class="grid-2">
+  <div class="address-grid">
 
     <!-- TOKEN -->
     <div class="card">
       <h3>📄 Contrat NellyCoin (Token)</h3>
-      <div class="addr-row">
-        <code id="tokenAddr" class="addr">0x0000...0000</code>
-        <button class="btn sm" id="tokenView">👁 Voir</button>
-        <button class="btn sm" id="tokenCopy">📋 Copier</button>
-        <a class="btn sm" id="tokenScan" target="_blank">🔎 BscScan</a>
+      <div class="row">
+        <code id="tokenAddr">0x4bff...04b5</code>
+        <button onclick="copy('tokenFull')">📋 Copier</button>
+        <a id="tokenLink" target="_blank">🔍 BscScan</a>
       </div>
     </div>
 
     <!-- MARKETING -->
     <div class="card">
       <h3>🔥 Portefeuille Marketing</h3>
-      <div class="addr-row">
-        <code id="mktAddr" class="addr">0x0000...0000</code>
-        <button class="btn sm" id="mktView">👁 Voir</button>
-        <button class="btn sm" id="mktCopy">📋 Copier</button>
-        <a class="btn sm" id="mktScan" target="_blank">🔎 BscScan</a>
+      <div class="row">
+        <code id="mktAddr">0xbd53...d494</code>
+        <button onclick="copy('mktFull')">📋 Copier</button>
+        <a id="mktLink" target="_blank">🔍 BscScan</a>
       </div>
-      <small class="muted">Allocation : <b>100,000,000 NLY</b></small>
+      <small>Allocation : 100,000,000 NLY</small>
     </div>
 
     <!-- STAKING -->
     <div class="card">
       <h3>🟡 Portefeuille Staking</h3>
-      <div class="addr-row">
-        <code id="stkAddr" class="addr">0x0000...0000</code>
-        <button class="btn sm" id="stkView">👁 Voir</button>
-        <button class="btn sm" id="stkCopy">📋 Copier</button>
-        <a class="btn sm" id="stkScan" target="_blank">🔎 BscScan</a>
+      <div class="row">
+        <code id="stkAddr">0xa90c...2e51</code>
+        <button onclick="copy('stkFull')">📋 Copier</button>
+        <a id="stkLink" target="_blank">🔍 BscScan</a>
       </div>
-      <small class="muted">Allocation : <b>250,000,000 NLY</b></small>
+      <small>Allocation : 250,000,000 NLY</small>
+    </div>
+
+    <!-- LOCK -->
+    <div class="card">
+      <h3>🔒 Jetons verrouillés</h3>
+      <div class="row">
+        <code>350,000,000 NLY</code>
+        <a target="_blank"
+           href="https://www.pinksale.finance/pinklock/bsc/record/1369793">
+           🔗 Voir le lock
+        </a>
+      </div>
+      <small>Déverrouillage : 26 octobre 2026</small>
     </div>
 
   </div>
 </section>
-
 
       
 
@@ -1052,71 +1005,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
    
 
+<script>
+  const tokenFull = "0x4bffd4359a06583713df160da5817737654804b5";
+  const mktFull = "0xbd53d652d88e3eb7adda48a69b7f83610d76d494";
+  const stkFull = "0xa90c2b54d230859386e9640073a47aca56962e51";
 
+  document.getElementById("tokenLink").href =
+    "https://bscscan.com/token/" + tokenFull;
+  document.getElementById("mktLink").href =
+    "https://bscscan.com/address/" + mktFull;
+  document.getElementById("stkLink").href =
+    "https://bscscan.com/address/" + stkFull;
 
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const ADDR = SETTINGS;
-
-  const mask = a => a.slice(0, 6) + "..." + a.slice(-4);
-
-  function setup(prefix, full, type) {
-    const codeEl = document.getElementById("addr" + prefix);
-    const btnView = document.getElementById("reveal" + prefix);
-    const btnCopy = document.getElementById("copy" + prefix);
-    const bscLink = document.getElementById("bsc" + prefix);
-
-    if (!codeEl) return;
-
-    // texte de base masqué
-    codeEl.textContent = mask(full);
-
-    // lien bscscan
-    if (bscLink) {
-      const base = (type === "token")
-        ? "https://bscscan.com/token/"
-        : "https://bscscan.com/address/";
-      bscLink.href = base + full;
-    }
-
-    let revealed = false;
-
-    if (btnView) {
-      btnView.addEventListener("click", e => {
-        e.stopPropagation();
-        revealed = !revealed;
-        codeEl.textContent = revealed ? full : mask(full);
-        btnView.textContent = revealed ? "🙈 Cacher" : "👁 Voir";
-      });
-    }
-
-    if (btnCopy) {
-      btnCopy.addEventListener("click", e => {
-        e.stopPropagation();
-        navigator.clipboard.writeText(full).then(() => {
-          const old = btnCopy.textContent;
-          btnCopy.textContent = "✅ Copié";
-          setTimeout(() => (btnCopy.textContent = old), 1200);
-        });
-      });
-    }
+  function copy(which) {
+    navigator.clipboard.writeText(window[which]);
+    alert("Adresse copiée ✅");
   }
-
-  setup("Token", ADDR.TOKEN_ADDRESS, "token");
-  setup("Mkt", ADDR.MKT_ADDRESS, "address");
-  setup("Stk", ADDR.STK_ADDRESS, "address");
-
-  // lien du lock PinkSale
-  const pinkLock = document.getElementById("pinkLock");
-  if (pinkLock) {
-    pinkLock.href = ADDR.PINKLOCK;
-  }
-});
 </script>
 
 
-  
-  
   
   
 </body>
