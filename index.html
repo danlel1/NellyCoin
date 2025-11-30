@@ -97,6 +97,16 @@ code.addr {
   align-items: center;
 }
 
+    /* ✅ FIX clics bloqués après ajout Dex Live */
+#links,
+#links * {
+  pointer-events: auto !important;
+}
+
+#links .card {
+  position: relative;
+  z-index: 10;
+}
 
     
     /* Layout MOBILE */
