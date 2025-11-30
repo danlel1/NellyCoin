@@ -703,59 +703,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-      <section class="panel addresses" id="links">
-  <h2>Adresses & officiels</h2>
-
-  <div class="grid-2" style="margin-top:10px">
-
-    <!-- Contrat NellyCoin -->
-    <div class="card">
-      <h3>📄 Contrat NellyCoin (Token)</h3>
-      <div class="addr-row">
-        <code id="addrToken" class="addr">0x0000...0000</code>
-        <button class="btn sm" id="revealToken">👁 Voir</button>
-        <button class="btn sm" id="copyToken">📋 Copier</button>
-        <a class="btn sm" id="bscToken" target="_blank" rel="noopener">🔍 BscScan</a>
-      </div>
-    </div>
-
-    <!-- Portefeuille Marketing -->
-    <div class="card">
-      <h3>🔥 Portefeuille Marketing</h3>
-      <div class="addr-row">
-        <code id="addrMkt" class="addr">0x0000...0000</code>
-        <button class="btn sm" id="revealMkt">👁 Voir</button>
-        <button class="btn sm" id="copyMkt">📋 Copier</button>
-        <a class="btn sm" id="bscMkt" target="_blank" rel="noopener">🔍 BscScan</a>
-      </div>
-      <small class="muted">Allocation: <b>100,000,000 NLY</b></small>
-    </div>
-
-    <!-- Portefeuille Staking -->
-    <div class="card">
-      <h3>🟡 Portefeuille Staking</h3>
-      <div class="addr-row">
-        <code id="addrStk" class="addr">0x0000...0000</code>
-        <button class="btn sm" id="revealStk">👁 Voir</button>
-        <button class="btn sm" id="copyStk">📋 Copier</button>
-        <a class="btn sm" id="bscStk" target="_blank" rel="noopener">🔍 BscScan</a>
-      </div>
-      <small class="muted">Allocation: <b>250,000,000 NLY</b></small>
-    </div>
-
-    <!-- Jetons verrouillés (lock PinkSale) -->
-    <div class="card">
-      <h3>🔒 Jetons verrouillés</h3>
-      <div class="addr-row">
-        <span><b>350,000,000 NLY</b></span>
-        <a class="btn sm" id="pinkLock" target="_blank" rel="noopener">🔗 Voir le lock</a>
-      </div>
-      <small class="muted">Déverrouillage: <b>26 octobre 2026</b></small>
-    </div>
-
-  </div>
-</section>
-
+     
 
 
       
@@ -930,65 +878,13 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(()=>{}); });
     }
 
-    // SETTINGS
-    const SETTINGS = {
-      TOKEN_ADDRESS:'0x4bFfd4359a06583713df160da5817737654804b5',
-      MKT_ADDRESS:'0xdb53d652d88e3eb7adda48a69b7f83610d76d494',
-      STK_ADDRESS:'0xa90c2b54d230859386e9640073a47aca56962e51',
-      DEXSCREENER_SEARCH:'https://dexscreener.com/search?q=0x4bFfd4359a06583713df160da5817737654804b5',
-      PANCAKE:'https://pancakeswap.finance/swap?outputCurrency=0x4bFfd4359a06583713df160da5817737654804b5',
-      PINKLOCK:'https://www.pinksale.finance/pinklock/bsc/record/1369793',
-      EMAIL:'contact@nellycoin.io'
-    };
 
-    // Year + external links
-    const $=s=>document.querySelector(s);
-    $('#year').textContent=(new Date()).getFullYear();
-    $('#pcsBtn').href = SETTINGS.PANCAKE;
-    $('#dexLink').href = SETTINGS.DEXSCREENER_SEARCH;
-    $('#dexLive').href = SETTINGS.DEXSCREENER_SEARCH;
-    $('#tokenLink').href = 'https://bscscan.com/token/'+SETTINGS.TOKEN_ADDRESS;
-    $('#tokenLive').href = 'https://bscscan.com/token/'+SETTINGS.TOKEN_ADDRESS;
-    $('#openLock').href = SETTINGS.PINKLOCK;
 
-    // Address masked + reveal/copy
-    const mask=a=>a ? a.slice(0,6)+'…'+a.slice(-4) : '0x000…0000';
-    const tokenAddrEl = $('#tokenAddr'), mktAddrEl = $('#mktAddr'), stkAddrEl = $('#stkAddr');
-    tokenAddrEl.textContent = mask(SETTINGS.TOKEN_ADDRESS);
-    mktAddrEl.textContent = mask(SETTINGS.MKT_ADDRESS);
-    stkAddrEl.textContent = mask(SETTINGS.STK_ADDRESS);
-    $('#bscToken').href = 'https://bscscan.com/token/'+SETTINGS.TOKEN_ADDRESS;
-    $('#bscMkt').href = 'https://bscscan.com/address/'+SETTINGS.MKT_ADDRESS;
-    $('#bscStk').href = 'https://bscscan.com/address/'+SETTINGS.STK_ADDRESS;
 
-    function setupRevealCopy(codeEl, btnReveal, btnCopy, full){
-      let revealed=false;
-      btnReveal.addEventListener('click',()=>{
-        if (!revealed){ codeEl.textContent=full; btnReveal.innerHTML='🙈 <span data-i18n="btn.hide">Cacher</span>'; }
-        else { codeEl.textContent=mask(full); btnReveal.innerHTML='👁️ <span data-i18n="btn.view">Voir</span>'; }
-        revealed=!revealed;
-      });
-      btnCopy.addEventListener('click', async ()=>{
-        try { await navigator.clipboard.writeText(full);
-          const old=btnCopy.innerHTML; btnCopy.innerHTML='✅ <span data-i18n="btn.copied">Copié</span>';
-          setTimeout(()=>btnCopy.innerHTML=old,1200);
-        } catch {}
-      });
-    }
-const $ = s => document.querySelector(s);
 
-document.addEventListener("DOMContentLoaded", () => {
 
-  // adresses masquées
-  tokenAddrEl.textContent = mask(SETTINGS.TOKEN_ADDRESS);
-  mktAddrEl.textContent = mask(SETTINGS.MKT_ADDRESS);
-  stkAddrEl.textContent = mask(SETTINGS.STK_ADDRESS);
 
-  setupRevealCopy(tokenAddrEl, $('#revealToken'), $('#copyToken'), SETTINGS.TOKEN_ADDRESS);
-  setupRevealCopy(mktAddrEl, $('#revealMkt'), $('#copyMkt'), SETTINGS.MKT_ADDRESS); // ← ; ici
-  setupRevealCopy(stkAddrEl, $('#revealStk'), $('#copyStk'), SETTINGS.STK_ADDRESS);
-
-});
+    
 
     // Mobile menu
     $('#menuToggle')?.addEventListener('click',()=>$('#mainNav').classList.toggle('open'));
