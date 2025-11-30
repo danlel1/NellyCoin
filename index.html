@@ -546,7 +546,65 @@ setTimeout(() => {
   }
 }
 </style>
-      
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const API_URL =
+    "https://api.dexscreener.io/latest/dex/pairs/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8";
+
+  const $ = id => document.getElementById(id);
+
+  function setText(id, value) {
+    const el = $(id);
+    if (el) el.textContent = value;
+  }
+
+  function setChange(id, value) {
+    const el = $(id);
+    if (!el) return;
+    const v = Number(value ?? 0);
+    el.textContent = v.toFixed(2) + "%";
+    el.style.color = v > 0 ? "#22c55e" : v < 0 ? "#ef4444" : "#e5e7eb";
+  }
+
+  async function updateStats() {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      const p = data.pairs?.[0];
+      if (!p) return;
+
+      setText("price-usd", "$" + Number(p.priceUsd).toFixed(8));
+      setText("price-bnb", Number(p.priceNative).toFixed(9) + " BNB");
+
+      setChange("change-1h", p.priceChange?.h1);
+      setChange("change-6h", p.priceChange?.h6);
+      setChange("change-12h", p.priceChange?.h12);
+      setChange("change-24h", p.priceChange?.h24);
+
+      setText("volume-24h", "$" + Number(p.volume?.h24 ?? 0).toLocaleString());
+      setText("liquidity", "$" + Number(p.liquidity?.usd ?? 0).toLocaleString());
+      setText("fdv", "$" + Number(p.fdv ?? 0).toLocaleString());
+      setText("mc", "$" + Number(p.marketCap ?? 0).toLocaleString());
+
+      setText("buys-24h", p.txns?.h24?.buys ?? 0);
+      setText("sells-24h", p.txns?.h24?.sells ?? 0);
+      setText("tx-24h", (p.txns?.h24?.buys ?? 0) + (p.txns?.h24?.sells ?? 0));
+
+      setText("last-update", new Date().toLocaleTimeString());
+
+    } catch (e) {
+      console.error("Dex error:", e);
+    }
+  }
+
+  $("refresh-btn").addEventListener("click", updateStats);
+  updateStats();
+  setInterval(updateStats, 30000);
+});
+</script>
+
 
 
       
@@ -910,63 +968,7 @@ setTimeout(() => {
 
 
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
 
-  const API_URL =
-    "https://api.dexscreener.io/latest/dex/pairs/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8";
-
-  const $ = id => document.getElementById(id);
-
-  function setText(id, value) {
-    const el = $(id);
-    if (el) el.textContent = value;
-  }
-
-  function setChange(id, value) {
-    const el = $(id);
-    if (!el) return;
-    const v = Number(value ?? 0);
-    el.textContent = v.toFixed(2) + "%";
-    el.style.color = v > 0 ? "#22c55e" : v < 0 ? "#ef4444" : "#e5e7eb";
-  }
-
-  async function updateStats() {
-    try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      const p = data.pairs?.[0];
-      if (!p) return;
-
-      setText("price-usd", "$" + Number(p.priceUsd).toFixed(8));
-      setText("price-bnb", Number(p.priceNative).toFixed(9) + " BNB");
-
-      setChange("change-1h", p.priceChange?.h1);
-      setChange("change-6h", p.priceChange?.h6);
-      setChange("change-12h", p.priceChange?.h12);
-      setChange("change-24h", p.priceChange?.h24);
-
-      setText("volume-24h", "$" + Number(p.volume?.h24 ?? 0).toLocaleString());
-      setText("liquidity", "$" + Number(p.liquidity?.usd ?? 0).toLocaleString());
-      setText("fdv", "$" + Number(p.fdv ?? 0).toLocaleString());
-      setText("mc", "$" + Number(p.marketCap ?? 0).toLocaleString());
-
-      setText("buys-24h", p.txns?.h24?.buys ?? 0);
-      setText("sells-24h", p.txns?.h24?.sells ?? 0);
-      setText("tx-24h", (p.txns?.h24?.buys ?? 0) + (p.txns?.h24?.sells ?? 0));
-
-      setText("last-update", new Date().toLocaleTimeString());
-
-    } catch (e) {
-      console.error("Dex error:", e);
-    }
-  }
-
-  $("refresh-btn").addEventListener("click", updateStats);
-  updateStats();
-  setInterval(updateStats, 30000);
-});
-</script>
 
 
    
