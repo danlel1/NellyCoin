@@ -975,9 +975,11 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch {}
       });
     }
-    setupRevealCopy(tokenAddrEl, $('#revealToken'), $('#copyToken'), SETTINGS.TOKEN_ADDRESS);
-    setupRevealCopy(mktAddrEl, $('#revealMkt'), $('#copyMkt'), SETTINGS.MKT_ADDRESS);
-    setupRevealCopy(stkAddrEl, $('#revealStk'), $('#copyStk'), SETTINGS.STK_ADDRESS);
+   window.addEventListener("load", () => {
+  setupRevealCopy(tokenAddrEl, $('#revealToken'), $('#copyToken'), SETTINGS.TOKEN_ADDRESS);
+  setupRevealCopy(mktAddrEl, $('#revealMkt'), $('#copyMkt'), SETTINGS.MKT_ADDRESS);
+  setupRevealCopy(stkAddrEl, $('#revealStk'), $('#copyStk'), SETTINGS.STK_ADDRESS);
+});
 
     // Mobile menu
     $('#menuToggle')?.addEventListener('click',()=>$('#mainNav').classList.toggle('open'));
