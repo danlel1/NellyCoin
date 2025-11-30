@@ -375,23 +375,43 @@ setTimeout(() => {
         <img src="/assets/nelly/banniere-720.webp" alt="Bannière NellyCoin" class="banner" fetchpriority="high">
       </section>
 
-      <section id="live" class="panel">
-        <h3 class="section-title" data-i18n="live.title">📊 Cours & Stats (live)</h3>
-        <p class="text-muted" data-i18n="live.desc">Le live chart sera visible après le listing PancakeSwap. Données via Dexscreener.</p>
-        <div class="stats-grid">
-          <div class="stat-item"><span data-i18n="live.pusd">💵 Prix (USD)</span><strong id="price-usd">—</strong></div>
-          <div class="stat-item"><span data-i18n="live.var">📈 Variation 24h</span><strong id="change-24h">—</strong></div>
-          <div class="stat-item"><span data-i18n="live.pbnb">🪙 Prix (BNB)</span><strong id="price-bnb">—</strong></div>
-          <div class="stat-item"><span data-i18n="live.vol">📊 Volume 24h</span><strong id="volume-24h">—</strong></div>
-          <div class="stat-item"><span>💎 FDV</span><strong id="fdv">—</strong></div>
-          <div class="stat-item"><span data-i18n="live.liq">🌊 Liquidité</span><strong id="liquidity">—</strong></div>
-        </div>
-        <div class="actions">
-          <button id="refresh" class="refresh-btn" data-i18n="live.refresh">🔄 Rafraîchir</button>
-          <a id="dexLive" href="#" target="_blank" class="btn-link">📊 Dexscreener</a>
-          <a id="tokenLive" href="#" target="_blank" class="btn-link">🔍 BscScan</a>
-        </div>
-      </section>
+<section class="dex-stats">
+  <h2>📊 Cours & Stats (Live)</h2>
+  <p class="note">Données en temps réel via DexScreener – Refresh auto 30s</p>
+
+  <div class="stats-grid">
+    <div>Prix USD: <span id="price-usd">-</span></div>
+    <div>Prix BNB: <span id="price-bnb">-</span></div>
+
+    <div>Change 1h: <span id="change-1h">-</span></div>
+    <div>Change 6h: <span id="change-6h">-</span></div>
+    <div>Change 12h: <span id="change-12h">-</span></div>
+    <div>Change 24h: <span id="change-24h">-</span></div>
+
+    <div>Volume 24h: <span id="volume-24h">-</span></div>
+    <div>Liquidité: <span id="liquidity">-</span></div>
+
+    <div>Market Cap: <span id="mc">-</span></div>
+    <div>FDV: <span id="fdv">-</span></div>
+
+    <div>Buys 24h: <span id="buys-24h">-</span></div>
+    <div>Sells 24h: <span id="sells-24h">-</span></div>
+    <div>Total TX 24h: <span id="tx-24h">-</span></div>
+
+    <div>Dernière MAJ: <span id="last-update">-</span></div>
+  </div>
+
+  <div class="actions">
+    <button id="refresh">🔄 Rafraîchir</button>
+    <a target="_blank" href="https://dexscreener.com/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8">
+      📈 Voir le chart
+    </a>
+    <a target="_blank" href="https://bscscan.com/address/0x4bFfd4359a06583713df160da5817737654804b5">
+      🔗 BscScan
+    </a>
+  </div>
+</section>
+
     </div>
 
     <!-- Tokenomics -->
@@ -743,37 +763,88 @@ setTimeout(() => {
       applyLang(v);
     });
 
-    // Dex live (placeholder until pair is known)
-    const pairAddress = "0xFe83eDAA741b98Fce98e20315EA1db64D03F91E8"; // replace after listing
-    const apiURL = `https://api.dexscreener.io/latest/dex/pairs/bsc/${pairAddress}`;
-    const refreshBtn = document.getElementById("refresh");
-    async function updateStats() {
-      try {
-        const res = await fetch(apiURL);
-        const data = await res.json();
-        const pair = data?.pair || data?.pairs?.[0];
-        if (pair) {
-          document.getElementById("price-usd").textContent = `$${parseFloat(pair.priceUsd).toFixed(6)}`;
-          document.getElementById("price-bnb").textContent = `${parseFloat(pair.priceNative).toFixed(8)} BNB`;
-          // change 24h
-          const change = parseFloat(pair?.priceChange?.h24 ?? 0);
-          const chEl = document.getElementById("change-24h");
-          chEl.textContent = `${change.toFixed(2)}%`;
-          chEl.style.color = change>0 ? '#22c55e' : (change<0 ? '#ef4444' : 'inherit');
-          document.getElementById("volume-24h").textContent = `$${Number(pair?.volume?.h24 ?? 0).toLocaleString()}`;
-          document.getElementById("fdv").textContent = `$${Number(pair?.fdv ?? 0).toLocaleString()}`;
-          document.getElementById("liquidity").textContent = `$${Number(pair?.liquidity?.usd ?? 0).toLocaleString()}`;
-        }
-      } catch (e) {}
-    }
-    refreshBtn?.addEventListener("click", updateStats);
-    setInterval(updateStats, 30000);
-    updateStats();
-  </script>
 
 
 
 
+
+
+    <script>
+const pairAddress = "0xfe83edaa741b98fce98e20315ea1db64d03f91e8";
+const apiURL = `https://api.dexscreener.io/latest/dex/pairs/bsc/${pairAddress}`;
+const refreshBtn = document.getElementById("refresh");
+
+async function updateStats() {
+  try {
+    const res = await fetch(apiURL);
+    const data = await res.json();
+    const pair = data.pairs?.[0];
+    if (!pair) return;
+
+    // PRICES
+    setText("price-usd", `$${Number(pair.priceUsd).toFixed(8)}`);
+    setText("price-bnb", `${Number(pair.priceNative).toFixed(9)} BNB`);
+
+    // PRICE CHANGE
+    setChange("change-1h", pair.priceChange?.h1);
+    setChange("change-6h", pair.priceChange?.h6);
+    setChange("change-12h", pair.priceChange?.h12);
+    setChange("change-24h", pair.priceChange?.h24);
+
+    // VOLUME / LIQUIDITY
+    setText("volume-24h", `$${format(pair.volume?.h24)}`);
+    setText("liquidity", `$${format(pair.liquidity?.usd)}`);
+
+    // MARKET DATA
+    setText("fdv", `$${format(pair.fdv)}`);
+    setText("mc", `$${format(pair.marketCap || pair.fdv)}`);
+
+    // TX DATA
+    const buys = pair.txns?.h24?.buys ?? 0;
+    const sells = pair.txns?.h24?.sells ?? 0;
+    setText("buys-24h", buys);
+    setText("sells-24h", sells);
+    setText("tx-24h", buys + sells);
+
+    // LAST UPDATE
+    document.getElementById("last-update").textContent =
+      new Date().toLocaleTimeString();
+
+  } catch (err) {
+    console.error("DexScreener error:", err);
+  }
+}
+
+function setText(id, value) {
+  document.getElementById(id).textContent = value ?? "-";
+}
+
+function setChange(id, value) {
+  const el = document.getElementById(id);
+  const v = Number(value ?? 0);
+  el.textContent = `${v.toFixed(2)}%`;
+  el.style.color =
+    v > 0 ? "#22c55e" : v < 0 ? "#ef4444" : "#e5e7eb";
+}
+
+function format(num) {
+  return Number(num ?? 0).toLocaleString();
+}
+
+// EVENTS
+refreshBtn.addEventListener("click", updateStats);
+
+// AUTO REFRESH 30s ✅
+setInterval(updateStats, 30000);
+
+// INIT
+updateStats();
+</script>
+
+
+
+
+  
   
   
   
