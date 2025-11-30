@@ -624,41 +624,42 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="card">
           <h3>🧾 <span data-i18n="addr.tokenTitle">Contrat NellyCoin (Token)</span></h3>
           <div class="addr-row">
-            <code id="tokenAddr" class="addr">0x0000…0000</code>
-            <button class="btn sm" id="revealToken">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn sm" id="copyToken">📋 <span data-i18n="btn.copy">Copier</span></button>
-            <a class="btn sm" id="bscToken" target="_blank" rel="noopener">🔍 BscScan</a>
-          </div>
+            <code id="tokenAddr">0x4bff...04b5</code>
+        <button onclick="copy('tokenFull')">📋 Copier</button>
+        <a id="tokenLink" target="_blank">🔍 BscScan</a>
+         </div>
         </div>
         <div class="card">
           <h3>💰 <span data-i18n="addr.mktTitle">Portefeuille Marketing</span></h3>
           <div class="addr-row">
-            <code id="mktAddr" class="addr">0x0000…0000</code>
-            <button class="btn sm" id="revealMkt">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn sm" id="copyMkt">📋 <span data-i18n="btn.copy">Copier</span></button>
-            <a class="btn sm" id="bscMkt" target="_blank" rel="noopener">🔍 BscScan</a>
+              <code id="mktAddr">0xbd53...d494</code>
+        <button onclick="copy('mktFull')">📋 Copier</button>
+        <a id="mktLink" target="_blank">🔍 BscScan</a>
           </div>
           <small class="muted">Allocation: <b>100,000,000 NLY</b></small>
         </div>
         <div class="card">
           <h3>🪙 <span data-i18n="addr.stkTitle">Portefeuille Staking</span></h3>
           <div class="addr-row">
-            <code id="stkAddr" class="addr">0x0000…0000</code>
-            <button class="btn sm" id="revealStk">👁️ <span data-i18n="btn.view">Voir</span></button>
-            <button class="btn sm" id="copyStk">📋 <span data-i18n="btn.copy">Copier</span></button>
-            <a class="btn sm" id="bscStk" target="_blank" rel="noopener">🔍 BscScan</a>
+            <code id="stkAddr">0xa90c...2e51</code>
+        <button onclick="copy('stkFull')">📋 Copier</button>
+        <a id="stkLink" target="_blank">🔍 BscScan</a>
           </div>
           <small class="muted">Allocation: <b>250,000,000 NLY</b></small>
         </div>
         <div class="card">
           <h3>🔒 <span data-i18n="addr.lockTitle">Jetons verrouillés</span></h3>
           <div class="addr-row">
-            <code class="addr">350,000,000 NLY</code>
-            <a class="btn sm" id="openLock" target="_blank" rel="noopener">🔗 <span data-i18n="btn.viewLock">Voir le lock</span></a>
-          </div>
-          <small class="muted">Déverrouillage: <b>26 octobre 2026</b></small>
-        </div>
+
+               <code>350,000,000 NLY</code>
+        <a target="_blank"
+           href="https://www.pinksale.finance/pinklock/bsc/record/1369793">
+           🔗 Voir le lock
+        </a>
       </div>
+      <small>Déverrouillage : 26 octobre 2026</small>
+    </div>
+          </div>
 
       <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
       <div class="grid-2">
@@ -749,28 +750,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
       
 
-      <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
-      <div class="grid-2">
-        <div class="card">
-          <h3 data-i18n="community.title">Communauté</h3>
-          <ul class="list">
-            <li>Twitter/X: <a href="https://x.com/DogeSami" target="_blank">@DogeSami</a></li>
-            <li>Telegram: <a href="https://t.me/NellyCoinOfficial" target="_blank">t.me/NellyCoinOfficial</a></li>
-            <li>Discord: <a href="https://discord.gg/gYD2gKHk" target="_blank">NellyCoin Official</a></li>
-            <li>LinkedIn: <a href="https://www.linkedin.com/in/nelly-coin-2b4653386/" target="_blank">NellyCoin</a></li>
-            <li><span data-i18n="contact.title">Contact</span>: <a href="mailto:contact@nellycoin.io">contact@nellycoin.io</a></li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3 data-i18n="follow.title">Suivi & Liens</h3>
-          <ul class="list">
-            <li>📊 <a id="dexLink" href="https://dexscreener.com/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8" target="_blank">Dexscreener</a></li>
-            <li>🔍 <a id="tokenLink" href="https://bscscan.com/address/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">BscScan</a></li>
-            <li>📄 <a href="whitepaper.html" target="_blank" data-i18n="links.whitepaper">Whitepaper officiel</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
+ 
 
     <!-- Roadmap -->
     <section id="roadmap" class="panel">
