@@ -975,10 +975,19 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch {}
       });
     }
-   window.addEventListener("load", () => {
+const $ = s => document.querySelector(s);
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // adresses masquées
+  tokenAddrEl.textContent = mask(SETTINGS.TOKEN_ADDRESS);
+  mktAddrEl.textContent = mask(SETTINGS.MKT_ADDRESS);
+  stkAddrEl.textContent = mask(SETTINGS.STK_ADDRESS);
+
   setupRevealCopy(tokenAddrEl, $('#revealToken'), $('#copyToken'), SETTINGS.TOKEN_ADDRESS);
   setupRevealCopy(mktAddrEl, $('#revealMkt'), $('#copyMkt'), SETTINGS.MKT_ADDRESS);
   setupRevealCopy(stkAddrEl, $('#revealStk'), $('#copyStk'), SETTINGS.STK_ADDRESS);
+
 });
 
     // Mobile menu
