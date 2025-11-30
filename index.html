@@ -701,6 +701,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+<section id="links" class="panel">
+  <h2>Adresses & officiels</h2>
+
+  <div class="grid-2">
+
+    <!-- TOKEN -->
+    <div class="card">
+      <h3>📄 Contrat NellyCoin (Token)</h3>
+      <div class="addr-row">
+        <code id="tokenAddr" class="addr">0x0000...0000</code>
+        <button class="btn sm" id="tokenView">👁 Voir</button>
+        <button class="btn sm" id="tokenCopy">📋 Copier</button>
+        <a class="btn sm" id="tokenScan" target="_blank">🔎 BscScan</a>
+      </div>
+    </div>
+
+    <!-- MARKETING -->
+    <div class="card">
+      <h3>🔥 Portefeuille Marketing</h3>
+      <div class="addr-row">
+        <code id="mktAddr" class="addr">0x0000...0000</code>
+        <button class="btn sm" id="mktView">👁 Voir</button>
+        <button class="btn sm" id="mktCopy">📋 Copier</button>
+        <a class="btn sm" id="mktScan" target="_blank">🔎 BscScan</a>
+      </div>
+      <small class="muted">Allocation : <b>100,000,000 NLY</b></small>
+    </div>
+
+    <!-- STAKING -->
+    <div class="card">
+      <h3>🟡 Portefeuille Staking</h3>
+      <div class="addr-row">
+        <code id="stkAddr" class="addr">0x0000...0000</code>
+        <button class="btn sm" id="stkView">👁 Voir</button>
+        <button class="btn sm" id="stkCopy">📋 Copier</button>
+        <a class="btn sm" id="stkScan" target="_blank">🔎 BscScan</a>
+      </div>
+      <small class="muted">Allocation : <b>250,000,000 NLY</b></small>
+    </div>
+
+  </div>
+</section>
+
+
+
 
 
      
@@ -880,7 +925,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
+  const DATA = {
+    token: "0x4bffd4359a06583713df160da5817737654804b5",
+    mkt: "0xbd5362d88e3eb7add4a8a69b7f8610d76d494",
+    stk: "0xa90c2b54d320859386e9640073a47aca5692e51"
+  };
+
+  const mask = a => a.slice(0,6) + "..." + a.slice(-4);
+
+  function setup(addrId, viewId, copyId, scanId, full){
+    const addr = document.getElementById(addrId);
+    const view = document.getElementById(viewId);
+    const copy = document.getElementById(copyId);
+    const scan = document.getElementById(scanId);
+
+    if(!addr || !view || !copy || !scan) return;
+
+    addr.textContent = mask(full);
+    scan.href = "https://bscscan.com/address/" + full;
+
+    let visible = false;
+
+    view.onclick = () => {
+      visible = !visible;
+      addr.textContent = visible ? full : mask(full);
+      view.textContent = visible ? "🙈 Cacher" : "👁 Voir";
+    };
+
+    copy.onclick = () => {
+      navigator.clipboard.writeText(full);
+      copy.textContent = "✅ Copié";
+      setTimeout(()=>copy.textContent="📋 Copier",1000);
+    };
+  }
+
+  setup("tokenAddr","tokenView","tokenCopy","tokenScan",DATA.token);
+  setup("mktAddr","mktView","mktCopy","mktScan",DATA.mkt);
+  setup("stkAddr","stkView","stkCopy","stkScan",DATA.stk);
+
+});
+</script>
+
+
+  
 
 
 
