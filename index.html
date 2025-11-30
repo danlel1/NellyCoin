@@ -76,10 +76,6 @@
 
     .banner{width:100%;height:auto;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow);object-fit:cover}
 
-
-    
-
-    
     /* Layout MOBILE */
     .layout{display:grid;gap:14px;grid-template-areas:"hero" "left" "right" "token" "links" "community" "roadmap" "disclaimer"}
     #hero{grid-area:hero}
@@ -132,14 +128,6 @@
     .refresh-btn:hover{transform:scale(1.05);opacity:.9}
     .btn-link{background:rgba(255,255,255,.05);padding:8px 16px;border-radius:10px;color:#ffb703;text-decoration:none;font-weight:500;transition:.2s}
     .btn-link:hover{background:rgba(255,255,255,.1);color:#fff}
-
-
-
-
-
-
- 
-    
   </style>
 </head>
 
@@ -350,12 +338,7 @@ setTimeout(() => {
           <li data-i18n="about.p5">Présence active sur les réseaux sociaux et collaborations NFT.</li>
         </ul>
       </section>
-      
 
-
-      
-
-      
       <section class="panel" id="howto">
         <h2>🛒 <span data-i18n="how.title">Comment acheter</span></h2>
         <ol class="list">
@@ -387,19 +370,23 @@ setTimeout(() => {
         <img src="/assets/nelly/banniere-720.webp" alt="Bannière NellyCoin" class="banner" fetchpriority="high">
       </section>
 
-
-
-
-
-
-
-  
-
-
-      
-
-      
-
+      <section id="live" class="panel">
+        <h3 class="section-title" data-i18n="live.title">📊 Cours & Stats (live)</h3>
+        <p class="text-muted" data-i18n="live.desc">Le live chart sera visible après le listing PancakeSwap. Données via Dexscreener.</p>
+        <div class="stats-grid">
+          <div class="stat-item"><span data-i18n="live.pusd">💵 Prix (USD)</span><strong id="price-usd">—</strong></div>
+          <div class="stat-item"><span data-i18n="live.var">📈 Variation 24h</span><strong id="change-24h">—</strong></div>
+          <div class="stat-item"><span data-i18n="live.pbnb">🪙 Prix (BNB)</span><strong id="price-bnb">—</strong></div>
+          <div class="stat-item"><span data-i18n="live.vol">📊 Volume 24h</span><strong id="volume-24h">—</strong></div>
+          <div class="stat-item"><span>💎 FDV</span><strong id="fdv">—</strong></div>
+          <div class="stat-item"><span data-i18n="live.liq">🌊 Liquidité</span><strong id="liquidity">—</strong></div>
+        </div>
+        <div class="actions">
+          <button id="refresh" class="refresh-btn" data-i18n="live.refresh">🔄 Rafraîchir</button>
+          <a id="dexLive" href="#" target="_blank" class="btn-link">📊 Dexscreener</a>
+          <a id="tokenLive" href="#" target="_blank" class="btn-link">🔍 BscScan</a>
+        </div>
+      </section>
     </div>
 
     <!-- Tokenomics -->
@@ -701,10 +688,6 @@ setTimeout(() => {
         'road.p4t':'Phase 4 — Expansion Mondiale (2027+)','road.p4.1':'Listings CEX (Gate.io, MEXC, ...)','road.p4.2':'DAO NellyCoin','road.p4.3':'Metaverse NellyVerse','road.p4.4':'Fondation NellyCat','road.p4.5':'Objectif Million de holders',
         'disc.title':'⚠️ Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
         'foot.all':'Tous droits réservés'
-
-    
-       
-      
       },
       en:{
         'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.staking':'Staking','nav.links':'Links','nav.faq':'FAQ','nav.buy':'Buy NLY',
@@ -726,14 +709,9 @@ setTimeout(() => {
         'road.p4t':'Phase 4 — Global Expansion (2027+)','road.p4.1':'CEX listings (Gate.io, MEXC, ...)','road.p4.2':'NellyCoin DAO','road.p4.3':'NellyVerse Metaverse','road.p4.4':'NellyCat Foundation','road.p4.5':'Goal: One Million holders',
         'disc.title':'⚠️ Disclaimer','disc.text':'NellyCoin (NLY) is a community-driven meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).',
         'foot.all':'All rights reserved'
-    
-  
-      
       }
     };
 
-
-    
     // Apply i18n
     const langSel=document.getElementById('lang');
     function applyLang(l){
@@ -751,76 +729,37 @@ setTimeout(() => {
       applyLang(v);
     });
 
+    // Dex live (placeholder until pair is known)
+    const pairAddress = "0xFe83eDAA741b98Fce98e20315EA1db64D03F91E8"; // replace after listing
+    const apiURL = `https://api.dexscreener.io/latest/dex/pairs/bsc/${pairAddress}`;
+    const refreshBtn = document.getElementById("refresh");
+    async function updateStats() {
+      try {
+        const res = await fetch(apiURL);
+        const data = await res.json();
+        const pair = data?.pair || data?.pairs?.[0];
+        if (pair) {
+          document.getElementById("price-usd").textContent = `$${parseFloat(pair.priceUsd).toFixed(6)}`;
+          document.getElementById("price-bnb").textContent = `${parseFloat(pair.priceNative).toFixed(8)} BNB`;
+          // change 24h
+          const change = parseFloat(pair?.priceChange?.h24 ?? 0);
+          const chEl = document.getElementById("change-24h");
+          chEl.textContent = `${change.toFixed(2)}%`;
+          chEl.style.color = change>0 ? '#22c55e' : (change<0 ? '#ef4444' : 'inherit');
+          document.getElementById("volume-24h").textContent = `$${Number(pair?.volume?.h24 ?? 0).toLocaleString()}`;
+          document.getElementById("fdv").textContent = `$${Number(pair?.fdv ?? 0).toLocaleString()}`;
+          document.getElementById("liquidity").textContent = `$${Number(pair?.liquidity?.usd ?? 0).toLocaleString()}`;
+        }
+      } catch (e) {}
+    }
+    refreshBtn?.addEventListener("click", updateStats);
+    setInterval(updateStats, 30000);
+    updateStats();
+  </script>
 
 
 
 
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const apiURL =
-    "https://api.dexscreener.io/latest/dex/pairs/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8";
-
-  function $(id) {
-    return document.getElementById(id);
-  }
-
-  function set(id, val) {
-    const el = $(id);
-    if (el) el.textContent = val;
-  }
-
-  function setChange(id, v) {
-    const el = $(id);
-    if (!el) return;
-    const n = Number(v ?? 0);
-    el.textContent = n.toFixed(2) + "%";
-    el.style.color = n > 0 ? "#22c55e" : n < 0 ? "#ef4444" : "#e5e7eb";
-  }
-
-  async function updateStats() {
-    const r = await fetch(apiURL);
-    const j = await r.json();
-    const p = j.pairs?.[0];
-    if (!p) return;
-
-    set("price-usd", "$" + Number(p.priceUsd).toFixed(8));
-    set("price-bnb", Number(p.priceNative).toFixed(9) + " BNB");
-
-    setChange("change-1h", p.priceChange?.h1);
-    setChange("change-6h", p.priceChange?.h6);
-    setChange("change-12h", p.priceChange?.h12);
-    setChange("change-24h", p.priceChange?.h24);
-
-    set("volume-24h", "$" + Number(p.volume?.h24 ?? 0).toLocaleString());
-    set("liquidity", "$" + Number(p.liquidity?.usd ?? 0).toLocaleString());
-    set("fdv", "$" + Number(p.fdv ?? 0).toLocaleString());
-    set("mc", "$" + Number(p.marketCap ?? 0).toLocaleString());
-
-    const buys = p.txns?.h24?.buys ?? 0;
-    const sells = p.txns?.h24?.sells ?? 0;
-
-    set("buys-24h", buys);
-    set("sells-24h", sells);
-    set("tx-24h", buys + sells);
-    set("last-update", new Date().toLocaleTimeString());
-  }
-
-  $("refresh")?.addEventListener("click", updateStats);
-
-  updateStats();
-  setInterval(updateStats, 30000); // ✅ refresh auto 30s
-});
-</script>
-
-
-   
-
-
-
-  
   
   
   
