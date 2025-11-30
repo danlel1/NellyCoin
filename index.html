@@ -663,59 +663,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
       
 
-   
   <section class="addresses">
   <h2>Adresses & officiels</h2>
 
   <div class="address-grid">
 
     <!-- TOKEN -->
-    <div class="panel">
+    <div class="card">
       <h3>📄 Contrat NellyCoin (Token)</h3>
-      <code id="tokenAddr">0x4bff...04b5</code>
-      <div class="actions">
-        <button onclick="toggleAddress('token')">👁 Voir</button>
-        <button onclick="copyAddress(tokenFull)">📋 Copier</button>
-        <a href="https://bscscan.com/token/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">🔎 BscScan</a>
+      <div class="row">
+        <code id="tokenAddr">0x4bff...04b5</code>
+        <button onclick="copy('tokenFull')">📋 Copier</button>
+        <a id="tokenLink" target="_blank">🔍 BscScan</a>
       </div>
     </div>
 
     <!-- MARKETING -->
-    <div class="panel">
+    <div class="card">
       <h3>🔥 Portefeuille Marketing</h3>
-      <code id="marketingAddr">0xbd53...d494</code>
-      <p>Allocation : <b>100,000,000 NLY</b></p>
-      <div class="actions">
-        <button onclick="toggleAddress('marketing')">👁 Voir</button>
-        <button onclick="copyAddress(marketingFull)">📋 Copier</button>
-        <a href="https://bscscan.com/address/0xbd53d652d88e3eb7adda48a69b7f83610d7d494" target="_blank">🔎 BscScan</a>
+      <div class="row">
+        <code id="mktAddr">0xbd53...d494</code>
+        <button onclick="copy('mktFull')">📋 Copier</button>
+        <a id="mktLink" target="_blank">🔍 BscScan</a>
       </div>
+      <small>Allocation : 100,000,000 NLY</small>
     </div>
 
     <!-- STAKING -->
-    <div class="panel">
+    <div class="card">
       <h3>🟡 Portefeuille Staking</h3>
-      <code id="stakingAddr">0xa90c...2e51</code>
-      <p>Allocation : <b>250,000,000 NLY</b></p>
-      <div class="actions">
-        <button onclick="toggleAddress('staking')">👁 Voir</button>
-        <button onclick="copyAddress(stakingFull)">📋 Copier</button>
-        <a href="https://bscscan.com/address/0xa90c2b54d230859386e9640073a47aca56962e51" target="_blank">🔎 BscScan</a>
+      <div class="row">
+        <code id="stkAddr">0xa90c...2e51</code>
+        <button onclick="copy('stkFull')">📋 Copier</button>
+        <a id="stkLink" target="_blank">🔍 BscScan</a>
       </div>
+      <small>Allocation : 250,000,000 NLY</small>
     </div>
 
     <!-- LOCK -->
-    <div class="panel">
+    <div class="card">
       <h3>🔒 Jetons verrouillés</h3>
-      <p><b>350,000,000 NLY</b></p>
-      <p>Déverrouillage : 26 octobre 2026</p>
-      <a class="lock-btn" href="https://www.pinksale.finance/pinklock/bsc/record/1369793" target="_blank">
-        🔗 Voir le lock
-      </a>
+      <div class="row">
+        <code>350,000,000 NLY</code>
+        <a target="_blank"
+           href="https://www.pinksale.finance/pinklock/bsc/record/1369793">
+           🔗 Voir le lock
+        </a>
+      </div>
+      <small>Déverrouillage : 26 octobre 2026</small>
     </div>
 
   </div>
 </section>
+
 
       
 
