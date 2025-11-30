@@ -136,7 +136,15 @@
 
 
 
+.addr-row {
+  position: relative;
+  z-index: 5;
+}
 
+.addr-row button,
+.addr-row a {
+  pointer-events: auto !important;
+}
 
  
     
@@ -968,7 +976,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
+  document.querySelectorAll(".addr-row").forEach(row => {
+    row.addEventListener("click", e => {
+      e.stopPropagation();
+    });
+  });
+
+  document.querySelectorAll(".addr-row button, .addr-row a").forEach(el => {
+    el.style.pointerEvents = "auto";
+    el.style.position = "relative";
+    el.style.zIndex = "5";
+  });
+
+});
+</script>
 
 
    
