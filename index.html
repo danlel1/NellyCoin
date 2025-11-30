@@ -76,6 +76,29 @@
 
     .banner{width:100%;height:auto;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow);object-fit:cover}
 
+
+    
+/* ✅ FIX affichage adresses (OBLIGATOIRE) */
+code.addr {
+  color: #ffffff !important;
+  font-size: 0.85rem;
+  opacity: 1 !important;
+  background: rgba(255,255,255,0.06);
+  padding: 4px 6px;
+  border-radius: 6px;
+  display: inline-block;
+  word-break: break-all;
+}
+
+.addr-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+
+    
     /* Layout MOBILE */
     .layout{display:grid;gap:14px;grid-template-areas:"hero" "left" "right" "token" "links" "community" "roadmap" "disclaimer"}
     #hero{grid-area:hero}
