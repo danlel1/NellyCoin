@@ -685,69 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
 
 
-
-    
-      
-
-<section class="addresses">
-  <h2>Adresses & officiels</h2>
-  <div class="address-grid">
  
-       
-    <!-- TOKEN -->
-    <div class="card">
-    
-      <h3>📄 Contrat NellyCoin (Token)</h3>
-      <div class="row">
-        <code id="tokenAddr">0x4bff...04b5</code>
-        <button onclick="copy('tokenFull')">📋 Copier</button>
-        <a id="tokenLink" target="_blank">🔍 BscScan</a>
-      </div>
-    </div>
-
-    <!-- MARKETING -->
-    <div class="card">
-      <h3>🔥 Portefeuille Marketing</h3>
-      <div class="row">
-        <code id="mktAddr">0xbd53...d494</code>
-        <button onclick="copy('mktFull')">📋 Copier</button>
-        <a id="mktLink" target="_blank">🔍 BscScan</a>
-      </div>
-      <small>Allocation : 100,000,000 NLY</small>
-    </div>
-
-    <!-- STAKING -->
-    <div class="card">
-      <h3>🟡 Portefeuille Staking</h3>
-      <div class="row">
-        <code id="stkAddr">0xa90c...2e51</code>
-        <button onclick="copy('stkFull')">📋 Copier</button>
-        <a id="stkLink" target="_blank">🔍 BscScan</a>
-      </div>
-      <small>Allocation : 250,000,000 NLY</small>
-    </div>
-
-    <!-- LOCK -->
-    <div class="card">
-      <h3>🔒 Jetons verrouillés</h3>
-      <div class="row">
-        <code>350,000,000 NLY</code>
-        <a target="_blank"
-           href="https://www.pinksale.finance/pinklock/bsc/record/1369793">
-           🔗 Voir le lock
-        </a>
-      </div>
-      <small>Déverrouillage : 26 octobre 2026</small>
-    </div>
-
-  </div>
-</section>
-
-
-
-
-
-    
       
 
  
@@ -1038,22 +976,40 @@ document.addEventListener("DOMContentLoaded", () => {
    
 
 <script>
-  const tokenFull = "0x4bffd4359a06583713df160da5817737654804b5";
-  const mktFull = "0xbd53d652d88e3eb7adda48a69b7f83610d76d494";
-  const stkFull = "0xa90c2b54d230859386e9640073a47aca56962e51";
+  // === ADRESSES COMPLETES NELLYCOIN ===
+  const tokenFull = "0x4bffd4539a06583713df160da5817737654804b5";
+  const mktFull = "0xbd53d652d8823eb7adda6a69bf7851d07d64494";
+  const stkFull = "0xa90c2b54d230859386e960073a47aca56962e51";
 
+  function copy(key) {
+    const map = {
+      tokenFull: tokenFull,
+      mktFull: mktFull,
+      stkFull: stkFull
+    };
+
+    const text = map[key];
+    if (!text) {
+      console.error("Adresse inconnue :", key);
+      return;
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
+      console.log("Copié :", text);
+    });
+  }
+
+  // === LIENS BSCSCAN AUTO ===
   document.getElementById("tokenLink").href =
     "https://bscscan.com/token/" + tokenFull;
+
   document.getElementById("mktLink").href =
     "https://bscscan.com/address/" + mktFull;
+
   document.getElementById("stkLink").href =
     "https://bscscan.com/address/" + stkFull;
-
-  function copy(which) {
-    navigator.clipboard.writeText(window[which]);
-    alert("Adresse copiée ✅");
-  }
 </script>
+
 
 
   
