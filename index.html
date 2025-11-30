@@ -136,15 +136,36 @@
 
 
 
-.addr-row {
+
+/* ==== Bloc Adresses & officiels – safe ==== */
+
+#links.addresses {
   position: relative;
-  z-index: 5;
+  z-index: 20;
 }
 
-.addr-row button,
-.addr-row a {
-  pointer-events: auto !important;
+#links.addresses .addr-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
 }
+
+#links.addresses code.addr {
+  background: rgba(255,255,255,0.06);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  word-break: break-all;
+}
+
+#links.addresses button,
+#links.addresses a {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+    
 
  
     
@@ -676,6 +697,69 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
 
+
+
+
+
+
+
+      <section class="panel addresses" id="links">
+  <h2>Adresses & officiels</h2>
+
+  <div class="grid-2" style="margin-top:10px">
+
+    <!-- Contrat NellyCoin -->
+    <div class="card">
+      <h3>📄 Contrat NellyCoin (Token)</h3>
+      <div class="addr-row">
+        <code id="addrToken" class="addr">0x0000...0000</code>
+        <button class="btn sm" id="revealToken">👁 Voir</button>
+        <button class="btn sm" id="copyToken">📋 Copier</button>
+        <a class="btn sm" id="bscToken" target="_blank" rel="noopener">🔍 BscScan</a>
+      </div>
+    </div>
+
+    <!-- Portefeuille Marketing -->
+    <div class="card">
+      <h3>🔥 Portefeuille Marketing</h3>
+      <div class="addr-row">
+        <code id="addrMkt" class="addr">0x0000...0000</code>
+        <button class="btn sm" id="revealMkt">👁 Voir</button>
+        <button class="btn sm" id="copyMkt">📋 Copier</button>
+        <a class="btn sm" id="bscMkt" target="_blank" rel="noopener">🔍 BscScan</a>
+      </div>
+      <small class="muted">Allocation: <b>100,000,000 NLY</b></small>
+    </div>
+
+    <!-- Portefeuille Staking -->
+    <div class="card">
+      <h3>🟡 Portefeuille Staking</h3>
+      <div class="addr-row">
+        <code id="addrStk" class="addr">0x0000...0000</code>
+        <button class="btn sm" id="revealStk">👁 Voir</button>
+        <button class="btn sm" id="copyStk">📋 Copier</button>
+        <a class="btn sm" id="bscStk" target="_blank" rel="noopener">🔍 BscScan</a>
+      </div>
+      <small class="muted">Allocation: <b>250,000,000 NLY</b></small>
+    </div>
+
+    <!-- Jetons verrouillés (lock PinkSale) -->
+    <div class="card">
+      <h3>🔒 Jetons verrouillés</h3>
+      <div class="addr-row">
+        <span><b>350,000,000 NLY</b></span>
+        <a class="btn sm" id="pinkLock" target="_blank" rel="noopener">🔗 Voir le lock</a>
+      </div>
+      <small class="muted">Déverrouillage: <b>26 octobre 2026</b></small>
+    </div>
+
+  </div>
+</section>
+
+
+
+      
+
       <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
       <div class="grid-2">
         <div class="card">
@@ -976,30 +1060,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  document.querySelectorAll(".addr-row").forEach(row => {
-    row.addEventListener("click", e => {
-      e.stopPropagation();
-    });
-  });
-
-  document.querySelectorAll(".addr-row button, .addr-row a").forEach(el => {
-    el.style.pointerEvents = "auto";
-    el.style.position = "relative";
-    el.style.zIndex = "5";
-  });
-
-});
-</script>
 
 
    
 
 
 
-  
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const ADDR = SETTINGS;
+
+  const mask = a => a.slice(0, 6) + "..." + a.slice(-4);
+
+  function setup(prefix, full, type) {
+    const codeEl = document.getElementById("addr" + prefix);
+    const btnView = document.getElementById("reveal" + prefix);
+    const btnCopy = document.getElementById("copy" + prefix);
+    const bscLink = document.getElementById("bsc" + prefix);
+
+    if (!codeEl) return;
+
+    // texte de base masqué
+    codeEl.textContent = mask(full);
+
+    // lien bscscan
+    if (bscLink) {
+      const base = (type === "token")
+        ? "https://bscscan.com/token/"
+        : "https://bscscan.com/address/";
+      bscLink.href = base + full;
+    }
+
+    let revealed = false;
+
+    if (btnView) {
+      btnView.addEventListener("click", e => {
+        e.stopPropagation();
+        revealed = !revealed;
+        codeEl.textContent = revealed ? full : mask(full);
+        btnView.textContent = revealed ? "🙈 Cacher" : "👁 Voir";
+      });
+    }
+
+    if (btnCopy) {
+      btnCopy.addEventListener("click", e => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(full).then(() => {
+          const old = btnCopy.textContent;
+          btnCopy.textContent = "✅ Copié";
+          setTimeout(() => (btnCopy.textContent = old), 1200);
+        });
+      });
+    }
+  }
+
+  setup("Token", ADDR.TOKEN_ADDRESS, "token");
+  setup("Mkt", ADDR.MKT_ADDRESS, "address");
+  setup("Stk", ADDR.STK_ADDRESS, "address");
+
+  // lien du lock PinkSale
+  const pinkLock = document.getElementById("pinkLock");
+  if (pinkLock) {
+    pinkLock.href = ADDR.PINKLOCK;
+  }
+});
+</script>
+
+
   
   
   
