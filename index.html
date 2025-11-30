@@ -425,9 +425,18 @@ setTimeout(() => {
         <img src="/assets/nelly/banniere-720.webp" alt="Bannière NellyCoin" class="banner" fetchpriority="high">
       </section>
 
-<section class="dex-stats">
+
+
+
+      <!-- ===============================
+     NELLYCOIN – LIVE STATS BLOCK
+================================ -->
+
+<section id="nelly-live-stats">
   <h2>📊 Cours & Stats (Live)</h2>
-  <p class="note">Données en temps réel via DexScreener – Refresh auto 30s</p>
+  <p class="subtitle">
+    Données en temps réel via DexScreener — Rafraîchissement auto toutes les 30s
+  </p>
 
   <div class="stats-grid">
     <div>Prix USD: <span id="price-usd">-</span></div>
@@ -435,6 +444,7 @@ setTimeout(() => {
 
     <div>Change 1h: <span id="change-1h">-</span></div>
     <div>Change 6h: <span id="change-6h">-</span></div>
+
     <div>Change 12h: <span id="change-12h">-</span></div>
     <div>Change 24h: <span id="change-24h">-</span></div>
 
@@ -446,21 +456,146 @@ setTimeout(() => {
 
     <div>Buys 24h: <span id="buys-24h">-</span></div>
     <div>Sells 24h: <span id="sells-24h">-</span></div>
-    <div>Total TX 24h: <span id="tx-24h">-</span></div>
 
+    <div>Total TX 24h: <span id="tx-24h">-</span></div>
     <div>Dernière MAJ: <span id="last-update">-</span></div>
   </div>
 
   <div class="actions">
-    <button id="refresh">🔄 Rafraîchir</button>
-    <a target="_blank" href="https://dexscreener.com/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8">
-      📈 Voir le chart
-    </a>
-    <a target="_blank" href="https://bscscan.com/address/0x4bFfd4359a06583713df160da5817737654804b5">
-      🔗 BscScan
-    </a>
+    <button id="refresh-btn">🔄 Rafraîchir</button>
+    <a href="https://dexscreener.com/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8" target="_blank">📈 Voir le chart</a>
+    <a href="https://bscscan.com/address/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">🔎 BscScan</a>
   </div>
 </section>
+
+<style>
+#nelly-live-stats {
+  background: #0b1020;
+  color: #e5e7eb;
+  border-radius: 14px;
+  padding: 22px;
+  max-width: 900px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+}
+
+#nelly-live-stats h2 {
+  margin: 0 0 6px;
+}
+
+#nelly-live-stats .subtitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 16px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.stats-grid div {
+  background: #111827;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.stats-grid span {
+  font-weight: bold;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.actions button,
+.actions a {
+  background: #1f2937;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.actions button {
+  background: #f6b449;
+  color: #000;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ✅ LP Pair BSC (confirmé OK par ton test)
+  const API_URL =
+    "https://api.dexscreener.io/latest/dex/pairs/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8";
+
+  const $ = id => document.getElementById(id);
+
+  function setText(id, value) {
+    const el = $(id);
+    if (el) el.textContent = value;
+  }
+
+  function setChange(id, value) {
+    const el = $(id);
+    if (!el) return;
+    const v = Number(value ?? 0);
+    el.textContent = v.toFixed(2) + "%";
+    el.style.color = v > 0 ? "#22c55e" : v < 0 ? "#ef4444" : "#e5e7eb";
+  }
+
+  async function updateStats() {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      const p = data.pairs && data.pairs[0];
+      if (!p) return;
+
+      setText("price-usd", "$" + Number(p.priceUsd).toFixed(8));
+      setText("price-bnb", Number(p.priceNative).toFixed(9) + " BNB");
+
+      setChange("change-1h", p.priceChange?.h1);
+      setChange("change-6h", p.priceChange?.h6);
+      setChange("change-12h", p.priceChange?.h12);
+      setChange("change-24h", p.priceChange?.h24);
+
+      setText("volume-24h", "$" + Number(p.volume?.h24 ?? 0).toLocaleString());
+      setText("liquidity", "$" + Number(p.liquidity?.usd ?? 0).toLocaleString());
+      setText("fdv", "$" + Number(p.fdv ?? 0).toLocaleString());
+      setText("mc", "$" + Number(p.marketCap ?? 0).toLocaleString());
+
+      const buys = p.txns?.h24?.buys ?? 0;
+      const sells = p.txns?.h24?.sells ?? 0;
+
+      setText("buys-24h", buys);
+      setText("sells-24h", sells);
+      setText("tx-24h", buys + sells);
+      setText("last-update", new Date().toLocaleTimeString());
+
+    } catch (e) {
+      console.error("Dex error:", e);
+    }
+  }
+
+  $("refresh-btn").addEventListener("click", updateStats);
+
+  updateStats();
+  setInterval(updateStats, 30000); // ✅ auto refresh 30s
+});
+</script>
+
+
+
+      
 
     </div>
 
