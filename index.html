@@ -985,7 +985,7 @@ document.addEventListener("DOMContentLoaded", () => {
   stkAddrEl.textContent = mask(SETTINGS.STK_ADDRESS);
 
   setupRevealCopy(tokenAddrEl, $('#revealToken'), $('#copyToken'), SETTINGS.TOKEN_ADDRESS);
-  setupRevealCopy(mktAddrEl, $('#revealMkt'), $('#copyMkt'), SETTINGS.MKT_ADDRESS);
+  setupRevealCopy(mktAddrEl, $('#revealMkt'), $('#copyMkt'), SETTINGS.MKT_ADDRESS); // ← ; ici
   setupRevealCopy(stkAddrEl, $('#revealStk'), $('#copyStk'), SETTINGS.STK_ADDRESS);
 
 });
