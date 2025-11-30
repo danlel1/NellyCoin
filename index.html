@@ -370,24 +370,228 @@ setTimeout(() => {
         <img src="/assets/nelly/banniere-720.webp" alt="Bannière NellyCoin" class="banner" fetchpriority="high">
       </section>
 
-      <section id="live" class="panel">
-        <h3 class="section-title" data-i18n="live.title">📊 Cours & Stats (live)</h3>
-        <p class="text-muted" data-i18n="live.desc">Le live chart sera visible après le listing PancakeSwap. Données via Dexscreener.</p>
-        <div class="stats-grid">
-          <div class="stat-item"><span data-i18n="live.pusd">💵 Prix (USD)</span><strong id="price-usd">—</strong></div>
-          <div class="stat-item"><span data-i18n="live.var">📈 Variation 24h</span><strong id="change-24h">—</strong></div>
-          <div class="stat-item"><span data-i18n="live.pbnb">🪙 Prix (BNB)</span><strong id="price-bnb">—</strong></div>
-          <div class="stat-item"><span data-i18n="live.vol">📊 Volume 24h</span><strong id="volume-24h">—</strong></div>
-          <div class="stat-item"><span>💎 FDV</span><strong id="fdv">—</strong></div>
-          <div class="stat-item"><span data-i18n="live.liq">🌊 Liquidité</span><strong id="liquidity">—</strong></div>
-        </div>
-        <div class="actions">
-          <button id="refresh" class="refresh-btn" data-i18n="live.refresh">🔄 Rafraîchir</button>
-          <a id="dexLive" href="#" target="_blank" class="btn-link">📊 Dexscreener</a>
-          <a id="tokenLive" href="#" target="_blank" class="btn-link">🔍 BscScan</a>
-        </div>
-      </section>
-    </div>
+
+
+
+
+
+       <!-- =====================================
+   NELLYCOIN – LIVE STATS (FINAL SANS GRAPH)
+   Desktop & Mobile
+===================================== -->
+
+<section id="nelly-live-stats">
+  <h2>
+    📊 Cours & Stats
+    <span class="live-badge">LIVE</span>
+  </h2>
+
+  <p class="subtitle">
+    Données en temps réel via DexScreener — Rafraîchissement auto toutes les 30s
+  </p>
+
+  <div class="stats-grid">
+    <div><span>Prix USD</span><span id="price-usd">-</span></div>
+    <div><span>Prix BNB</span><span id="price-bnb">-</span></div>
+
+    <div><span>Change 1h</span><span id="change-1h">-</span></div>
+    <div><span>Change 6h</span><span id="change-6h">-</span></div>
+
+    <div><span>Change 12h</span><span id="change-12h">-</span></div>
+    <div><span>Change 24h</span><span id="change-24h">-</span></div>
+
+    <div><span>Volume 24h</span><span id="volume-24h">-</span></div>
+    <div><span>Liquidité</span><span id="liquidity">-</span></div>
+
+    <div><span>Market Cap</span><span id="mc">-</span></div>
+    <div><span>FDV</span><span id="fdv">-</span></div>
+
+    <div><span>Buys 24h</span><span id="buys-24h">-</span></div>
+    <div><span>Sells 24h</span><span id="sells-24h">-</span></div>
+
+    <div><span>Total TX 24h</span><span id="tx-24h">-</span></div>
+    <div><span>Dernière MAJ</span><span id="last-update">-</span></div>
+  </div>
+
+  <div class="actions">
+    <button id="refresh-btn">🔄 Rafraîchir</button>
+    <a href="https://dexscreener.com/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8" target="_blank">📈 Voir le chart</a>
+    <a href="https://bscscan.com/address/0x4bFfd4359a06583713df160da5817737654804b5" target="_blank">🔎 BscScan</a>
+  </div>
+</section>
+
+<style>
+/* ===== BASE ===== */
+#nelly-live-stats {
+  color: #e5e7eb;
+  margin-top: 24px;
+}
+
+#nelly-live-stats h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-bottom: 16px;
+}
+
+/* LIVE BADGE */
+.live-badge {
+  background: #22c55e;
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  animation: livePulse 1.6s infinite;
+}
+
+@keyframes livePulse {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.stats-grid div {
+  background: #141c2f;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
+}
+
+.stats-grid span:last-child {
+  font-weight: 600;
+}
+
+/* ACTIONS */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.actions button,
+.actions a {
+  background: #141c2f;
+  color: #e5e7eb;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.actions button {
+  background: #f6b449;
+  color: #000;
+  border: none;
+  font-weight: 600;
+}
+
+/* ===== MOBILE MODE ===== */
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button,
+  .actions a {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Cache Change 1h et 6h sur mobile (actuel) */
+  .stats-grid > div:nth-child(3),
+  .stats-grid > div:nth-child(4) {
+    display: none;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const API_URL =
+    "https://api.dexscreener.io/latest/dex/pairs/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8";
+
+  const $ = id => document.getElementById(id);
+
+  function setText(id, value) {
+    const el = $(id);
+    if (el) el.textContent = value;
+  }
+
+  function setChange(id, value) {
+    const el = $(id);
+    if (!el) return;
+    const v = Number(value ?? 0);
+    el.textContent = v.toFixed(2) + "%";
+    el.style.color = v > 0 ? "#22c55e" : v < 0 ? "#ef4444" : "#e5e7eb";
+  }
+
+  async function updateStats() {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      const p = data.pairs?.[0];
+      if (!p) return;
+
+      setText("price-usd", "$" + Number(p.priceUsd).toFixed(8));
+      setText("price-bnb", Number(p.priceNative).toFixed(9) + " BNB");
+
+      setChange("change-1h", p.priceChange?.h1);
+      setChange("change-6h", p.priceChange?.h6);
+      setChange("change-12h", p.priceChange?.h12);
+      setChange("change-24h", p.priceChange?.h24);
+
+      setText("volume-24h", "$" + Number(p.volume?.h24 ?? 0).toLocaleString());
+      setText("liquidity", "$" + Number(p.liquidity?.usd ?? 0).toLocaleString());
+      setText("fdv", "$" + Number(p.fdv ?? 0).toLocaleString());
+      setText("mc", "$" + Number(p.marketCap ?? 0).toLocaleString());
+
+      setText("buys-24h", p.txns?.h24?.buys ?? 0);
+      setText("sells-24h", p.txns?.h24?.sells ?? 0);
+      setText("tx-24h", (p.txns?.h24?.buys ?? 0) + (p.txns?.h24?.sells ?? 0));
+
+      setText("last-update", new Date().toLocaleTimeString());
+
+    } catch (e) {
+      console.error("Dex error:", e);
+    }
+  }
+
+  $("refresh-btn").addEventListener("click", updateStats);
+  updateStats();
+  setInterval(updateStats, 30000);
+});
+</script>
+
+
+
+
+
+      
 
     <!-- Tokenomics -->
     <section class="panel" id="token">
