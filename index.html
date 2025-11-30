@@ -1001,36 +1001,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  <script>
-/* ✅ FIX conflit Dex Live / Boutons adresses */
-document.addEventListener("DOMContentLoaded", () => {
-
-  const linksSection = document.getElementById("links");
-  if (!linksSection) return;
-
-  linksSection.addEventListener("click", (e) => {
-    e.stopPropagation(); // ✅ BLOQUE Dex Live
-  });
-
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  document.querySelectorAll("#links button").forEach(btn => {
-    if (btn.textContent.toLowerCase().includes("copier")) {
-      btn.addEventListener("click", () => {
-        const code = btn.closest(".addr-row")?.querySelector("code");
-        if (!code) return;
-        navigator.clipboard.writeText(code.textContent.trim());
-      });
-    }
-  });
-
-});
-</script>
-
+ 
 
   
   
