@@ -334,27 +334,25 @@
         'tok.q3':'Quel APY pour le staking ?','tok.a3':'Plans indicatifs : 8% (3m), 12% (6m), 16% (9m), 20% (12m). Les taux finaux sont confirmés au déploiement du contrat.',
         'tok.q4':'Les récompenses se composent-elles ?','tok.a4':'Non. Chaque dépôt suit la durée choisie. Laisser au-delà n’augmente pas le rendement au-delà du plan sélectionné.',
         'disc.title':'Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
-        'foot.all':'Tous droits réservés'
+        'foot.all':'Tous droits réservés',
+'cat.pass': 'NellyCoin Pass',
+
+'pass.q1': "Qu’est-ce que le NellyCoin Pass ?",
+'pass.a1': "Le NellyCoin Pass est le NFT utilitaire officiel de l’écosystème NellyCoin. Il agit comme une clé d’accès à des fonctionnalités et avantages réservés à la communauté.",
+
+'pass.q2': "À quoi sert le NellyCoin Pass ?",
+'pass.a2': "Il permet l’accès prioritaire à de futures récompenses, événements communautaires et utilités exclusives qui seront ajoutées progressivement.",
+
+'pass.q3': "Le NellyCoin Pass garantit-il des gains ?",
+'pass.a3': "Non. Le NellyCoin Pass ne garantit aucun profit ni rendement. Il s’agit d’un NFT utilitaire communautaire, pas d’un produit d’investissement.",
+
+'pass.q4': "Combien de NellyCoin Pass existent ?",
+'pass.a4': "Il existe uniquement 100 NellyCoin Pass – Genesis. L’offre est fixe et limitée.",
 
 
 
-
-          },
-      pass: {
-  q1: "Qu’est-ce que le NellyCoin Pass ?",
-  a1: "Le NellyCoin Pass est le NFT utilitaire officiel de l’écosystème NellyCoin. Il agit comme une clé d’accès à des fonctionnalités et avantages réservés à la communauté.",
-
-  q2: "À quoi sert le NellyCoin Pass ?",
-  a2: "Il permet l’accès prioritaire à de futures récompenses, événements communautaires et utilités exclusives qui seront ajoutées progressivement.",
-
-  q3: "Le NellyCoin Pass garantit-il des gains ?",
-  a3: "Non. Le NellyCoin Pass ne garantit aucun profit ni rendement. Il s’agit d’un NFT utilitaire communautaire, pas d’un produit d’investissement.",
-
-  q4: "Combien de NellyCoin Pass existent ?",
-  a4: "Il existe uniquement 100 NellyCoin Pass – Genesis. L’offre est fixe et limitée."
-},
-      
-      en:{
+      },
+       en:{
         'title':'FAQ — Frequently Asked Questions',
         'subtitle':'Everything about NellyCoin (NLY): project, tech, staking, security and community.',
         'nav.about':'About','nav.tokenomics':'Tokenomics','nav.howto':'How to buy','nav.roadmap':'Roadmap','nav.links':'Links','nav.staking':'Staking','nav.faq':'FAQ','nav.buy':'Buy NLY',
@@ -384,24 +382,22 @@
         'tok.q3':'What APY for staking?','tok.a3':'Indicative: 8% (3m), 12% (6m), 16% (9m), 20% (12m). Final rates confirmed at contract deployment.',
         'tok.q4':'Do rewards compound?','tok.a4':'No. Each deposit follows its chosen duration. Keeping it longer doesn’t increase rewards beyond the selected plan.',
         'disc.title':'Disclaimer','disc.text':'NellyCoin (NLY) is a community meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).',
-        'foot.all':'All rights reserved'
+        'foot.all':'All rights reserved',
+
+         'cat.pass': 'NellyCoin Pass',
+
+'pass.q1': "What is the NellyCoin Pass?",
+'pass.a1': "The NellyCoin Pass is the official utility NFT of the NellyCoin ecosystem. It acts as an access key to community-exclusive features and benefits.",
+
+'pass.q2': "What is the NellyCoin Pass used for?",
+'pass.a2': "It provides priority access to future rewards, community events, and exclusive utilities added progressively.",
+
+'pass.q3': "Does the NellyCoin Pass guarantee profits?",
+'pass.a3': "No. The NellyCoin Pass does not guarantee any profit or return. It is a community utility NFT, not an investment product.",
+
+'pass.q4': "How many NellyCoin Passes exist?",
+'pass.a4': "There are only 100 NellyCoin Pass – Genesis. The supply is fixed and limited.",
       }
-   
-    
-pass: {
-  q1: "What is the NellyCoin Pass?",
-  a1: "The NellyCoin Pass is the official utility NFT of the NellyCoin ecosystem. It acts as an access key to community-exclusive features and benefits.",
-
-  q2: "What is the NellyCoin Pass used for?",
-  a2: "It provides priority access to future rewards, community events, and exclusive utilities added progressively.",
-
-  q3: "Does the NellyCoin Pass guarantee profits?",
-  a3: "No. The NellyCoin Pass does not guarantee any profit or return. It is a community utility NFT, not an investment product.",
-
-  q4: "How many NellyCoin Passes exist?",
-  a4: "There are only 100 NellyCoin Pass – Genesis. The supply is fixed and limited."
-}
-    
     };
     const i18n={lang:(localStorage.getItem('nly_lang')||'fr'),t:(k)=> (I18N[i18n.lang]&&I18N[i18n.lang][k])||I18N.fr[k]||k,apply(){document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');const v=i18n.t(k); if(v) el.innerHTML=v;});},set(l){i18n.lang=l; localStorage.setItem('nly_lang',l); i18n.apply();}};
 
