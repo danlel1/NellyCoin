@@ -370,27 +370,36 @@ setTimeout(() => {
       </section>
 
    
-    <div class="card">
-  <h3>🎟️ NellyCoin Pass</h3>
+<div class="card pass-card">
+  <div class="pass-header">
+    <img src="/assets/nellycoin-pass.png" alt="NellyCoin Pass" class="pass-image" />
+    <h3 data-i18n="pass.title">NellyCoin Pass</h3>
+  </div>
 
-  <p>
-    Official utility NFT of the NellyCoin ecosystem.<br>
-    Access future rewards, events & exclusive utilities.
+  <p class="pass-desc" data-i18n="pass.desc">
+    NFT utilitaire officiel de l’écosystème NellyCoin.
   </p>
 
-  <p style="margin-top:10px;">
-    💰 <strong>Price:</strong> 0.02 BNB<br>
-    🎫 <strong>Supply:</strong> 100 Genesis Pass
-  </p>
+  <div class="pass-info">
+    <div>
+      💰 <strong data-i18n="pass.price">Prix</strong> : 0.02 BNB
+    </div>
+    <div>
+      🎟️ <strong data-i18n="pass.supply">Quantité</strong> : 
+      <span data-i18n="pass.genesis">100 Pass Genesis</span>
+    </div>
+  </div>
 
-  <a 
-    href="https://thirdweb.com/binance/0xa977f5dc1ed89ffedda1704deab5a6e2eb207cb3"
+  <a
+    href="https://thirdweb.com/binance/0xa977F5dc1ed89fFEDdA1704DEab5a6E2B207cb3"
     target="_blank"
-    class="btn btn-yellow"
+    class="btn-pass"
+    data-i18n="pass.buy"
   >
-    🚀 Buy NellyCoin Pass
+    🚀 Acheter le NellyCoin Pass
   </a>
 </div>
+
   </section>
 
  </div>
@@ -933,7 +942,12 @@ document.addEventListener("DOMContentLoaded", () => {
         'road.p4t':'Phase 4 — Expansion Mondiale (2027+)','road.p4.1':'Listings CEX (Gate.io, MEXC, ...)','road.p4.2':'DAO NellyCoin','road.p4.3':'Metaverse NellyVerse','road.p4.4':'Fondation NellyCat','road.p4.5':'Objectif Million de holders',
         'disc.title':'⚠️ Avertissement','disc.text':'NellyCoin (NLY) est un jeton communautaire de type “meme coin”. Aucune garantie de performance ni de valeur future. Les crypto-actifs sont volatils et risqués. Faites vos propres recherches (DYOR).',
         'foot.all':'Tous droits réservés'
-
+'pass.title': 'NellyCoin Pass',
+'pass.desc': 'NFT utilitaire officiel de l’écosystème NellyCoin. Accès aux récompenses futures, événements et avantages exclusifs.',
+'pass.price': 'Prix',
+'pass.supply': 'Quantité',
+'pass.buy': 'Acheter le NellyCoin Pass',
+'pass.genesis': '100 Pass Genesis',
     
        
       
@@ -958,7 +972,12 @@ document.addEventListener("DOMContentLoaded", () => {
         'road.p4t':'Phase 4 — Global Expansion (2027+)','road.p4.1':'CEX listings (Gate.io, MEXC, ...)','road.p4.2':'NellyCoin DAO','road.p4.3':'NellyVerse Metaverse','road.p4.4':'NellyCat Foundation','road.p4.5':'Goal: One Million holders',
         'disc.title':'⚠️ Disclaimer','disc.text':'NellyCoin (NLY) is a community-driven meme coin. No guarantee of performance or future value. Crypto assets are volatile and risky. Do your own research (DYOR).',
         'foot.all':'All rights reserved'
-    
+    'pass.title': 'NellyCoin Pass',
+'pass.desc': 'Official utility NFT of the NellyCoin ecosystem. Access future rewards, events and exclusive benefits.',
+'pass.price': 'Price',
+'pass.supply': 'Supply',
+'pass.buy': 'Buy NellyCoin Pass',
+'pass.genesis': '100 Genesis Pass',
   
       
       }
