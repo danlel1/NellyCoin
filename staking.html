@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NellyCoin Staking</title>
+
+<style>
+body{
+    margin:0;
+    background:#0b1020;
+    color:white;
+    font-family:Arial,sans-serif;
+}
+header{
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    position:sticky;
+    top:0;
+    background:#0b1020;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.logo img{
+    width:50px;
+    border-radius:50%;
+}
+.buy-btn{
+    background:#f6b449;
+    color:black;
+    padding:12px 20px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.hero{
+    max-width:1200px;
+    margin:auto;
+    padding:60px 20px;
+}
+.hero-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+}
+.card{
+    background:#121a38;
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:20px;
+    padding:25px;
+}
+.title{
+    font-size:60px;
+    font-weight:900;
+    line-height:1.1;
+}
+.gradient{
+    background:linear-gradient(90deg,#ffd36a,#66ffe0);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-top:30px;
+}
+.stat{
+    background:#121a38;
+    padding:20px;
+    border-radius:16px;
+    text-align:center;
+}
+.staking-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+    margin-top:30px;
+}
+.plan{
+    background:#121a38;
+    border-radius:20px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,0.1);
+}
+.plan h3{
+    margin-top:0;
+}
+.btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:#f6b449;
+    font-weight:bold;
+    cursor:pointer;
+}
+.notice{
+    margin-top:30px;
+    padding:20px;
+    background:rgba(255,200,0,0.1);
+    border:1px solid #f6b449;
+    border-radius:20px;
+}
+@media(max-width:900px){
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+    .staking-grid{
+        grid-template-columns:1fr;
+    }
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+    .title{
+        font-size:42px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+<img src="/assets/nelly/logo.webp">
+<div>
+<b>NellyCoin</b><br>
+<small>BNB Smart Chain</small>
+</div>
+</div>
+
+<a class="buy-btn" href="https://pancakeswap.finance/swap?outputCurrency=0x4bFfd4359a06583713df160da5817737654804b5">
+Acheter $NLY
+</a>
+</header>
+
+<section class="hero">
+
+<div class="hero-grid">
+
+<div>
+<div style="background:rgba(255,200,0,0.1);display:inline-block;padding:8px 14px;border-radius:999px;margin-bottom:20px;">
+🐱 Staking officiel NellyCoin
+</div>
+
+<div class="title">
+Stake your <span class="gradient">NLY</span>
+</div>
+
+<p style="font-size:20px;color:#c7d2ea;">
+Accès au staking uniquement avec le NellyCoin Pass NFT.
+Récompenses sécurisées sur BNB Smart Chain.
+</p>
+
+<div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:25px;">
+<a class="buy-btn" href="https://thirdweb.com/binance/0xa977F5dc1ed89fFEDdA1704DEab5a6E2EB207cb3">
+🎟 Acheter le Pass
+</a>
+
+<a class="buy-btn" style="background:#222;color:white;" href="https://dexscreener.com/bsc/0xfe83edaa741b98fce98e20315ea1db64d03f91e8">
+📈 Voir le Chart
+</a>
+</div>
+
+<div class="stats">
+<div class="stat"><b>1B</b><br>Supply</div>
+<div class="stat"><b>0%</b><br>Tax</div>
+<div class="stat"><b>2030</b><br>LP Lock</div>
+<div class="stat"><b>200</b><br>NFT Pass</div>
+</div>
+
+</div>
+
+<div class="card">
+<img src="/assets/nelly/banniere-720.webp" style="width:100%;border-radius:16px;">
+</div>
+
+</div>
+
+<h2 style="margin-top:60px;">Plans de staking</h2>
+
+<div class="staking-grid">
+
+<div class="plan">
+<h3>1% Flexible</h3>
+<p>Retrait illimité</p>
+<button class="btn">Connect Wallet</button>
+</div>
+
+<div class="plan">
+<h3>3 mois</h3>
+<p>2% APY</p>
+<p>Bloqué jusqu'à expiration</p>
+<button class="btn">Connect Wallet</button>
+</div>
+
+<div class="plan">
+<h3>6 mois</h3>
+<p>4% APY</p>
+<p>Bloqué jusqu'à expiration</p>
+<button class="btn">Connect Wallet</button>
+</div>
+
+<div class="plan">
+<h3>9 mois</h3>
+<p>6% APY</p>
+<p>Bloqué jusqu'à expiration</p>
+<button class="btn">Connect Wallet</button>
+</div>
+
+<div class="plan">
+<h3>12 mois</h3>
+<p>7% APY</p>
+<p>Bloqué jusqu'à expiration</p>
+<button class="btn">Connect Wallet</button>
+</div>
+
+</div>
+
+<div class="notice">
+<b>⚠️ Important</b><br><br>
+• Le staking nécessite le NellyCoin Pass NFT.<br>
+• Les plans 3 / 6 / 9 / 12 mois restent verrouillés jusqu’à expiration.<br>
+• Le plan flexible 1% permet le retrait à tout moment.<br>
+• DYOR — Les crypto-actifs sont volatils.
+</div>
+
+</section>
+
+</body>
+</html>
