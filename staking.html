@@ -14,8 +14,6 @@ html = r'''<!DOCTYPE html>
   <link rel="apple-touch-icon" href="/assets/nelly/logo.webp" />
 
   <!-- WalletConnect v2 -->
-  <script src="https://unpkg.com/@walletconnect/ethereum-provider@2/dist/index.umd.min.js"></script>
-
   <style>
     :root{
       --bg:#090b18;
@@ -801,6 +799,46 @@ html = r'''<!DOCTYPE html>
 
     document.addEventListener('DOMContentLoaded', init);
   </script>
+  <script>
+async function connectWalletConnect() {
+
+  try {
+
+    if (typeof window.ethereum !== "undefined") {
+
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts"
+      });
+
+      const chainId = await window.ethereum.request({
+        method: "eth_chainId"
+      });
+
+      wallet.provider = window.ethereum;
+      wallet.type = "walletconnect";
+      wallet.addr = accounts[0];
+      wallet.chainId = parseInt(chainId, 16);
+
+      renderWallet();
+      updateAdminUI();
+      onConnectUI();
+      refreshBalances();
+
+      return;
+    }
+
+    window.location.href =
+      "https://link.trustwallet.com/open_url?coin_id=20000714&url=https://nellycoin.io/staking.html";
+
+  } catch (err) {
+
+    console.log(err);
+    alert("Erreur connexion wallet.");
+
+  }
+}
+</script>
+  
 </body>
 </html>
 
